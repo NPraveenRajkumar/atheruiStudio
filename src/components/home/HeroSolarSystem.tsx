@@ -79,7 +79,7 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
   return (
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-16 px-4">
       {/* Deep Space Background Atmosphere */}
-      <div className="absolute inset-0 bg-[#05070f] z-0" />
+      <div className="absolute inset-0 bg-black z-0" />
       
       {/* Aurora Radial Glows */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-sky-500/15 via-purple-600/10 to-transparent blur-[140px] pointer-events-none z-0" />
@@ -177,7 +177,7 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
           </div>
 
           {/* Browser Inner Dashboard Application */}
-          <div className="flex-1 p-5 overflow-hidden flex flex-col gap-4 text-left bg-gradient-to-b from-[#090d1c] to-[#060913]">
+          <div className="flex-1 p-5 overflow-hidden flex flex-col gap-4 text-left bg-gradient-to-b from-slate-950 to-slate-950">
             {/* App Subheader */}
             <div className="flex items-center justify-between border-b border-white/5 pb-3">
               <div className="flex items-center gap-3">

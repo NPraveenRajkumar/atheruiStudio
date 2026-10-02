@@ -86,7 +86,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
   return (
     <aside 
-      className={`fixed top-0 left-0 bottom-0 z-40 flex flex-col bg-[#060914]/95 backdrop-blur-2xl border-r border-slate-800/80 transition-all duration-300 select-none ${
+      className={`fixed top-0 left-0 bottom-0 z-40 flex flex-col bg-black/95 backdrop-blur-2xl border-r border-slate-800/80 transition-all duration-300 select-none ${
         isCollapsed ? 'w-[72px]' : 'w-64'
       }`}
     >

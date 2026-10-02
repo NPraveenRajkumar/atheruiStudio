@@ -134,7 +134,7 @@ export const ThemeStudioView: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#05070f] text-slate-100 py-10 px-4 md:px-8 text-left">
+    <div className="w-full min-h-screen bg-black text-slate-100 py-10 px-4 md:px-8 text-left">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">

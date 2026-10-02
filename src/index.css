@@ -1,16 +1,39 @@
 @import "tailwindcss";
+@import "./theme-light.css";
 
 @layer base {
   :root {
     --font-display: 'Syne', sans-serif;
     --font-body: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+
+    /* Dark theme (default) */
+    --app-bg: #000000;
+    --app-text: #e2e8f0;
+    --glass-bg: rgba(12, 16, 29, 0.72);
+    --glass-bg-elevated: rgba(16, 22, 40, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --grid-line: rgba(255, 255, 255, 0.03);
+    --scroll-thumb: #262626;
+    --scroll-thumb-hover: #404040;
+  }
+
+  html.light {
+    --app-bg: #f8fafc;
+    --app-text: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-bg-elevated: rgba(255, 255, 255, 0.92);
+    --glass-border: rgba(15, 23, 42, 0.1);
+    --grid-line: rgba(15, 23, 42, 0.05);
+    --scroll-thumb: #cbd5e1;
+    --scroll-thumb-hover: #94a3b8;
   }
 
   body {
     font-family: var(--font-body);
-    background-color: #05070f;
-    color: #e2e8f0;
+    background-color: var(--app-bg);
+    color: var(--app-text);
+    transition: background-color 0.2s ease, color 0.2s ease;
     overflow-x: hidden;
   }
 
@@ -26,14 +49,14 @@
 
 /* Custom glow and backdrop effects */
 .glass-panel {
-  background: rgba(12, 16, 29, 0.72);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
 }
 
 .glass-panel-elevated {
-  background: rgba(16, 22, 40, 0.85);
+  background: var(--glass-bg-elevated);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(56, 189, 248, 0.15);
@@ -46,8 +69,8 @@
 
 .grid-subtle {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -57,14 +80,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #05070f;
+  background: var(--app-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: var(--scroll-thumb);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--scroll-thumb-hover);
 }
 
 /* Keyframes for orbit rotation */

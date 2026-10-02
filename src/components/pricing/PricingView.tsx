@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ALL_COMPONENTS } from '../../data/components';
 import { 
   Check, 
   Sparkles, 
@@ -25,7 +26,7 @@ export const PricingView: React.FC<{
       desc: 'Everything required to build lightning-fast web applications with modern StencilJS Web Components.',
       highlight: false,
       features: [
-        '68+ Production Web Components',
+        `${ALL_COMPONENTS.length} Production Web Components`,
         'TypeScript Definition Bundles',
         'W3C Shadow DOM Encapsulation',
         'ElementInternals Form Support',
@@ -95,7 +96,7 @@ export const PricingView: React.FC<{
   ];
 
   return (
-    <div className="w-full min-h-screen bg-[#05070f] text-slate-100 py-16 px-4 md:px-8 text-left">
+    <div className="w-full min-h-screen bg-black text-slate-100 py-16 px-4 md:px-8 text-left">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">

@@ -52,7 +52,7 @@ export const StatsAndWhy: React.FC<{
   ];
 
   return (
-    <section className="relative py-24 px-4 bg-[#070b18] border-t border-b border-white/5 overflow-hidden">
+    <section className="relative py-24 px-4 bg-black border-t border-b border-white/5 overflow-hidden">
       {/* Background glow lines */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-sky-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />

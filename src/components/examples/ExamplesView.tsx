@@ -312,7 +312,6 @@ export const ExamplesView: React.FC = () => {
               </div>
 
               <div
-                data-theme="dark"
                 className="rounded-xl border border-neutral-900 bg-black p-8 min-h-[140px] flex items-center justify-center overflow-x-auto"
                 style={{
                   backgroundImage:

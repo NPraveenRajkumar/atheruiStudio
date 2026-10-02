@@ -10,6 +10,7 @@ import {
   PanelLeft
 } from 'lucide-react';
 import { AtherButton } from '../ui/AtherUIElements';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   currentView: string;
@@ -57,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
   // If in Left Sidebar mode, render the streamlined workspace top bar
   if (navMode === 'sidebar') {
     return (
-      <header className="sticky top-0 z-30 w-full bg-[#05070f]/90 backdrop-blur-xl border-b border-slate-800/80 h-14 px-4 sm:px-6 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-30 w-full bg-black/90 backdrop-blur-xl border-b border-slate-800/80 h-14 px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Left Side: Mobile toggle + Breadcrumbs */}
         <div className="flex items-center gap-3">
           {/* Mobile sidebar opener */}
@@ -89,6 +90,8 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Top Bar Mode</span>
           </button>
 
+          <ThemeToggle />
+
           {/* Quick Search */}
           <button
             onClick={onOpenCommandPalette}
@@ -118,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   // Classic Top Navigation Mode
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#05070f]/90 backdrop-blur-xl border-b border-slate-800/80">
+    <header className="sticky top-0 z-40 w-full bg-black/90 backdrop-blur-xl border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         
         {/* Zone 1: Single text element wordmark */}
@@ -166,6 +169,8 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Zone 3: 1-2 primary actions */}
         <div className="flex items-center gap-2.5">
+          <ThemeToggle />
+
           {/* Quick Search / Command Palette Trigger */}
           <button
             onClick={onOpenCommandPalette}
@@ -203,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-b border-slate-800 bg-[#070b18] px-4 py-4 space-y-2 text-left">
+        <div className="lg:hidden border-b border-slate-800 bg-black px-4 py-4 space-y-2 text-left">
           <button
             onClick={() => { onToggleNavMode(); setMobileMenuOpen(false); }}
             className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-purple-400 bg-purple-500/10 border border-purple-500/20 mb-2 flex items-center justify-between"

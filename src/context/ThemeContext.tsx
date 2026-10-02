@@ -13,7 +13,12 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<SiteTheme>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('ather_site_theme') as SiteTheme;
+      let saved: string | null = null;
+      try {
+        saved = localStorage.getItem('ather_site_theme');
+      } catch {
+        /* storage unavailable */
+      }
       if (saved === 'light' || saved === 'dark') return saved;
       // Default to dark as requested in initial prompt, but fully supporting light
       return 'dark';
@@ -30,7 +35,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.remove('light');
       root.classList.add('dark');
     }
-    localStorage.setItem('ather_site_theme', theme);
+    // The component library reads data-theme; keep it in step with the app theme
+    root.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('ather_site_theme', theme);
+    } catch {
+      /* storage unavailable */
+    }
   }, [theme]);
 
   const toggleTheme = () => {

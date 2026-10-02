@@ -23,6 +23,7 @@ Status key: `[x]` done, `[ ]` open.
 - [x] Full-page demos section and description fallback in Variant Examples (items 7, 8)
 - [x] Small-screen component list, duplicate-name tags, accurate changed counts, Catalog opens Docs pages (items 15, 16, 17, 20)
 - [x] Design tokens and Theme Studio export use the real library variables; product name kept as AtherUI; component counts computed (items 22, 23, 24 partly)
+- [x] Light theme for the whole app: toggle in the header, `html.light` re-maps the Tailwind palette (`scripts/generate-light-theme.mjs` -> `src/theme-light.css`), library follows via `data-theme`, choice remembered
 - [x] Icons render (global `lucide` script added) (item 13)
 - [x] JSON editors for all object and array props (items 6, 12)
 - [x] Advanced Data Table sample data normalised to the real `TableColumn` shape (item 1)
@@ -88,6 +89,15 @@ Status key: `[x]` done, `[ ]` open.
 | 37  | Popover, tooltip and context-menu templates were only checked for size, not interaction                                                            | Click, hover and right-click each in the browser                                             |
 | 38  | `ui-navigation-item`, `ui-scroll-top`, `ui-smart-context-menu` still render nothing standalone                                                     | Give them templates (navigation-bar parent with `item`, scrollable page, target element)     |
 | 39  | Preview templates for list-item, step, fab-item and carousel use guessed prop names and slide markup                                               | Compare each with its recorded demo and adjust                                              |
+
+### Light theme follow-ups
+
+| #   | Issue                                                                                                                                      | Fix                                                                                          |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| 40  | The light theme works by mirroring Tailwind's colour scales, so any new hard-coded hex colour or inline style will not follow the theme       | Use palette classes (`bg-black`, `text-slate-300`...) instead of `bg-[#...]` in new code      |
+| 41  | Theme Studio's preview canvas always shows the selected preset's own colours, so it stays dark in light mode                                 | Intended; add a note or follow the app theme if you prefer                                    |
+| 42  | Only checked visually on Home, Catalog, Playground, Examples, Docs, Theme Studio and Plans; Design Tokens, Installation, Footer and the command palette were not reviewed in light mode | Click through them in light mode and fix any low-contrast spots                              |
+| 43  | Catalog cards still show "Accessibility 100% AAA" (not backed by data)                                                                    | Remove or replace with real data (see item 24)                                               |
 
 ## Suggested order
 

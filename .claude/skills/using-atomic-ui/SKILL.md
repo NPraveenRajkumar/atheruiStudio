@@ -61,6 +61,10 @@ The check (and the `ThemeSwitcher` runtime) is a side effect of the module `dist
 
 Set `data-theme` on `<html>` (`document.documentElement.setAttribute('data-theme', 'dark')`). That alone re-themes everything, because the tokens live in the global CSS. Supported themes: `light`, `dark`, `green`, `pink`, `yellow`, `violet`, `blue`. The `window.setTheme()` / `ThemeSwitcher` helpers (with `localStorage` persistence under `app-ui-theme`) come from the same `index.esm.js` module as the license check, so they may not exist in a given consumer; write the attribute yourself and persist it in the app. Override brand colors by redefining the `--color-*` tokens on `:root` after the library CSS. Details: `references/theming.md`.
 
+## Security
+
+Untrusted strings (API data, JSON-driven content, user input) must be sanitized before they reach any prop or slot that renders HTML; do not rely on the library's internal sanitizing. Plan a CSP (report-only first, nonce via the exported `setNonce`) and add secrets and dependency scanning to CI. Concrete steps and snippets: `references/security.md`. Apply these whenever you wire dynamic content into components or touch the app's hosting/CI config.
+
 ## Choosing components
 
 Prefer an AtomicUI component over hand-rolled HTML whenever one exists; mixing styles is what makes consumer apps look inconsistent. Common mappings: text, number, password or OTP fields use `ui-input`; select uses `ui-dropdown`; toggle uses `ui-switch`; modal, drawer, confirm or prompt use `ui-dialog-box` (open it with `open = true`); toast uses `ui-snackbar`; tabs use `ui-tabs`; FAQ or collapsible lists use `ui-accordion`; data grids use `ui-advanced-data-table`; wizards use `ui-stepper`; hierarchies use `ui-tree`. For anything else, scan `references/components.md`.
@@ -79,4 +83,5 @@ The library repo (https://github.com/kmnshrm/atomicUILibrary) is the source of t
 
 - `references/integration.md`: plain HTML, Angular, React, Vue, bundler CSS loading, SSR
 - `references/theming.md`: themes, tokens, per-component CSS variables, dark mode
+- `references/security.md`: HTML sanitizing, CSP and headers plan, CI secrets/dependency scanning
 - `references/components.md`: catalog by category; each entry links to `components/<tag>.md`

@@ -4,7 +4,7 @@ export const Footer: React.FC<{
   onNavigate: (view: string) => void;
 }> = ({ onNavigate }) => {
   return (
-    <footer className="w-full bg-[#03050c] border-t border-slate-900 py-16 px-4 md:px-8 text-left text-xs text-slate-400">
+    <footer className="w-full bg-black border-t border-slate-900 py-16 px-4 md:px-8 text-left text-xs text-slate-400">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
         {/* Col 1: Wordmark & Statement */}
         <div className="md:col-span-2 space-y-3">

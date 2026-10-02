@@ -80,7 +80,6 @@ const ComponentDoc: React.FC<{ comp: ComponentItem }> = ({ comp }) => {
           <h1 className="text-3xl font-extrabold text-white tracking-tight">{comp.name}</h1>
           <p className="text-sm text-neutral-300 mt-2 leading-relaxed max-w-3xl">{comp.description}</p>
           <div
-            data-theme="dark"
             className="mt-6 rounded-2xl border border-neutral-900 bg-black p-10 flex items-center justify-center min-h-[160px]"
           >
             <LiveElement tag={comp.tag} props={previewProps} text={hasSlot ? comp.name : undefined} />

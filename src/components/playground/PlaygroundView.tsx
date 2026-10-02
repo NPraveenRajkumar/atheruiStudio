@@ -3,6 +3,7 @@ import { ChevronDown, ChevronRight, Copy, Check, RotateCcw, Monitor, Tablet, Sma
 import { ALL_COMPONENTS } from '../../data/components';
 import { ComponentProp, Framework } from '../../types';
 import { ComponentPicker, ComponentPickerDrawer } from '../common/ComponentPicker';
+import { useTheme } from '../../context/ThemeContext';
 import { DataSourcePanel } from '../common/DataSourcePanel';
 import { dataPropsOf, isDataProp, sampleFor } from '../../data/sample';
 import { PREVIEW } from '../../data/previewTemplates';
@@ -63,7 +64,10 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
   const [framework, setFramework] = useState<Framework>('HTML');
   const [copied, setCopied] = useState(false);
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
-  const [canvas, setCanvas] = useState<'black' | 'light'>('black');
+  const { theme } = useTheme();
+  // The canvas starts in the app theme but can be switched on its own to check both looks
+  const [canvas, setCanvas] = useState<'black' | 'light'>(theme === 'dark' ? 'black' : 'light');
+  useEffect(() => setCanvas(theme === 'dark' ? 'black' : 'light'), [theme]);
   const [slotText, setSlotText] = useState('Content');
   const [log, setLog] = useState('Ready for interaction');
 
@@ -297,7 +301,8 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
 
   const setVal = (name: string, v: string | number | boolean | undefined) => setValues((s) => ({ ...s, [name]: v }));
   const viewportClass = { desktop: 'w-full', tablet: 'max-w-[768px]', mobile: 'max-w-[375px]' }[viewport];
-  const canvasClass = canvas === 'black' ? 'bg-black text-white' : 'bg-white text-slate-900';
+  // Fixed colours (not palette classes) so the canvas stays black or white whatever the app theme is
+  const canvasClass = canvas === 'black' ? 'bg-[#000000] text-[#ffffff]' : 'bg-[#ffffff] text-[#0f172a]';
   const inputCls =
     'w-full bg-black border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500';
 

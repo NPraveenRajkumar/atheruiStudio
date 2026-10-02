@@ -83,7 +83,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#05070f] text-slate-100 flex flex-col font-sans selection:bg-sky-500/20 selection:text-sky-300">
+    <div className="min-h-screen bg-black text-slate-100 flex flex-col font-sans selection:bg-sky-500/20 selection:text-sky-300">
       
       {/* ========================================================
           LEFT SIDE NAVIGATION BAR (When navMode === 'sidebar')
@@ -110,7 +110,7 @@ export default function App() {
                 className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"
                 onClick={() => setIsMobileSidebarOpen(false)}
               />
-              <div className="relative z-10 w-72 max-w-full h-full bg-[#060914] shadow-2xl">
+              <div className="relative z-10 w-72 max-w-full h-full bg-black shadow-2xl">
                 <button
                   onClick={() => setIsMobileSidebarOpen(false)}
                   className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg bg-slate-900 border border-slate-800 z-50 cursor-pointer"
@@ -172,7 +172,7 @@ export default function App() {
               />
 
               {/* Architectural Marquee Bento Section */}
-              <section className="py-24 px-4 bg-[#05070f]">
+              <section className="py-24 px-4 bg-black">
                 <div className="max-w-6xl mx-auto">
                   <div className="text-center max-w-3xl mx-auto mb-16">
                     <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-400 mb-2">

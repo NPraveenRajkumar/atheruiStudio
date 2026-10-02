@@ -28,7 +28,7 @@ export const DesignSystemView: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#05070f] text-slate-100 py-12 px-4 md:px-8 text-left">
+    <div className="w-full min-h-screen bg-black text-slate-100 py-12 px-4 md:px-8 text-left">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-10">
