@@ -1,0 +1,1260 @@
+{
+ "input": {
+  "autocompleteSuggestions": [
+   {
+    "text": "Alex Johnson",
+    "subtitle": "Lead Designer",
+    "icon": "palette"
+   },
+   {
+    "text": "Sarah Smith",
+    "subtitle": "System Architect",
+    "icon": "cpu"
+   },
+   {
+    "text": "Robert Dow",
+    "subtitle": "Project Manager",
+    "icon": "briefcase"
+   },
+   {
+    "text": "Emma Wilson",
+    "subtitle": "QA Engineer",
+    "icon": "shield-check"
+   }
+  ]
+ },
+ "tabs": {
+  "items": [
+   {
+    "id": "inscript",
+    "title": "Inbox",
+    "icon": "inbox",
+    "content": "<div style=\"padding: 20px;\">Inbox Content</div>",
+    "badge": 12,
+    "badgeVariant": "primary"
+   },
+   {
+    "id": "alerts",
+    "title": "Alerts",
+    "icon": "alert-triangle",
+    "content": "<div style=\"padding: 20px;\">System Alerts</div>",
+    "badge": 3,
+    "badgeVariant": "default"
+   },
+   {
+    "id": "updates",
+    "title": "Updates",
+    "icon": "refresh-cw",
+    "content": "<div style=\"padding: 20px;\">System Updates</div>",
+    "badge": 5,
+    "badgeVariant": "success"
+   },
+   {
+    "id": "drafts",
+    "title": "Drafts",
+    "icon": "file-edit",
+    "content": "<div style=\"padding: 20px;\">Drafts Folder</div>",
+    "badge": 8,
+    "badgeVariant": "neutral"
+   }
+  ]
+ },
+ "dialog-box": {
+  "menuItems": [
+   {
+    "label": "Rename",
+    "icon": "pencil"
+   },
+   {
+    "label": "Duplicate",
+    "icon": "copy"
+   },
+   {
+    "divider": true
+   },
+   {
+    "label": "Delete",
+    "icon": "trash-2",
+    "danger": true
+   }
+  ]
+ },
+ "dropdown": {
+  "options": [
+   {
+    "value": "us",
+    "label": "United States",
+    "description": "North America"
+   },
+   {
+    "value": "uk",
+    "label": "United Kingdom",
+    "description": "Europe"
+   },
+   {
+    "value": "ca",
+    "label": "Canada",
+    "description": "North America"
+   },
+   {
+    "value": "au",
+    "label": "Australia",
+    "description": "Oceania"
+   },
+   {
+    "value": "de",
+    "label": "Germany",
+    "description": "Europe"
+   },
+   {
+    "value": "fr",
+    "label": "France",
+    "description": "Europe"
+   },
+   {
+    "value": "jp",
+    "label": "Japan",
+    "description": "Asia"
+   },
+   {
+    "value": "in",
+    "label": "India",
+    "description": "Asia"
+   }
+  ]
+ },
+ "avatar": {
+  "responsiveSize": {
+   "xs": 24,
+   "sm": 32,
+   "md": 40,
+   "lg": 48,
+   "xl": 64
+  },
+  "avatars": [
+   {
+    "alt": "Ada Lovelace",
+    "content": "AL"
+   },
+   {
+    "alt": "Alan Turing",
+    "content": "AT"
+   },
+   {
+    "alt": "Grace Hopper",
+    "content": "GH"
+   }
+  ]
+ },
+ "nav-bar": {
+  "bottomItems": [
+   {
+    "id": "user-profile",
+    "label": "Praveen K",
+    "sectionHeader": "User",
+    "icon": "user"
+   },
+   {
+    "id": "settings",
+    "label": "Settings",
+    "sectionHeader": "Settings & About",
+    "icon": "settings"
+   },
+   {
+    "id": "about",
+    "label": "About",
+    "icon": "info"
+   }
+  ],
+  "topItems": [
+   {
+    "id": "dashboard",
+    "label": "Dashboard",
+    "sectionHeader": "General",
+    "icon": "home",
+    "active": true
+   },
+   {
+    "id": "store-section",
+    "label": "Products",
+    "sectionHeader": "Business",
+    "icon": "shopping-bag",
+    "children": [
+     {
+      "id": "all-products",
+      "label": "Inventory"
+     },
+     {
+      "id": "new-product",
+      "label": "Add Item"
+     }
+    ]
+   },
+   {
+    "id": "orders",
+    "label": "Orders",
+    "icon": "shopping-cart",
+    "badge": "24"
+   },
+   {
+    "id": "reports",
+    "label": "Analytics",
+    "sectionHeader": "Insights",
+    "icon": "bar-chart-2"
+   }
+  ]
+ },
+ "accordion": {
+  "defaultOpen": [
+   "item1"
+  ],
+  "items": [
+   {
+    "id": "item1",
+    "title": "What is Stencil?",
+    "content": "Stencil is a toolchain for building reusable, scalable Design Systems. It generates Web Components that can be used in any framework or no framework at all.",
+    "icon": "info"
+   },
+   {
+    "id": "item2",
+    "title": "Why use Web Components?",
+    "content": "<ul style=\"margin:0;\"><li>Web Components standard</li><li>TypeScript support</li><li>Framework agnostic</li><li>Lazy loading</li><li>Pre-rendering</li></ul>",
+    "icon": "zap"
+   },
+   {
+    "id": "item3",
+    "title": "Getting Started",
+    "content": "Install Stencil CLI with <code>npm init stencil</code> and choose a starter template. Then run <code>npm start</code> to begin development.",
+    "icon": "rocket"
+   }
+  ]
+ },
+ "advanced-data-table": {
+  "columns": [
+   {
+    "field": "id",
+    "id": "id",
+    "label": "Task ID",
+    "width": "100px"
+   },
+   {
+    "field": "task",
+    "id": "task",
+    "label": "Task Description"
+   },
+   {
+    "field": "priority",
+    "id": "priority",
+    "label": "Priority",
+    "width": "120px"
+   },
+   {
+    "field": "status",
+    "id": "status",
+    "label": "Status",
+    "width": "150px"
+   }
+  ],
+  "data": [
+   {
+    "id": "T-001",
+    "task": "Design new landing page",
+    "priority": "High",
+    "status": "In Progress"
+   },
+   {
+    "id": "T-002",
+    "task": "Fix navigation bug",
+    "priority": "Medium",
+    "status": "Open"
+   },
+   {
+    "id": "T-003",
+    "task": "Update documentation",
+    "priority": "Low",
+    "status": "Done"
+   },
+   {
+    "id": "T-004",
+    "task": "Configure CI/CD pipeline",
+    "priority": "High",
+    "status": "In Progress"
+   },
+   {
+    "id": "T-005",
+    "task": "Review pull requests",
+    "priority": "Medium",
+    "status": "Open"
+   }
+  ]
+ },
+ "breadcrumb": {
+  "items": [
+   {
+    "label": "E-Commerce",
+    "href": "/shop"
+   },
+   {
+    "label": "Electronics",
+    "href": "/shop/electronics"
+   },
+   {
+    "label": "Smartphones",
+    "active": true
+   }
+  ]
+ },
+ "button-toggle": {
+  "color": {
+   "from": "#3b82f6",
+   "to": "#6366f1"
+  }
+ },
+ "color-picker": {
+  "swatches": [
+   "#6366f1",
+   "#8b5cf6",
+   "#a855f7",
+   "#ec4899",
+   "#f43f5e",
+   "#f97316",
+   "#eab308",
+   "#22c55e",
+   "#10b981",
+   "#06b6d4",
+   "#3b82f6",
+   "#1d4ed8"
+  ]
+ },
+ "knob": {
+  "color": {
+   "from": "#10b981",
+   "to": "#8b5cf6"
+  }
+ },
+ "list": {
+  "items": [
+   {
+    "id": "1",
+    "label": "Alice Johnson",
+    "value": "alice",
+    "group": "Engineering",
+    "icon": "fas fa-user-circle",
+    "sublabel": "Senior Dev"
+   },
+   {
+    "id": "2",
+    "label": "Bob Smith",
+    "value": "bob",
+    "group": "Engineering",
+    "icon": "fas fa-user-circle",
+    "sublabel": "Junior Dev"
+   },
+   {
+    "id": "3",
+    "label": "Carol White",
+    "value": "carol",
+    "group": "Design",
+    "icon": "fas fa-user-circle",
+    "sublabel": "UX Lead"
+   },
+   {
+    "id": "4",
+    "label": "Dave Lee",
+    "value": "dave",
+    "group": "Design",
+    "icon": "fas fa-user-circle",
+    "sublabel": "Visual Designer"
+   },
+   {
+    "id": "5",
+    "label": "Eve Martin",
+    "value": "eve",
+    "group": "Marketing",
+    "icon": "fas fa-user-circle",
+    "sublabel": "Growth Lead"
+   },
+   {
+    "id": "6",
+    "label": "Frank Brown",
+    "value": "frank",
+    "group": "Marketing",
+    "icon": "fas fa-user-circle",
+    "sublabel": "Content Writer"
+   },
+   {
+    "id": "7",
+    "label": "Grace Kim",
+    "value": "grace",
+    "group": "Engineering",
+    "icon": "fas fa-user-circle",
+    "sublabel": "QA Engineer"
+   }
+  ]
+ },
+ "loader": {
+  "messages": [
+   "Connecting to secure server...",
+   "Verifying encrypted credentials...",
+   "Allocating cloud resources...",
+   "Optimizing database clusters...",
+   "Almost there, finalizing setup..."
+  ]
+ },
+ "masonry": {
+  "filterOptions": [
+   {
+    "key": "electronics",
+    "label": "Electronics"
+   },
+   {
+    "key": "fashion",
+    "label": "Fashion"
+   },
+   {
+    "key": "home",
+    "label": "Home"
+   },
+   {
+    "key": "sports",
+    "label": "Sports"
+   }
+  ],
+  "items": [
+   {
+    "id": 1,
+    "title": "Wireless Headphones",
+    "description": "$49.99",
+    "image": "/atom/assets/images/slide1.png",
+    "category": "electronics",
+    "height": 300
+   },
+   {
+    "id": 2,
+    "title": "Leather Jacket",
+    "description": "$129.00",
+    "image": "/atom/assets/images/slide2.png",
+    "category": "fashion",
+    "height": 300
+   },
+   {
+    "id": 3,
+    "title": "Smart Lamp",
+    "description": "$39.99",
+    "image": "/atom/assets/images/slide3.png",
+    "category": "home",
+    "height": 300
+   },
+   {
+    "id": 4,
+    "title": "Running Shoes",
+    "description": "$89.00",
+    "image": "/atom/assets/images/nature_forest_1.png",
+    "category": "sports",
+    "height": 300
+   }
+  ]
+ },
+ "progress": {
+  "milestones": [
+   {
+    "percent": 25,
+    "label": "Dev"
+   },
+   {
+    "percent": 50,
+    "label": "Test"
+   },
+   {
+    "percent": 75,
+    "label": "Deploy"
+   }
+  ],
+  "statusLabels": {
+   "notStarted": "Queued",
+   "running": "Deploying",
+   "interrupted": "Rolled Back",
+   "completed": "Live"
+  },
+  "strokeColor": {
+   "from": "#10b981",
+   "to": "#8b5cf6"
+  },
+  "success": {
+   "percent": 40
+  },
+  "thresholds": [
+   {
+    "percent": 80,
+    "status": "danger"
+   },
+   {
+    "percent": 60,
+    "status": "warning"
+   }
+  ]
+ },
+ "range-slider": {
+  "customSteps": [
+   0,
+   10,
+   25,
+   50,
+   100,
+   200,
+   500
+  ],
+  "marks": [
+   {
+    "value": 0,
+    "label": "None"
+   },
+   {
+    "value": 1,
+    "label": "Low"
+   },
+   {
+    "value": 2,
+    "label": "Med"
+   },
+   {
+    "value": 3,
+    "label": "High"
+   },
+   {
+    "value": 4,
+    "label": "Max"
+   },
+   {
+    "value": 5,
+    "label": "Ultra"
+   }
+  ]
+ },
+ "smart-context-menu": {
+  "items": [
+   {
+    "id": "file",
+    "label": "File",
+    "icon": "folder",
+    "children": [
+     {
+      "id": "new",
+      "label": "New",
+      "icon": "plus"
+     },
+     {
+      "id": "open",
+      "label": "Open",
+      "icon": "folder-open"
+     },
+     {
+      "id": "save",
+      "label": "Save",
+      "icon": "save"
+     }
+    ]
+   },
+   {
+    "id": "edit",
+    "label": "Edit",
+    "icon": "edit-3",
+    "children": [
+     {
+      "id": "undo",
+      "label": "Undo",
+      "icon": "undo-2"
+     },
+     {
+      "id": "redo",
+      "label": "Redo",
+      "icon": "redo-2"
+     },
+     {
+      "id": "sep1",
+      "separator": true
+     },
+     {
+      "id": "cut",
+      "label": "Cut",
+      "icon": "scissors"
+     },
+     {
+      "id": "copy",
+      "label": "Copy",
+      "icon": "clipboard"
+     },
+     {
+      "id": "paste",
+      "label": "Paste",
+      "icon": "file"
+     }
+    ]
+   },
+   {
+    "id": "sep2",
+    "separator": true
+   },
+   {
+    "id": "help",
+    "label": "Help",
+    "icon": "help-circle"
+   }
+  ]
+ },
+ "speed-dial": {
+  "actions": [
+   {
+    "id": "add",
+    "label": "Add Item",
+    "icon": "plus",
+    "color": "#10b981"
+   },
+   {
+    "id": "edit",
+    "label": "Edit",
+    "icon": "pencil",
+    "color": "#10b981"
+   },
+   {
+    "id": "share",
+    "label": "Share",
+    "icon": "share",
+    "color": "#f59e0b"
+   },
+   {
+    "id": "delete",
+    "label": "Delete",
+    "icon": "trash-2",
+    "color": "#ef4444"
+   }
+  ]
+ },
+ "stepper": {
+  "steps": [
+   {
+    "id": "1",
+    "label": "Login",
+    "description": "Account access"
+   },
+   {
+    "id": "2",
+    "label": "Profile",
+    "description": "Personal info"
+   },
+   {
+    "id": "3",
+    "label": "Verification",
+    "description": "Identity check"
+   },
+   {
+    "id": "4",
+    "label": "Finalize",
+    "description": "Complete setup"
+   }
+  ]
+ },
+ "timer": {
+  "steps": [
+   {
+    "label": "Warm Up",
+    "duration": 10,
+    "color": "#10b981"
+   },
+   {
+    "label": "HIIT Sprint",
+    "duration": 20,
+    "color": "#ef4444"
+   },
+   {
+    "label": "Recovery",
+    "duration": 15,
+    "color": "#10b981"
+   }
+  ],
+  "theme": {
+   "--timer-primary-color": "#10b981"
+  }
+ },
+ "transfer-list": {
+  "titles": [
+   "Backlog",
+   "Top Priority"
+  ],
+  "sourceItems": [
+   {
+    "key": "1",
+    "label": "Alpha"
+   },
+   {
+    "key": "2",
+    "label": "Beta"
+   },
+   {
+    "key": "3",
+    "label": "Gamma"
+   },
+   {
+    "key": "4",
+    "label": "Delta"
+   }
+  ],
+  "targetItems": [
+   {
+    "key": "5",
+    "label": "Epsilon"
+   }
+  ]
+ },
+ "avatar-group": {
+  "avatars": [
+   {
+    "alt": "Ada Lovelace",
+    "content": "AL"
+   },
+   {
+    "alt": "Alan Turing",
+    "content": "AT"
+   },
+   {
+    "alt": "Grace Hopper",
+    "content": "GH"
+   }
+  ]
+ },
+ "button-toggle-group": {
+  "options": [
+   {
+    "value": "day",
+    "label": "Day"
+   },
+   {
+    "value": "week",
+    "label": "Week"
+   },
+   {
+    "value": "month",
+    "label": "Month"
+   }
+  ]
+ },
+ "toggle-group": {
+  "options": [
+   {
+    "value": "a",
+    "label": "Option A"
+   },
+   {
+    "value": "b",
+    "label": "Option B"
+   },
+   {
+    "value": "c",
+    "label": "Option C"
+   }
+  ]
+ },
+ "code-preview": {
+  "snippets": [
+   {
+    "language": "html",
+    "label": "HTML",
+    "code": "<ui-button label=\"Save\"></ui-button>"
+   },
+   {
+    "language": "javascript",
+    "label": "JS",
+    "code": "document.querySelector('ui-button').addEventListener('buttonClick', () => console.log('clicked'));"
+   }
+  ]
+ },
+ "empty-state": {
+  "actions": [
+   {
+    "label": "Create item",
+    "value": "create",
+    "variant": "primary"
+   },
+   {
+    "label": "Learn more",
+    "value": "docs",
+    "variant": "text"
+   }
+  ],
+  "items": [
+   {
+    "icon": "file",
+    "label": "Import a file",
+    "value": "import"
+   },
+   {
+    "icon": "plus",
+    "label": "Start from scratch",
+    "value": "new"
+   }
+  ]
+ },
+ "multi-cascading-dropdown": {
+  "options": [
+   {
+    "label": "Europe",
+    "value": "eu",
+    "children": [
+     {
+      "label": "Germany",
+      "value": "de"
+     },
+     {
+      "label": "France",
+      "value": "fr"
+     }
+    ]
+   },
+   {
+    "label": "Asia",
+    "value": "as",
+    "children": [
+     {
+      "label": "Japan",
+      "value": "jp"
+     },
+     {
+      "label": "India",
+      "value": "in"
+     }
+    ]
+   }
+  ]
+ },
+ "smart-location-dropdown": {
+  "options": [
+   {
+    "value": "us",
+    "label": "United States",
+    "type": "country"
+   },
+   {
+    "value": "us-ny",
+    "label": "New York",
+    "type": "city",
+    "path": "United States / New York"
+   },
+   {
+    "value": "jp",
+    "label": "Japan",
+    "type": "country"
+   }
+  ]
+ },
+ "splitter": {
+  "panels": [
+   {
+    "size": 30,
+    "minSize": 10,
+    "collapsible": true
+   },
+   {
+    "size": 70
+   }
+  ],
+  "sizes": [
+   30,
+   70
+  ]
+ },
+ "resizable-panel": {
+  "panels": [
+   {
+    "id": "one",
+    "size": 40,
+    "minSize": 10
+   },
+   {
+    "id": "two",
+    "size": 60
+   }
+  ]
+ },
+ "toolbar": {
+  "items": [
+   {
+    "type": "button",
+    "id": "new",
+    "label": "New",
+    "icon": "plus"
+   },
+   {
+    "type": "button",
+    "id": "save",
+    "label": "Save",
+    "icon": "save",
+    "variant": "outline"
+   },
+   {
+    "type": "separator"
+   },
+   {
+    "type": "button",
+    "id": "share",
+    "label": "Share",
+    "icon": "share"
+   }
+  ]
+ },
+ "top-bar": {
+  "actions": [
+   {
+    "id": "search",
+    "icon": "search",
+    "label": "Search"
+   },
+   {
+    "id": "bell",
+    "icon": "bell",
+    "label": "Notifications",
+    "badge": "3"
+   },
+   {
+    "id": "help",
+    "icon": "help-circle",
+    "label": "Help"
+   }
+  ]
+ },
+ "navigation-bar": {
+  "items": [
+   {
+    "id": "home",
+    "label": "Home",
+    "icon": "home"
+   },
+   {
+    "id": "search",
+    "label": "Search",
+    "icon": "search"
+   },
+   {
+    "id": "inbox",
+    "label": "Inbox",
+    "icon": "mail"
+   }
+  ],
+  "bottomItems": [
+   {
+    "id": "settings",
+    "label": "Settings",
+    "icon": "settings"
+   }
+  ]
+ },
+ "aside-panel": {
+  "actionItems": [
+   {
+    "label": "Pin",
+    "icon": "pin"
+   },
+   {
+    "label": "Close",
+    "icon": "x"
+   }
+  ]
+ },
+ "dialog-header": {
+  "menuItems": [
+   {
+    "label": "Rename",
+    "icon": "pencil"
+   },
+   {
+    "label": "Delete",
+    "icon": "trash"
+   }
+  ]
+ },
+ "pagination": {
+  "pageSizes": [
+   10,
+   25,
+   50,
+   100
+  ]
+ },
+ "tag-group": {
+  "value": [
+   "Design",
+   "Code"
+  ]
+ },
+ "code-editor": {
+  "tabs": [
+   {
+    "title": "index.html",
+    "language": "html",
+    "content": "<h1>Hello</h1>"
+   },
+   {
+    "title": "app.js",
+    "language": "javascript",
+    "content": "console.log('hi');"
+   }
+  ]
+ },
+ "anchor": {
+  "items": [
+   {
+    "id": "intro",
+    "label": "Introduction",
+    "href": "#intro"
+   },
+   {
+    "id": "install",
+    "label": "Installation",
+    "href": "#install"
+   },
+   {
+    "id": "usage",
+    "label": "Usage",
+    "href": "#usage"
+   },
+   {
+    "id": "api",
+    "label": "API",
+    "href": "#api"
+   }
+  ]
+ },
+ "drag-drop": {
+  "items": [
+   {
+    "id": "1",
+    "label": "Design review",
+    "description": "Wireframes and mockups"
+   },
+   {
+    "id": "2",
+    "label": "Build feature",
+    "description": "Implementation"
+   },
+   {
+    "id": "3",
+    "label": "Write tests",
+    "description": "Unit and e2e"
+   },
+   {
+    "id": "4",
+    "label": "Ship",
+    "description": "Release to production"
+   }
+  ]
+ },
+ "tree": {
+  "nodes": [
+   {
+    "id": "1",
+    "label": "Root Folder",
+    "expanded": true,
+    "children": [
+     {
+      "id": "1-1",
+      "label": "Documents",
+      "children": [
+       {
+        "id": "1-1-1",
+        "label": "Resume.pdf",
+        "icon": "file-pdf",
+        "color": "danger"
+       },
+       {
+        "id": "1-1-2",
+        "label": "CoverLetter.doc",
+        "icon": "file-word",
+        "color": "primary"
+       }
+      ]
+     },
+     {
+      "id": "1-2",
+      "label": "Pictures",
+      "children": [
+       {
+        "id": "1-2-1",
+        "label": "Vacation.jpg",
+        "icon": "image",
+        "color": "success"
+       }
+      ]
+     },
+     {
+      "id": "1-3",
+      "label": "Music",
+      "icon": "music",
+      "color": "info"
+     }
+    ]
+   }
+  ]
+ },
+ "timeline": {
+  "events": [
+   {
+    "id": "1",
+    "label": "Order placed",
+    "description": "Your order was received",
+    "date": "2026-01-02",
+    "status": "completed"
+   },
+   {
+    "id": "2",
+    "label": "Packed",
+    "description": "Items packed at warehouse",
+    "date": "2026-01-03",
+    "status": "completed"
+   },
+   {
+    "id": "3",
+    "label": "Shipped",
+    "description": "On the way",
+    "date": "2026-01-04",
+    "status": "active"
+   },
+   {
+    "id": "4",
+    "label": "Delivered",
+    "description": "Expected soon",
+    "date": "2026-01-06",
+    "status": "pending"
+   }
+  ]
+ },
+ "workspace-manager": {
+  "regions": [
+   {
+    "id": "left",
+    "title": "Explorer",
+    "size": 20,
+    "minSize": 10,
+    "collapsible": true
+   },
+   {
+    "id": "center",
+    "title": "Editor",
+    "size": 55
+   },
+   {
+    "id": "right",
+    "title": "Inspector",
+    "size": 25,
+    "collapsible": true
+   }
+  ]
+ },
+ "command-palette": {
+  "commands": [
+   {
+    "id": "new",
+    "label": "New File",
+    "shortcut": "Ctrl+N",
+    "group": "File",
+    "icon": "file-plus"
+   },
+   {
+    "id": "open",
+    "label": "Open…",
+    "shortcut": "Ctrl+O",
+    "group": "File",
+    "icon": "folder-open"
+   },
+   {
+    "id": "save",
+    "label": "Save",
+    "shortcut": "Ctrl+S",
+    "group": "File",
+    "icon": "save"
+   },
+   {
+    "id": "theme",
+    "label": "Toggle Theme",
+    "group": "View",
+    "icon": "moon"
+   }
+  ]
+ },
+ "meter-group": {
+  "values": [
+   {
+    "label": "Apps",
+    "value": 16,
+    "color": "#34d399"
+   },
+   {
+    "label": "Messages",
+    "value": 8,
+    "color": "#fbbf24"
+   },
+   {
+    "label": "Media",
+    "value": 24,
+    "color": "#60a5fa"
+   },
+   {
+    "label": "System",
+    "value": 10,
+    "color": "#f472b6"
+   }
+  ]
+ },
+ "horizontal-nav": {
+  "items": [
+   {
+    "id": "home",
+    "label": "Home",
+    "icon": "home",
+    "active": true
+   },
+   {
+    "id": "products",
+    "label": "Products",
+    "icon": "package"
+   },
+   {
+    "id": "pricing",
+    "label": "Pricing",
+    "icon": "tag",
+    "badge": "New"
+   },
+   {
+    "id": "about",
+    "label": "About",
+    "icon": "info",
+    "disabled": true
+   }
+  ]
+ },
+ "context-menu": {
+  "items": [
+   {
+    "label": "Cut",
+    "icon": "scissors",
+    "shortcut": "Ctrl+X"
+   },
+   {
+    "label": "Copy",
+    "icon": "copy",
+    "shortcut": "Ctrl+C"
+   },
+   {
+    "label": "Paste",
+    "icon": "clipboard",
+    "shortcut": "Ctrl+V"
+   },
+   {
+    "type": "separator"
+   },
+   {
+    "label": "Delete",
+    "icon": "trash",
+    "variant": "danger"
+   }
+  ]
+ }
+}
