@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navLinks = [
     { id: 'home', label: 'Overview' },
     { id: 'catalog', label: 'Catalog' },
-    { id: 'playground', label: 'Playground' },
+    { id: 'playground', label: 'Design Studio' },
     { id: 'examples', label: 'Examples' },
     { id: 'docs', label: 'Docs' },
     { id: 'themes', label: 'Theme Studio' },
@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
   const viewLabels: Record<string, string> = {
     home: 'Overview & Solar System',
     catalog: 'Component Catalog',
-    playground: 'Interactive Playground',
+    playground: 'Design Studio',
     examples: 'Variant Gallery',
     docs: 'Documentation & Architecture',
     themes: 'Theme Studio & Tokens',
@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
   // If in Left Sidebar mode, render the streamlined workspace top bar
   if (navMode === 'sidebar') {
     return (
-      <header className="sticky top-0 z-30 w-full bg-black/90 backdrop-blur-xl border-b border-slate-800/80 h-14 px-4 sm:px-6 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-30 w-full bg-black/95 border-b border-slate-800/80 h-14 px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Left Side: Mobile toggle + Breadcrumbs */}
         <div className="flex items-center gap-3">
           {/* Mobile sidebar opener */}
@@ -121,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   // Classic Top Navigation Mode
   return (
-    <header className="sticky top-0 z-40 w-full bg-black/90 backdrop-blur-xl border-b border-slate-800/80">
+    <header className="sticky top-0 z-40 w-full bg-black/95 border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         
         {/* Zone 1: Single text element wordmark */}

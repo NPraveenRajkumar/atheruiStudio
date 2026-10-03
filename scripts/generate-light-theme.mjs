@@ -17,7 +17,15 @@ const mirror = (s) => STEPS[STEPS.length - 1 - STEPS.indexOf(s)];
 const lines = [];
 for (const fam of [...GREYS, ...ACCENTS]) {
   for (const step of STEPS) {
-    const from = vars[`--color-${fam}-${mirror(step)}`];
+    // Plain mirroring leaves accent text too pale on white (sky-400 -> 4.0:1) and gray-600 too faint (2.6:1), so those
+    // steps are taken from darker originals; everything else mirrors.
+    let source = mirror(step);
+    if (ACCENTS.includes(fam) && step === 300) source = 800;
+    if (ACCENTS.includes(fam) && step === 400) source = 700;
+    if (GREYS.includes(fam) && (step === 500 || step === 600)) source = 600; // 4.5:1 even on pale tinted cards
+    // Solid accent fills carry light text in this theme (bg-sky-500 text-slate-950), so the fill must be dark enough: 5.9:1 vs 2.6:1
+    if (ACCENTS.includes(fam) && step === 500) source = 700;
+    const from = vars[`--color-${fam}-${source}`];
     if (from) lines.push(`  --color-${fam}-${step}: ${from};`);
   }
 }

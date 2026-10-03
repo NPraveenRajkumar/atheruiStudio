@@ -4,16 +4,72 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AtherUI — Enterprise StencilJS Component System</title>
-    <meta name="description" content="Next-generation Web Component library built with StencilJS. Unmatched performance, framework-agnostic architecture, deep space aesthetics, and enterprise design tokens." />
+    <meta name="description" content="Framework-agnostic Web Components built with StencilJS: forms, navigation, data display, feedback and layout components that work in React, Angular, Vue and plain HTML. MIT licensed." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:site_name" content="AtherUI" />
     <meta property="og:title" content="AtherUI — Enterprise StencilJS Component System" />
-    <meta property="og:description" content="Next-generation Web Component library built with StencilJS. Unmatched performance, framework-agnostic architecture, deep space aesthetics, and enterprise design tokens." />
+    <meta property="og:description" content="Framework-agnostic Web Components built with StencilJS: forms, navigation, data display, feedback and layout components that work in React, Angular, Vue and plain HTML. MIT licensed." />
     <meta property="og:type" content="website" />
+    <!-- Link previews need absolute URLs: set og:url and the two image URLs to the deployed address, for example https://example.com/og-image.png -->
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AtherUI: framework-agnostic Web Components built with StencilJS" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AtherUI — Enterprise StencilJS Component System" />
+    <meta name="twitter:description" content="Framework-agnostic Web Components built with StencilJS: forms, navigation, data display, feedback and layout components that work in React, Angular, Vue and plain HTML. MIT licensed." />
+    <meta name="twitter:image" content="/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
-      <!-- The component library draws its default icons with the global lucide script -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- The library theme tokens (--color-primary, --bg-primary, --text-primary ...). Without this file many components render with undefined colours. -->
+    <link rel="stylesheet" href="/exploration-project-tailwind/exploration-project-tailwind.css" />
+    <!--
+      Icon libraries the component library can draw from (same set as the library's own host page):
+      lucide, font-awesome, line-awesome, iconoir, ionicons, bootstrap-icons, remixicon, material symbols,
+      and the Schneider "se" / "core" / "default" SVG sets registered below.
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" crossorigin></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js" crossorigin></script>
+    <script src="https://unpkg.com/lucide@1.51.0"></script>
+    <!--
+      Code highlighting for ui-code-preview. The component loads each Prism language in parallel and prism-tsx then
+      runs before the languages it extends (a console error on every load). Loading them here, in order, avoids that;
+      with Prism present the component skips its own loader, so the theme stylesheet is linked here too.
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script>
+    <script type="module">
+      import { defineCustomElements } from 'https://unpkg.com/@quartzds/core@1.0.6-beta.1/loader';
+      import { registerIconLibrary } from 'https://unpkg.com/@quartzds/core@1.0.6-beta.1';
+
+      defineCustomElements();
+      registerIconLibrary('lucide', { resolver: (name) => `https://unpkg.com/lucide-static@1.51.0/icons/${name}.svg` });
+      registerIconLibrary('core', { resolver: (name) => `https://unpkg.com/@quartzds/se-icons-core@next/dist/${name}.svg` });
+      registerIconLibrary('default', { resolver: (name) => `https://unpkg.com/@quartzds/se-icons-default@next/dist/${name}.svg` });
+      registerIconLibrary('se', { resolver: (name) => `https://unpkg.com/@quartzds/se-icons-core@next/dist/${name}.svg` });
+
+      // Ionicons loads its SVGs from this path (jsdelivr sends the CORS headers unpkg does not)
+      const setIonicons = () => {
+        if (window.Ionicons && typeof window.Ionicons.setAssetPath === 'function') {
+          window.Ionicons.setAssetPath('https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/');
+        } else if (!window.Ionicons) {
+          setTimeout(setIonicons, 100);
+        }
+      };
+      setIonicons();
+    </script>
   </head>
   <body class="bg-[#05070f] text-slate-100 antialiased selection:bg-cyan-500/20 selection:text-cyan-200">
     <div id="root"></div>

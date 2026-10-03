@@ -11,13 +11,24 @@ export interface PreviewSpec {
   /** innerHTML placed inside the component (slotted trigger, child elements). */
   children?: string;
   /** Render the component inside this parent, repeated `count` times. The controlled element is the child. */
-  parent?: { tag: string; props?: Record<string, unknown>; count?: number; style?: string };
+  parent?: {
+    tag: string;
+    props?: Record<string, unknown>;
+    count?: number;
+    style?: string;
+    /** Index of the one child that receives the card's props; the others stay neutral siblings. Default: all of them. */
+    controlled?: number;
+    /** Props for the neutral siblings (for example distinct values, so a group does not treat them as one option). */
+    siblings?: (index: number) => Record<string, unknown>;
+  };
   /** Adds an "Open" button to the stage that sets this boolean prop on the component (for overlays). */
   opener?: { prop: string; label: string };
   /** HTML rendered next to the component (e.g. a right-click target). */
   beside?: string;
   /** Short usage hint shown under the canvas. */
   hint?: string;
+  /** Props that are never applied in previews (they would grab focus or block the rest of the page). */
+  ignore?: string[];
 }
 
 const box = (n: number) =>
@@ -37,7 +48,15 @@ export const PREVIEW: Record<string, PreviewSpec> = {
   'ui-fab-item': { parent: { tag: 'ui-fab', count: 3 }, props: { label: 'Action', icon: 'plus' } },
   'ui-timeline-item': { parent: { tag: 'ui-timeline', count: 3, style: 'width:420px' }, props: { itemTitle: 'Event', itemDescription: 'Details' } },
   'timeline-item': { parent: { tag: 'ui-timeline', count: 3, style: 'width:420px' }, props: { itemTitle: 'Event', itemDescription: 'Details' } },
-  'ui-button-toggle': { parent: { tag: 'ui-button-toggle-group', count: 3 }, props: { label: 'Option' } },
+  'ui-button-toggle': {
+    parent: {
+      tag: 'ui-button-toggle-group',
+      count: 3,
+      controlled: 1,
+      siblings: (i) => ({ label: i === 0 ? 'Previous' : 'Next', value: `sibling-${i}` }),
+    },
+    props: { label: 'Option', value: 'option' },
+  },
   'ui-avatar-group': {
     children: '<ui-avatar name="Ada Lovelace"></ui-avatar><ui-avatar name="Alan Turing"></ui-avatar><ui-avatar name="Grace Hopper"></ui-avatar>',
   },
@@ -51,6 +70,9 @@ export const PREVIEW: Record<string, PreviewSpec> = {
       .map((c, i) => `<div style="height:100%;min-height:200px;display:flex;align-items:center;justify-content:center;background:${c};color:#fff;font-size:24px">Slide ${i + 1}</div>`)
       .join(''),
   },
+
+  // A loader must never trap focus; its fullscreen/overlay modes are contained by the preview card
+  'ui-loader': { ignore: ['trapFocus'] },
 
   // Components that need a value to show anything
   'ui-badge': { props: { value: 5, inline: true } },

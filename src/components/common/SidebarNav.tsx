@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import BUNDLE from '../../data/bundleStats.json';
 import { 
   Compass, 
   Layers, 
@@ -12,7 +13,6 @@ import {
   Search, 
   ChevronLeft, 
   ChevronRight, 
-  ChevronDown,
   Layout, 
   Maximize2,
   ExternalLink,
@@ -24,8 +24,8 @@ import {
   PanelLeftOpen,
   ArrowRight
 } from 'lucide-react';
-import { ALL_COMPONENTS } from '../../data/components';
-import { AtherBadge, AtherButton } from '../ui/AtherUIElements';
+import { TOTALS } from '../../data/lite';
+import { ComponentCategoryNav } from './ComponentCategoryNav';
 
 interface SidebarNavProps {
   currentView: string;
@@ -46,16 +46,14 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   navMode,
   onToggleNavMode
 }) => {
-  const [componentsMenuOpen, setComponentsMenuOpen] = useState(true);
-
   // Grouped Navigation Structure
   const navSections = [
     {
       group: 'PLATFORM',
       items: [
         { id: 'home', label: 'Overview & Solar System', icon: Compass, badge: 'Live' },
-        { id: 'catalog', label: 'Component Catalog', icon: Layers, badge: String(ALL_COMPONENTS.length) },
-        { id: 'playground', label: 'Live Playground', icon: Play, glow: true },
+        { id: 'catalog', label: 'Component Catalog', icon: Layers, badge: String(TOTALS.components) },
+        { id: 'playground', label: 'Design Studio', icon: Play, glow: true },
         { id: 'examples', label: 'Variant Examples', icon: Sparkles }
       ]
     },
@@ -81,12 +79,9 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     }
   ];
 
-  // Quick jump top components
-  const quickComponents = ALL_COMPONENTS.slice(0, 6);
-
   return (
     <aside 
-      className={`fixed top-0 left-0 bottom-0 z-40 flex flex-col bg-black/95 backdrop-blur-2xl border-r border-slate-800/80 transition-all duration-300 select-none ${
+      className={`fixed top-0 left-0 bottom-0 z-40 flex flex-col bg-black/95 border-r border-slate-800/80 transition-all duration-300 select-none ${
         isCollapsed ? 'w-[72px]' : 'w-64'
       }`}
     >
@@ -104,7 +99,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               <span><strong className="text-sky-400">Ather</strong>UI</span>
             </button>
             <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-mono">
-              v3.4
+              v{BUNDLE.version}
             </span>
           </div>
         ) : (
@@ -205,41 +200,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           </div>
         ))}
 
-        {/* Quick Component Shortcuts in Sidebar */}
-        {!isCollapsed && (
-          <div className="pt-2 border-t border-slate-800/80 space-y-1">
-            <button
-              onClick={() => setComponentsMenuOpen(!componentsMenuOpen)}
-              className="w-full px-3 py-1 flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase tracking-wider hover:text-slate-300 transition-colors cursor-pointer"
-            >
-              <span>Quick Components</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${componentsMenuOpen ? 'rotate-0' : '-rotate-90'}`} />
-            </button>
-
-            {componentsMenuOpen && (
-              <div className="space-y-0.5 pt-1">
-                {quickComponents.map((comp) => (
-                  <button
-                    key={comp.id}
-                    onClick={() => onNavigate('playground', comp.id)}
-                    className="w-full px-3 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-slate-900/50 flex items-center justify-between transition-colors cursor-pointer group"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span 
-                        className="w-1.5 h-1.5 rounded-full" 
-                        style={{ backgroundColor: comp.color }} 
-                      />
-                      <span>{comp.name}</span>
-                    </span>
-                    <span className="text-[10px] text-slate-600 group-hover:text-sky-400 font-mono">
-                      Playground
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+        {/* Components by category: accordion when expanded, popover flyouts when collapsed */}
+        <ComponentCategoryNav collapsed={isCollapsed} onSelect={(id) => onNavigate('playground', id)} />
       </div>
 
       {/* 4. Sidebar Bottom Footer Controls */}

@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
 import { SidebarNav } from './components/common/SidebarNav';
 import { CommandPalette } from './components/common/CommandPalette';
 import { HeroSolarSystem } from './components/home/HeroSolarSystem';
 import { StatsAndWhy } from './components/home/StatsAndWhy';
-import { CatalogView } from './components/catalog/CatalogView';
-import { PlaygroundView } from './components/playground/PlaygroundView';
-import { ExamplesView } from './components/examples/ExamplesView';
-import { DocsView } from './components/docs/DocsView';
-import { ThemeStudioView } from './components/theme-studio/ThemeStudioView';
-import { PricingView } from './components/pricing/PricingView';
-import { InstallationView } from './components/installation/InstallationView';
-import { DesignSystemView } from './components/design-system/DesignSystemView';
-import { ComponentItem } from './types';
-import { ALL_COMPONENTS } from './data/components';
+import { ScrollProgress, BackToTop } from './components/home/ScrollExtras';
+import { SnapPage } from './components/home/SnapPage';
+import { parseHash, hashFor, replaceHash, VIEW_TITLES, DEFAULT_TITLE, type ViewId } from './utils/route';
+
+const CatalogView = lazy(() => import('./components/catalog/CatalogView').then((m) => ({ default: m.CatalogView })));
+const PlaygroundView = lazy(() => import('./components/playground/PlaygroundView').then((m) => ({ default: m.PlaygroundView })));
+const ExamplesView = lazy(() => import('./components/examples/ExamplesView').then((m) => ({ default: m.ExamplesView })));
+const DocsView = lazy(() => import('./components/docs/DocsView').then((m) => ({ default: m.DocsView })));
+const ThemeStudioView = lazy(() => import('./components/theme-studio/ThemeStudioView').then((m) => ({ default: m.ThemeStudioView })));
+const PricingView = lazy(() => import('./components/pricing/PricingView').then((m) => ({ default: m.PricingView })));
+const InstallationView = lazy(() => import('./components/installation/InstallationView').then((m) => ({ default: m.InstallationView })));
+const DesignSystemView = lazy(() => import('./components/design-system/DesignSystemView').then((m) => ({ default: m.DesignSystemView })));
+import { DOC_ARTICLES } from './data/docs';
+import { FeaturedBlock, CategoriesBlock, IconsBlock, ArchitectureBlock, FinalCtaBlock } from './components/home/HomeBlocks';
+import { findLite } from './data/lite';
 import { AtherButton, AtherCard, AtherBadge } from './components/ui/AtherUIElements';
 import { 
   Zap, 
@@ -33,6 +38,9 @@ export default function App() {
   const [currentView, setCurrentView] = useState<string>('home');
   const [docsTargetId, setDocsTargetId] = useState<string | undefined>(undefined);
   const [playgroundTargetId, setPlaygroundTargetId] = useState<string>('button');
+  const [examplesTargetId, setExamplesTargetId] = useState<string | undefined>(undefined);
+  // The component or guide shown on the current page, for the address bar and the page title
+  const [routeId, setRouteId] = useState<string | undefined>(undefined);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState<boolean>(false);
   
   // Navigation layout mode state (defaults to 'sidebar' to immediately showcase the left side navigation)
@@ -40,13 +48,16 @@ export default function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
-  // Synchronize hash routing if any
+  // Hash routing: #view or #view/id, so a link can point at one component or guide
   useEffect(() => {
     const handleHash = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['home', 'catalog', 'playground', 'examples', 'docs', 'themes', 'pricing', 'install', 'design-system'].includes(hash)) {
-        setCurrentView(hash);
-      }
+      const { view, id } = parseHash();
+      if (!view) return;
+      setCurrentView(view);
+      setRouteId(id);
+      if (id && view === 'docs') setDocsTargetId(id);
+      if (id && view === 'playground') setPlaygroundTargetId(id);
+      if (id && view === 'examples') setExamplesTargetId(id);
     };
     handleHash();
     window.addEventListener('hashchange', handleHash);
@@ -55,24 +66,42 @@ export default function App() {
 
   const handleNavigate = (view: string, itemId?: string) => {
     setCurrentView(view);
-    window.location.hash = view;
-    if (itemId) {
-      setPlaygroundTargetId(itemId);
-    }
+    setRouteId(itemId);
+    if (itemId && view === 'playground') setPlaygroundTargetId(itemId);
+    if (itemId && view === 'docs') setDocsTargetId(itemId);
+    if (itemId && view === 'examples') setExamplesTargetId(itemId);
+    window.location.hash = hashFor(view, itemId);
     setIsMobileSidebarOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // A new page starts at the top instantly; animating from the old page's scroll position looks broken
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   };
 
   // Component details open as an inline Documentation page (no dialog)
-  const handleOpenDocs = (comp: ComponentItem) => {
-    setDocsTargetId(comp.id);
-    handleNavigate('docs');
+  const handleOpenDocs = (comp: { id: string }) => {
+    handleNavigate('docs', comp.id);
   };
 
   const handleOpenPlaygroundWithComp = (componentId: string) => {
     setPlaygroundTargetId(componentId);
     handleNavigate('playground', componentId);
   };
+
+  // A page reports its selection (a component or guide) so the URL and the title follow it
+  const handleSelect = (id: string) => {
+    setRouteId(id);
+    replaceHash(currentView, id);
+  };
+
+  // One title per page, and per component or guide
+  useEffect(() => {
+    const label = VIEW_TITLES[currentView as ViewId];
+    if (!label || currentView === 'home') {
+      document.title = DEFAULT_TITLE;
+      return;
+    }
+    const name = routeId ? (DOC_ARTICLES.find((a) => a.id === routeId)?.title ?? findLite(routeId)?.name) : undefined;
+    document.title = name ? `${name} · ${label} · AtherUI` : `${label} · AtherUI`;
+  }, [currentView, routeId]);
 
   const toggleNavMode = () => {
     setNavMode((prev) => (prev === 'sidebar' ? 'topbar' : 'sidebar'));
@@ -137,6 +166,7 @@ export default function App() {
 
       {/* Main Content Area Container (offset when sidebar is enabled) */}
       <div 
+        style={{ ['--header-h' as string]: navMode === 'sidebar' ? '3.5rem' : '4rem' }}
         className={`flex-1 flex flex-col transition-all duration-300 ${
           navMode === 'sidebar' 
             ? isSidebarCollapsed ? 'md:pl-[72px]' : 'md:pl-64' 
@@ -156,105 +186,28 @@ export default function App() {
 
         {/* Main View Router */}
         <main className="flex-1 w-full">
+          <Suspense fallback={<div role="status" className="p-10 text-center text-xs text-slate-400">Loading…</div>}>
           {currentView === 'home' && (
-            <div className="space-y-0">
-              {/* Hero with Solar System of Components */}
+            <SnapPage>
+              <ScrollProgress />
+              <BackToTop />
+
+              {/* Each block fills the screen and the page snaps to one block per scroll */}
               <HeroSolarSystem
                 onSelectComponent={handleOpenDocs}
                 onExploreCatalog={() => handleNavigate('catalog')}
                 onOpenPlayground={(id) => handleOpenPlaygroundWithComp(id || 'button')}
               />
-
-              {/* Why AtherUI & Animated Statistics */}
               <StatsAndWhy
                 onExploreThemes={() => handleNavigate('design-system')}
                 onExplorePlayground={() => handleNavigate('playground')}
               />
-
-              {/* Architectural Marquee Bento Section */}
-              <section className="py-24 px-4 bg-black">
-                <div className="max-w-6xl mx-auto">
-                  <div className="text-center max-w-3xl mx-auto mb-16">
-                    <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-400 mb-2">
-                      <Cpu className="w-3.5 h-3.5" />
-                      <span>The Stencil Advantage</span>
-                    </div>
-                    <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-                      Universal W3C Web Components
-                    </h2>
-                    <p className="text-sm text-slate-400 leading-relaxed">
-                      AtherUI doesn't trap you inside React, Vue, or Angular. By standardizing on browser-native Custom Elements, your design system survives framework rewrites.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-                    {/* Bento 1 */}
-                    <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-sky-500/40 transition-all duration-300">
-                      <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-400/20 flex items-center justify-center text-sky-400 mb-5">
-                        <Zap className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">0.8kb Lazy Micro-Loader</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed">
-                        Only components actively placed in the DOM are hydrated. Unused elements consume zero bytes of main thread JavaScript.
-                      </p>
-                    </div>
-
-                    {/* Bento 2 */}
-                    <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/40 transition-all duration-300">
-                      <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-400/20 flex items-center justify-center text-purple-400 mb-5">
-                        <Layers className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Hermetic Shadow DOM</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed">
-                        Zero CSS specificity wars. Host application styles and external CSS frameworks can never accidentally mangle internal component layouts.
-                      </p>
-                    </div>
-
-                    {/* Bento 3 */}
-                    <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all duration-300">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center text-emerald-400 mb-5">
-                        <ShieldCheck className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">100% WCAG AAA Compliant</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed">
-                        Engineered for high-liability enterprise domains: banking, healthcare, aerospace, and government platforms with full ARIA mapping.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Final Call to Action Strip */}
-                  <div className="mt-16 p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-sky-950/40 via-purple-950/30 to-slate-900/80 border border-sky-500/20 flex flex-col md:flex-row items-center justify-between gap-6 text-left">
-                    <div>
-                      <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">
-                        Ready to build with AtherUI?
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-                        Test any component live in our three-column playground or install the core package in less than 60 seconds.
-                      </p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3 shrink-0">
-                      <AtherButton
-                        variant="neon"
-                        size="lg"
-                        glow
-                        onClick={() => handleNavigate('playground')}
-                        startIcon={<Play className="w-4 h-4" />}
-                      >
-                        Open Live Playground
-                      </AtherButton>
-                      <AtherButton
-                        variant="secondary"
-                        size="lg"
-                        onClick={() => handleNavigate('install')}
-                      >
-                        Install Guide
-                      </AtherButton>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
+              <FeaturedBlock onSelectComponent={handleOpenDocs} />
+              <CategoriesBlock onExploreCatalog={() => handleNavigate('catalog')} />
+              <IconsBlock />
+              <ArchitectureBlock />
+              <FinalCtaBlock onOpenStudio={() => handleNavigate('playground')} onInstall={() => handleNavigate('install')} />
+            </SnapPage>
           )}
 
           {currentView === 'catalog' && (
@@ -265,15 +218,15 @@ export default function App() {
           )}
 
           {currentView === 'playground' && (
-            <PlaygroundView initialComponentId={playgroundTargetId} />
+            <PlaygroundView initialComponentId={playgroundTargetId} onSelect={handleSelect} />
           )}
 
           {currentView === 'examples' && (
-            <ExamplesView />
+            <ExamplesView initialId={examplesTargetId} onSelect={handleSelect} />
           )}
 
           {currentView === 'docs' && (
-            <DocsView initialComponentId={docsTargetId} />
+            <DocsView initialId={docsTargetId} onSelect={handleSelect} />
           )}
 
           {currentView === 'themes' && (
@@ -291,15 +244,21 @@ export default function App() {
           {currentView === 'design-system' && (
             <DesignSystemView />
           )}
+          </Suspense>
         </main>
 
-        {/* Global Footer */}
-        <Footer onNavigate={handleNavigate} />
+        {/* Footer is shown on the home page only */}
+        {currentView === 'home' && (
+          <div className="snap-foot">
+            <Footer onNavigate={handleNavigate} />
+          </div>
+        )}
       </div>
 
       {/* Global Command Palette (⌘K) */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
+        onOpen={() => setIsCommandPaletteOpen(true)}
         onClose={() => setIsCommandPaletteOpen(false)}
         onNavigate={handleNavigate}
       />

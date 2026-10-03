@@ -88,7 +88,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
         </div>
 
         {/* Search & Filter Toolbar */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mb-8 bg-slate-900/60 p-2 rounded-2xl border border-slate-800 backdrop-blur-md">
+        <div className="flex flex-col sm:flex-row items-center gap-3 mb-8 bg-slate-900/60 p-2 rounded-2xl border border-slate-800">
           {/* Search Box */}
           <div className="relative flex-1 w-full">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -139,7 +139,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                 <div
                   key={comp.id}
                   onClick={() => onSelectComponent(comp)}
-                  className="group relative p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-sky-500/40 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(56,189,248,0.1)] text-left flex flex-col justify-between cursor-pointer"
+                  className="group relative p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-sky-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(56,189,248,0.1)] text-left flex flex-col justify-between cursor-pointer"
                 >
                   <div>
                     {/* Top Row: Tag + Favorite */}
@@ -150,6 +150,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
 
                       <button
                         onClick={(e) => toggleFavorite(comp.id, e)}
+                        aria-label={isFav ? `Remove ${comp.name} from favourites` : `Add ${comp.name} to favourites`}
+                        aria-pressed={!!isFav}
                         className="p-1 rounded text-slate-500 hover:text-amber-400 transition-colors"
                       >
                         <Star className={`w-4 h-4 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
@@ -182,8 +184,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                         <strong className="text-slate-200 font-mono text-xs">{comp.totalEvents}</strong>
                       </div>
                       <div>
-                        <span className="block text-slate-500">Accessibility</span>
-                        <strong className="text-emerald-400 font-mono text-xs">100% AAA</strong>
+                        <span className="block text-slate-500">Slots</span>
+                        <strong className="text-slate-200 font-mono text-xs">{comp.slots.length}</strong>
                       </div>
                     </div>
 
@@ -200,7 +202,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                         className="flex items-center gap-1 px-2.5 py-1 rounded bg-slate-800 hover:bg-sky-500 hover:text-slate-950 text-sky-400 text-xs font-medium transition-colors cursor-pointer"
                       >
                         <Play className="w-3 h-3" />
-                        <span>Playground</span>
+                        <span>Design Studio</span>
                       </button>
                     </div>
                   </div>

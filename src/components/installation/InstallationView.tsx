@@ -212,7 +212,7 @@ createApp(App).mount('#app');`
         </div>
 
         {/* Step 1: Package Manager Install */}
-        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl mb-8">
+        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-bold text-white flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 flex items-center justify-center text-xs font-mono">1</span>
@@ -241,6 +241,7 @@ createApp(App).mount('#app');`
             <code>{installCommands[packageManager]}</code>
             <button
               onClick={() => copyToClipboard(installCommands[packageManager], 'pm')}
+              aria-label={copiedKey === 'pm' ? 'Install command copied' : 'Copy install command'}
               className="flex items-center gap-1 p-1 text-slate-400 hover:text-white"
             >
               {copiedKey === 'pm' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
@@ -249,7 +250,7 @@ createApp(App).mount('#app');`
         </div>
 
         {/* Step 2: Choose Framework Integration */}
-        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl">
+        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <h2 className="text-sm font-bold text-white flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 flex items-center justify-center text-xs font-mono">2</span>

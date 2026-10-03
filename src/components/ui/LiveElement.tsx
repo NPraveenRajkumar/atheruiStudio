@@ -46,8 +46,17 @@ export const LiveElement: React.FC<LiveElementProps> = ({ tag, props, text }) =>
 
   useEffect(() => {
     const spec = PREVIEW[tag] ?? {};
-    targets.current.forEach((el: any) => {
-      Object.entries({ ...(spec.props ?? {}), ...(props ?? {}) }).forEach(([k, v]) => (el[k] = v));
+    const controlled = spec.parent?.controlled;
+    // Overlays open from their trigger button only; a card must never open one on its own
+    const merged: Record<string, unknown> = { ...(spec.props ?? {}), ...(props ?? {}) };
+    if (spec.opener) delete merged[spec.opener.prop];
+    spec.ignore?.forEach((k) => delete merged[k]);
+    targets.current.forEach((el: any, i) => {
+      if (controlled !== undefined && i !== controlled) {
+        Object.entries({ ...(spec.props ?? {}), ...(spec.parent?.siblings?.(i) ?? {}) }).forEach(([k, v]) => (el[k] = v));
+        return;
+      }
+      Object.entries(merged).forEach(([k, v]) => (el[k] = v));
       if (text !== undefined && !spec.children) el.textContent = text;
     });
   }, [props, text, ready, tag]);

@@ -75,7 +75,7 @@ export const DesignSystemView: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 backdrop-blur-xl transition-all flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between"
               >
                 {/* Visual Preview Swatch */}
                 <div className="mb-4">
@@ -84,7 +84,7 @@ export const DesignSystemView: React.FC = () => {
                       className="w-full h-20 rounded-xl border border-white/10 shadow-inner flex items-center justify-center font-mono text-xs font-bold"
                       style={{ backgroundColor: token.value }}
                     >
-                      <span className="px-2.5 py-1 rounded bg-black/60 backdrop-blur-md text-white border border-white/10">
+                      <span className="px-2.5 py-1 rounded bg-black/60 text-white border border-white/10">
                         {token.value}
                       </span>
                     </div>

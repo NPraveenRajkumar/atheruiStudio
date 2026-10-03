@@ -26,15 +26,16 @@ export const PricingView: React.FC<{
       desc: 'Everything required to build lightning-fast web applications with modern StencilJS Web Components.',
       highlight: false,
       features: [
-        `${ALL_COMPONENTS.length} Production Web Components`,
+        `${ALL_COMPONENTS.length} Web Components`,
         'TypeScript Definition Bundles',
         'W3C Shadow DOM Encapsulation',
         'ElementInternals Form Support',
-        'MIT Commercial License',
-        'Community Discord Access'
+        'MIT license, commercial use allowed',
+        'Docs, examples and the Design Studio'
       ],
       cta: 'Install via NPM',
-      action: onOpenInstall
+      action: onOpenInstall,
+      draft: false
     },
     {
       id: 'pro',
@@ -50,33 +51,35 @@ export const PricingView: React.FC<{
         '120+ Full-Page Enterprise Templates',
         'Priority GitHub Issue Triage'
       ],
-      cta: 'Start 14-Day Pro Trial',
-      action: onOpenInstall
+      cta: 'Draft: not yet available',
+      action: undefined,
+      draft: true
     },
     {
       id: 'enterprise',
       name: 'Enterprise Organization',
       price: 'Custom',
       period: 'custom annual contract',
-      desc: 'Air-gapped registries, custom Stencil build optimizations, dedicated accessibility audit, and SLA.',
+      desc: 'Air-gapped registries, custom Stencil build optimizations, an accessibility review, and agreed support terms.',
       highlight: false,
       features: [
         'Everything in Pro tier',
         'Air-Gapped Private NPM Registry',
         'Dedicated Shared Slack Channel',
         'Custom Stencil Build Optimizations',
-        'Full WCAG AAA Accessibility Sign-Off',
-        '99.99% Architecture SLA',
+        'Accessibility review of your flows',
+        'Support terms by agreement',
         'Custom Theme System Audit'
       ],
-      cta: 'Contact Architecture Team',
-      action: () => alert('Contacting AtherUI Enterprise Architecture Advisory (sales@ather-ui.cloud)')
+      cta: 'Draft: not yet available',
+      action: undefined,
+      draft: true
     }
   ];
 
   const comparisonFeatures = [
     { category: 'Core Architecture', items: [
-      { name: 'StencilJS Micro-Runtime (<0.8kb)', community: true, pro: true, enterprise: true },
+      { name: 'Lazy-loaded StencilJS runtime', community: true, pro: true, enterprise: true },
       { name: 'W3C Shadow DOM Style Encapsulation', community: true, pro: true, enterprise: true },
       { name: 'Framework Agnostic (Zero Lock-in)', community: true, pro: true, enterprise: true },
       { name: 'ElementInternals Native Form Participation', community: true, pro: true, enterprise: true }
@@ -88,7 +91,7 @@ export const PricingView: React.FC<{
       { name: 'Next.js 15 App Router Hydration Plugin', community: 'Basic', pro: 'Optimized', enterprise: 'Edge Accelerated' }
     ]},
     { category: 'Support & Compliance', items: [
-      { name: 'Accessibility Standard', community: 'WCAG AA', pro: 'WCAG AAA', enterprise: 'WCAG AAA Signed' },
+      { name: 'Accessibility review of your flows', community: false, pro: false, enterprise: true },
       { name: 'Figma UI Kit & Token Studio Sync', community: false, pro: true, enterprise: true },
       { name: 'Private Air-Gapped Registry', community: false, pro: false, enterprise: true },
       { name: '24/7 Dedicated Architecture Slack', community: false, pro: false, enterprise: true }
@@ -102,14 +105,18 @@ export const PricingView: React.FC<{
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-400 mb-2">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Predictable Enterprise Licensing</span>
+            <span>Plans</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
             Transparent Plans for Every Scale
           </h1>
           <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
-            Free and open-source core forever under the MIT license. Upgrade for automated framework packages, Figma token sync, and dedicated enterprise SLA.
+            The library is free and open source under the MIT license. The Pro and Enterprise tiers below are a draft of what could be offered on top.
           </p>
+
+          <div className="mb-6 mx-auto max-w-xl rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-xs text-amber-100/90 text-left">
+            <strong>Draft pricing.</strong> Only the Community tier exists today. The Pro and Enterprise tiers, their prices and their features are a proposal and are not on sale.
+          </div>
 
           {/* Billing Switcher */}
           <div className="inline-flex items-center gap-2 p-1 bg-slate-900 border border-slate-800 rounded-xl text-xs">
@@ -128,7 +135,7 @@ export const PricingView: React.FC<{
               }`}
             >
               <span>Annual Billing</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono">Save 20%</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded text-inherit font-mono" style={{ background: "rgba(0, 0, 0, 0.22)" }}>Save 20%</span>
             </button>
           </div>
         </div>
@@ -146,7 +153,7 @@ export const PricingView: React.FC<{
             >
               {tier.highlight && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-sky-500 text-slate-950 text-[11px] font-bold uppercase tracking-wider shadow-md">
-                  Most Popular for Teams
+                  Draft
                 </div>
               )}
 
@@ -176,6 +183,7 @@ export const PricingView: React.FC<{
                 size="md"
                 glow={tier.highlight}
                 fullWidth
+                disabled={tier.draft}
                 onClick={tier.action}
               >
                 {tier.cta}
@@ -185,7 +193,7 @@ export const PricingView: React.FC<{
         </div>
 
         {/* Detailed Feature Comparison Table */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-xl p-6 md:p-8">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 md:p-8">
           <h2 className="text-xl font-bold text-white mb-2">Comprehensive Plan Comparison</h2>
           <p className="text-xs text-slate-400 mb-8">Detailed breakdown of architectural features and enterprise capabilities.</p>
 

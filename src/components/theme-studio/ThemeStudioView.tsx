@@ -226,11 +226,13 @@ export const ThemeStudioView: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
+                    aria-label="Primary Interactive Color (picker)"
                     value={activeTheme.primaryColor.startsWith('#') ? activeTheme.primaryColor : '#38bdf8'}
                     onChange={(e) => updateProp('primaryColor', e.target.value)}
                     className="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0"
                   />
                   <input
+                    aria-label="Primary Interactive Color (hex value)"
                     type="text"
                     value={activeTheme.primaryColor}
                     onChange={(e) => updateProp('primaryColor', e.target.value)}
@@ -247,11 +249,13 @@ export const ThemeStudioView: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
+                    aria-label="Secondary Accent / Aurora Aura (picker)"
                     value={activeTheme.accentColor.startsWith('#') ? activeTheme.accentColor : '#a855f7'}
                     onChange={(e) => updateProp('accentColor', e.target.value)}
                     className="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0"
                   />
                   <input
+                    aria-label="Secondary Accent / Aurora Aura (hex value)"
                     type="text"
                     value={activeTheme.accentColor}
                     onChange={(e) => updateProp('accentColor', e.target.value)}
@@ -268,11 +272,13 @@ export const ThemeStudioView: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
+                    aria-label="Canvas Background (picker)"
                     value={activeTheme.bgCanvas.startsWith('#') ? activeTheme.bgCanvas : '#05070f'}
                     onChange={(e) => updateProp('bgCanvas', e.target.value)}
                     className="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0"
                   />
                   <input
+                    aria-label="Canvas Background (hex value)"
                     type="text"
                     value={activeTheme.bgCanvas}
                     onChange={(e) => updateProp('bgCanvas', e.target.value)}
@@ -424,9 +430,9 @@ export const ThemeStudioView: React.FC = () => {
                   }}
                 >
                   <div>
-                    <div className="text-xs font-semibold">Telemetry Pulse</div>
+                    <div className="text-xs font-semibold">Sample metric</div>
                     <div className="text-lg font-bold font-mono mt-1" style={{ color: activeTheme.primaryColor }}>
-                      99.98% Uptime
+                      1,248 visits
                     </div>
                   </div>
 
@@ -466,7 +472,7 @@ export const ThemeStudioView: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold">Encapsulated Web Component</span>
-                  <span className="text-[10px] font-mono opacity-50">&lt;ui-card&gt;</span>
+                  <span className="text-[10px] font-mono opacity-70">&lt;ui-card&gt;</span>
                 </div>
                 <p className="text-xs opacity-75 leading-relaxed">
                   Design tokens cascade seamlessly through Shadow DOM roots via CSS custom properties.

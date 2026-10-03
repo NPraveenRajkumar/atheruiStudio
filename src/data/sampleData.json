@@ -425,7 +425,7 @@
     "id": 1,
     "title": "Wireless Headphones",
     "description": "$49.99",
-    "image": "/atom/assets/images/slide1.png",
+    "image": "/assets/images/slide1.png",
     "category": "electronics",
     "height": 300
    },
@@ -433,7 +433,7 @@
     "id": 2,
     "title": "Leather Jacket",
     "description": "$129.00",
-    "image": "/atom/assets/images/slide2.png",
+    "image": "/assets/images/slide2.png",
     "category": "fashion",
     "height": 300
    },
@@ -441,7 +441,7 @@
     "id": 3,
     "title": "Smart Lamp",
     "description": "$39.99",
-    "image": "/atom/assets/images/slide3.png",
+    "image": "/assets/images/slide3.png",
     "category": "home",
     "height": 300
    },
@@ -449,7 +449,7 @@
     "id": 4,
     "title": "Running Shoes",
     "description": "$89.00",
-    "image": "/atom/assets/images/nature_forest_1.png",
+    "image": "/assets/images/nature_forest_1.png",
     "category": "sports",
     "height": 300
    }

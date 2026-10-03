@@ -1,4 +1,5 @@
 import React from 'react';
+import BUNDLE from '../../data/bundleStats.json';
 
 export const Footer: React.FC<{
   onNavigate: (view: string) => void;
@@ -26,7 +27,7 @@ export const Footer: React.FC<{
           </span>
           <ul className="space-y-2">
             <li><button onClick={() => onNavigate('catalog')} className="hover:text-white transition-colors cursor-pointer">Component Catalog</button></li>
-            <li><button onClick={() => onNavigate('playground')} className="hover:text-white transition-colors cursor-pointer">Live Playground</button></li>
+            <li><button onClick={() => onNavigate('playground')} className="hover:text-white transition-colors cursor-pointer">Design Studio</button></li>
             <li><button onClick={() => onNavigate('examples')} className="hover:text-white transition-colors cursor-pointer">Variant Gallery</button></li>
             <li><button onClick={() => onNavigate('themes')} className="hover:text-white transition-colors cursor-pointer">Theme Studio</button></li>
           </ul>
@@ -41,7 +42,7 @@ export const Footer: React.FC<{
             <li><button onClick={() => onNavigate('docs')} className="hover:text-white transition-colors cursor-pointer">Stencil Compiler</button></li>
             <li><button onClick={() => onNavigate('docs')} className="hover:text-white transition-colors cursor-pointer">Shadow DOM Specs</button></li>
             <li><button onClick={() => onNavigate('docs')} className="hover:text-white transition-colors cursor-pointer">Form Association</button></li>
-            <li><button onClick={() => onNavigate('docs')} className="hover:text-white transition-colors cursor-pointer">WCAG AAA Audit</button></li>
+            <li><button onClick={() => onNavigate('docs')} className="hover:text-white transition-colors cursor-pointer">Accessibility</button></li>
           </ul>
         </div>
 
@@ -65,9 +66,8 @@ export const Footer: React.FC<{
           &copy; {new Date().getFullYear()} AtherUI Engineering. All rights reserved.
         </div>
         <div className="flex items-center gap-6">
-          <span>Version 3.4.2 Enterprise</span>
+          <span>atomicuilibrary v{BUNDLE.version}</span>
           <span>MIT License</span>
-          <span>GitHub Verified</span>
         </div>
       </div>
     </footer>

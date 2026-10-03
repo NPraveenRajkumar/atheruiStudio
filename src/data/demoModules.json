@@ -1,0 +1,326 @@
+{
+ "accordion": {
+  "file": "accordion-demo.js",
+  "fn": "initAccordionDemo"
+ },
+ "nav-bar": {
+  "file": "nav-bar-demo.js",
+  "fn": "initNavBarDemo"
+ },
+ "aside-panel": {
+  "file": "aside-panel-demo.js",
+  "fn": "initAsidePanelDemo"
+ },
+ "tabs": {
+  "file": "tabs-demo.js",
+  "fn": "initTabsDemo"
+ },
+ "dialog": {
+  "file": "dialog-demo.js",
+  "fn": "initDialogDemo"
+ },
+ "drag-drop": {
+  "file": "drag-drop-demo.js",
+  "fn": "initDragDropDemo"
+ },
+ "fab": {
+  "file": "fab-demo.js",
+  "fn": "initFabDemo"
+ },
+ "snackbar": {
+  "file": "snackbar-demo.js",
+  "fn": "initSnackbarDemo"
+ },
+ "divider": {
+  "file": "divider-demo.js",
+  "fn": "initDividerDemo"
+ },
+ "Divider": {
+  "file": "divider-demo.js",
+  "fn": "initDividerDemo"
+ },
+ "stepper": {
+  "file": "stepper-demo.js",
+  "fn": "initStepperDemo"
+ },
+ "dock-host": {
+  "file": "dock-host-init.js",
+  "fn": "initDockHostDemo"
+ },
+ "card": {
+  "file": "card-demo.js",
+  "fn": "initCardDemo"
+ },
+ "carousel": {
+  "file": "carousel-demo.js",
+  "fn": "initCarouselDemo"
+ },
+ "callout-banner": {
+  "file": "callout-banner-demo.js",
+  "fn": "initCalloutBannerDemo"
+ },
+ "panel": {
+  "file": "panel-demo.js",
+  "fn": "initPanelDemo"
+ },
+ "avatar": {
+  "file": "avatar-demo.js",
+  "fn": "initAvatarDemo"
+ },
+ "avatar-group": {
+  "file": "avatar-demo.js",
+  "fn": "initAvatarGroupDemo"
+ },
+ "badge": {
+  "file": "badge-demo.js",
+  "fn": "initBadgeDemo"
+ },
+ "tag": {
+  "file": "tag-demo.js",
+  "fn": "initTagDemo"
+ },
+ "meter-group": {
+  "file": "meter-group-demo.js",
+  "fn": "initMeterGroupDemo"
+ },
+ "scroll-top": {
+  "file": "scroll-top-demo.js",
+  "fn": "initScrollTopDemo"
+ },
+ "rating": {
+  "file": "rating-demo.js",
+  "fn": "initRatingDemo"
+ },
+ "speed-dial": {
+  "file": "speed-dial-demo.js",
+  "fn": "initSpeedDialDemo"
+ },
+ "context-menu": {
+  "file": "context-menu-demo.js",
+  "fn": "initContextMenuDemo"
+ },
+ "smart-menu": {
+  "file": "smart-menu-demo.js",
+  "fn": "initSmartMenuDemo"
+ },
+ "smart-stepper": {
+  "file": "smart-stepper-demo.js",
+  "fn": "initSmartStepperDemo"
+ },
+ "advanced-data-table": {
+  "file": "advanced-data-table-demo.js",
+  "fn": "initAdvancedDataTableDemo"
+ },
+ "range-slider": {
+  "file": "range-slider-demo.js",
+  "fn": "initRangeSliderDemo"
+ },
+ "transfer-list": {
+  "file": "transfer-list-demo.js",
+  "fn": "initTransferListDemo"
+ },
+ "tree": {
+  "file": "tree-demo.js",
+  "fn": "initTreeDemo"
+ },
+ "tree-list": {
+  "file": "tree-demo.js",
+  "fn": "initTreeDemo"
+ },
+ "pagination": {
+  "file": "pagination-demo.js",
+  "fn": "initPaginationDemo"
+ },
+ "skeleton": {
+  "file": "skeleton-demo.js",
+  "fn": "initSkeletonDemo"
+ },
+ "timeline": {
+  "file": "timeline-demo.js",
+  "fn": "initTimelineDemo"
+ },
+ "top-bar": {
+  "file": "top-bar-demo.js",
+  "fn": "initTopBarDemo"
+ },
+ "progress": {
+  "file": "progress-demo.js",
+  "fn": "initProgressDemo"
+ },
+ "dock": {
+  "file": "dock-demo.js",
+  "fn": "initDockDemo"
+ },
+ "dropdown": {
+  "file": "dropdown-demo.js",
+  "fn": "initDropdownDemo"
+ },
+ "popover": {
+  "file": "popover-demo.js",
+  "fn": "initPopoverDemo"
+ },
+ "speedometer": {
+  "file": "speedometer-demo.js",
+  "fn": "initSpeedometerDemo"
+ },
+ "anchor": {
+  "file": "anchor-demo.js",
+  "fn": "initAnchorDemo"
+ },
+ "theme-selector": {
+  "file": "theme-selector-demo.js",
+  "fn": "initThemeSelectorDemo"
+ },
+ "breadcrumb": {
+  "file": "breadcrumb-demo.js",
+  "fn": "initBreadcrumbDemo"
+ },
+ "horizontal-nav": {
+  "file": "horizontal-nav-demo.js",
+  "fn": "initHorizontalNavDemo"
+ },
+ "knob": {
+  "file": "knob-demo.js",
+  "fn": "initKnobDemo"
+ },
+ "layout-manager": {
+  "file": "layout-manager-demo.js",
+  "fn": "initLayoutManagerDemo"
+ },
+ "workspace-manager": {
+  "file": "workspace-manager-demo.js",
+  "fn": "initWorkspaceManagerDemo"
+ },
+ "button": {
+  "file": "button-demo.js",
+  "fn": "initButtonDemo"
+ },
+ "switch": {
+  "file": "switch-demo.js",
+  "fn": "initSwitchDemo"
+ },
+ "pattern-input": {
+  "file": "pattern-input-demo.js",
+  "fn": "initPatternInputDemo"
+ },
+ "number-input": {
+  "file": "number-input-demo.js",
+  "fn": "initNumberInputDemo"
+ },
+ "color-picker": {
+  "file": "color-picker-demo.js",
+  "fn": "initColorPickerDemo"
+ },
+ "file-upload": {
+  "file": "file-upload-demo.js",
+  "fn": "initFileUploadDemo"
+ },
+ "command-palette": {
+  "file": "command-palette-demo.js",
+  "fn": "initCommandPaletteDemo"
+ },
+ "timer": {
+  "file": "timer-demo.js",
+  "fn": "initTimerDemo"
+ },
+ "stack": {
+  "file": "stack-demo.js",
+  "fn": "initStackDemo"
+ },
+ "about": {
+  "file": "about-demo.js",
+  "fn": "initAboutDemo"
+ },
+ "empty-state": {
+  "file": "empty-state-demo.js",
+  "fn": "initEmptyStateDemo"
+ },
+ "loader": {
+  "file": "loader-demo.js",
+  "fn": "initLoaderDemo"
+ },
+ "my-profile": {
+  "file": "my-profile-demo.js",
+  "fn": "initMyProfileDemo"
+ },
+ "icon": {
+  "file": "icon-demo.js",
+  "fn": "initIconDemo"
+ },
+ "code-preview": {
+  "file": "code-preview-demo.js",
+  "fn": "initCodePreviewDemo"
+ },
+ "input": {
+  "file": "input-demo.js",
+  "fn": "initInputDemo"
+ },
+ "checkbox": {
+  "file": "checkbox-demo.js",
+  "fn": "initCheckboxDemo"
+ },
+ "radio": {
+  "file": "radio-demo.js",
+  "fn": "initRadioDemo"
+ },
+ "animate-on-scroll": {
+  "file": "animate-on-scroll-demo.js",
+  "fn": "initAnimateOnScrollDemo"
+ },
+ "list": {
+  "file": "list-demo.js",
+  "fn": "initListDemo"
+ },
+ "button-toggle": {
+  "file": "button-toggle-demo.js",
+  "fn": "initButtonToggleDemo"
+ },
+ "tooltip": {
+  "file": "tooltip-demo.js",
+  "fn": "initTooltipDemo"
+ },
+ "toggle-group": {
+  "file": "switch-demo.js",
+  "fn": "initSwitchDemo"
+ },
+ "button-group": {
+  "file": "button-demo.js",
+  "fn": "initButtonGroupDemo"
+ },
+ "home": {
+  "file": "home-demo.js",
+  "fn": "initHomeDemo"
+ },
+ "toolbar": {
+  "file": "toolbar-demo.js",
+  "fn": "initToolbarDemo"
+ },
+ "dashboard": {
+  "file": "dashboard-demo.js",
+  "fn": "initDashboardDemo"
+ },
+ "documentation": {
+  "file": "documentation-demo.js",
+  "fn": "initDocumentationDemo"
+ },
+ "overview": {
+  "file": "overview-demo.js",
+  "fn": "initOverviewDemo"
+ },
+ "complex-form": {
+  "file": "complex-form-demo.js",
+  "fn": "initComplexFormDemo"
+ },
+ "dropdown-subtitle": {
+  "file": "dropdown-subtitle-demo.js",
+  "fn": "initDropdownSubtitleDemo"
+ },
+ "masonry": {
+  "file": "masonry-demo.js",
+  "fn": "initMasonryDemo"
+ },
+ "label": {
+  "file": "label-demo.js",
+  "fn": "initLabelDemo"
+ }
+}

@@ -15,6 +15,7 @@ Status key: `[x]` done, `[ ]` open.
 - [x] Playground: props-driven controls grouped into categories, canvas on top with generated code below
 - [x] Documentation: inline component pages (Props Reference, Events, Slots, Usage, "On this page"), no dialog
 - [x] Variant Examples: real demos from `demos.json` (653 demos), prop-based cards, examples index on the right
+- [x] Variant Examples: the Data Source editor opens from a "Data Source" button in the library's dialog box (draggable, resizable, maximise, Esc / backdrop to close); Playground keeps it in the inspector
 - [x] Data Source panel (JSON editor, sample, import, clear) on Playground and Variant Examples, with 48 components seeded from demo data or hand-written samples
 - [x] Demo assets (images, `layout-configs.json`) copied into `public/assets`; demo paths (`/build/assets`, `/atom/assets`) rewritten to `/assets` (items 2, 3)
 - [x] Preview templates (`src/data/previewTemplates.ts`, `src/utils/mountPreview.ts`): child-only components render inside a parent, containers get children, overlays get an Open button or trigger (items 9, 10, 11)
@@ -98,6 +99,28 @@ Status key: `[x]` done, `[ ]` open.
 | 41  | Theme Studio's preview canvas always shows the selected preset's own colours, so it stays dark in light mode                                 | Intended; add a note or follow the app theme if you prefer                                    |
 | 42  | Only checked visually on Home, Catalog, Playground, Examples, Docs, Theme Studio and Plans; Design Tokens, Installation, Footer and the command palette were not reviewed in light mode | Click through them in light mode and fix any low-contrast spots                              |
 | 43  | Catalog cards still show "Accessibility 100% AAA" (not backed by data)                                                                    | Remove or replace with real data (see item 24)                                               |
+
+### Variant Gallery visibility findings
+
+| #   | Finding                                                                                                                                                                      | Fix                                                                                                         |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| 44  | Recorded demos hard-code light-surface colours (`color:#334155`, `background:white`, ...), so they are unreadable on a dark surface. Done: preview surface switch, default Light | Optional: rewrite the demo markup to use library tokens (`var(--text-primary)`) instead of hex colours      |
+| 45  | The library's dropdown family reads `--dd-*` / `--color-on-surface` with dark-ink fallbacks and never defines them for its dark theme. Done: mapped to library tokens in `index.css` | Report to the library: define these variables in the `[data-theme=dark]` block                              |
+| 46  | `ui-tabs` titles and tab badges show low contrast on a dark surface (about 1.3:1 measured)                                                                                   | Find the tab colour variables and map them as in item 45, or fix in the library                            |
+| 47  | About 6 to 10 headings per demo page use accent hex colours (`#f59e0b`, `#10b981`) at 2.1 to 2.8:1 contrast even on the light surface                                          | Accept as demo styling, or sanitise inline colours when rendering                                           |
+
+### Visibility root cause and demo snapshots
+
+| #   | Finding                                                                                                                                                                                       | Status / fix                                                                                                                                  |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 48  | The app never loaded the library stylesheet (`exploration-project-tailwind.css`), so theme variables such as `--color-primary` were undefined: primary buttons were transparent with white text, inputs had no underline | Fixed: linked in `index.html`; the app's own body colours still win via an override in `index.css`                                            |
+| 49  | Icon libraries other than lucide did not draw (font files must be declared in the document, not in the component's shadow root)                                                                | Fixed: font-awesome, line-awesome, iconoir, ionicons, bootstrap-icons, remixicon and material symbols are loaded in `index.html`; all 8 library names render |
+| 50  | The snapshots in `demos.json` are corrupt for 65 demos (unresolved `${...}` and truncated markup). Done: the Variant page now runs the real demo modules (`public/assets/js/demos`, mapped in `src/data/demoModules.json`) and harvests each rendered block as a card (`src/utils/harvestDemo.ts`), so those demos render correctly. The snapshots are only the fallback for components without a module | Remaining: components with no demo module (about 30, for example child-only parts) still use the corrupt snapshots, which show a note |
+| 51  | Some module scripts still throw (`updateActiveBtn is not defined` in Tabs, `Cannot convert undefined or null to object` in several) and a few variants depend on helpers from the original host page | Open: trace each error in the module source |
+| 52  | Preview surfaces nested inside the page used the library's partial light block, so text and buttons picked up the dark page's colours. Done: `src/surface-themes.css` (full light and dark variable sets, generated by `scripts/generate-surface-themes.mjs`) and the demo CSS (`scripts/scope-demo-css.mjs`) no longer redefines theme variables or page-level dark rules | Regenerate both files if the library CSS changes |
+| 53  | Generated "values" cards now add the companion props that make a value visible and only list valid colours. `descriptionPosition` still looks the same for all four values: the library renders the description under the label whichever value is set | Library gap: report to the library maintainers |
+| 54  | The "Width: 50%" button in Button's Width Configuration demo is cut off (the demo sets `width="50%"` on an auto-width item) | Demo markup issue |
+| 55  | Not every component page was visually reviewed after the change to real modules (checked: Button, Card, Tabs, Input, Badge, Dialog Box). The automated audit was unreliable because many blocks render inside shadow DOM | Click through the remaining pages; look for blank blocks and script errors |
 
 ## Suggested order
 

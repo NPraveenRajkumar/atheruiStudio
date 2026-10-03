@@ -189,9 +189,9 @@ export const AtherCard: React.FC<AtherCardProps> = ({
 }) => {
   const elevationClasses = {
     flat: 'bg-slate-900 border border-slate-800',
-    glass: 'bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-lg',
-    elevated: 'bg-slate-900/85 backdrop-blur-2xl border border-slate-700/60 shadow-2xl',
-    floating: 'bg-slate-900/90 backdrop-blur-2xl border border-sky-500/20 shadow-[0_20px_60px_rgba(0,0,0,0.6)]'
+    glass: 'bg-slate-900/80 border border-white/10 shadow-lg',
+    elevated: 'bg-slate-900/95 border border-slate-700/60 shadow-2xl',
+    floating: 'bg-slate-900/95 border border-sky-500/20 shadow-[0_20px_60px_rgba(0,0,0,0.6)]'
   }[elevation];
 
   const glowBorderClass = glowBorder 
@@ -531,7 +531,7 @@ export const AtherToast: React.FC<{
   }[type];
 
   return (
-    <div className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border backdrop-blur-xl text-xs font-medium animate-float ${styles}`}>
+    <div className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border text-xs font-medium animate-float ${styles}`}>
       <div className="flex items-center gap-2">
         <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />
         <span>{message}</span>

@@ -1,0 +1,252 @@
+/*
+ * Cinematic glass look for the home blocks. Everything is driven by the --cg-* variables so the same markup works
+ * in the dark and the light theme. Motion is limited to transforms and opacity on a few layers, runs only for the
+ * block on screen, and the real backdrop blur is switched off while the page is moving (html.snap-moving).
+ */
+.snap-block {
+  isolation: isolate;
+  counter-increment: snap;
+  --cg-base: #03050d;
+  --cg-a: 56, 189, 248;
+  --cg-b: 168, 85, 247;
+  --cg-c: 16, 185, 129;
+  --cg-fill-1: rgba(255, 255, 255, 0.11);
+  --cg-fill-2: rgba(255, 255, 255, 0.03);
+  --cg-edge: rgba(255, 255, 255, 0.13);
+  --cg-hi: rgba(255, 255, 255, 0.38);
+  --cg-spot: rgba(255, 255, 255, 0.15);
+  --cg-shadow: 0 34px 70px -34px rgba(0, 0, 0, 0.9);
+  --cg-title-1: #ffffff;
+  --cg-title-2: #7dd3fc;
+  --cg-vig: rgba(0, 0, 0, 0.7);
+  --cg-orb: 0.42;
+  --cg-beam: rgba(255, 255, 255, 0.07);
+  --cg-grid: rgba(255, 255, 255, 0.045);
+}
+html.light .snap-block {
+  --cg-base: #eef3fb;
+  --cg-a: 56, 189, 248;
+  --cg-b: 139, 92, 246;
+  --cg-c: 251, 146, 60;
+  --cg-fill-1: rgba(255, 255, 255, 0.86);
+  --cg-fill-2: rgba(255, 255, 255, 0.5);
+  --cg-edge: rgba(255, 255, 255, 0.95);
+  --cg-hi: #ffffff;
+  --cg-spot: rgba(56, 189, 248, 0.2);
+  --cg-shadow: 0 34px 60px -30px rgba(30, 64, 175, 0.38);
+  --cg-title-1: #0b1220;
+  --cg-title-2: #2563eb;
+  --cg-vig: rgba(148, 163, 184, 0.4);
+  --cg-orb: 0.55;
+  --cg-beam: rgba(255, 255, 255, 0.75);
+  --cg-grid: rgba(15, 23, 42, 0.05);
+}
+
+/* The stage sits behind the block's content (negative z-index inside the block's own stacking context) */
+.cine-stage {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--cg-base);
+}
+.cine-aurora {
+  position: absolute;
+  inset: -20%;
+  /* Plays once as an entrance (while the block is active), then holds still: a blur over a moving backdrop is
+     recomputed every frame, which is what made the page heavy. Only the first few seconds move. */
+  animation: cine-drift 3.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-play-state: paused;
+  will-change: transform;
+  background:
+    radial-gradient(40% 45% at 16% 22%, rgba(var(--cg-a), 0.32), transparent 70%),
+    radial-gradient(38% 42% at 84% 26%, rgba(var(--cg-b), 0.28), transparent 70%),
+    radial-gradient(46% 50% at 56% 92%, rgba(var(--cg-c), 0.22), transparent 72%);
+}
+.cine-v2 .cine-aurora {
+  background:
+    radial-gradient(42% 46% at 82% 20%, rgba(var(--cg-a), 0.3), transparent 70%),
+    radial-gradient(40% 44% at 14% 34%, rgba(var(--cg-b), 0.28), transparent 70%),
+    radial-gradient(44% 48% at 50% 96%, rgba(var(--cg-c), 0.2), transparent 72%);
+}
+.cine-v3 .cine-aurora {
+  background:
+    radial-gradient(44% 48% at 50% 8%, rgba(var(--cg-b), 0.3), transparent 70%),
+    radial-gradient(40% 46% at 10% 80%, rgba(var(--cg-a), 0.28), transparent 70%),
+    radial-gradient(40% 46% at 92% 74%, rgba(var(--cg-c), 0.22), transparent 72%);
+}
+.cine-v4 .cine-aurora {
+  background:
+    radial-gradient(46% 50% at 30% 90%, rgba(var(--cg-b), 0.3), transparent 70%),
+    radial-gradient(40% 44% at 90% 18%, rgba(var(--cg-a), 0.3), transparent 70%),
+    radial-gradient(38% 44% at 8% 12%, rgba(var(--cg-c), 0.2), transparent 72%);
+}
+.cine-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--cg-grid) 1px, transparent 1px), linear-gradient(90deg, var(--cg-grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(75% 65% at 50% 48%, #000, transparent 88%);
+  mask-image: radial-gradient(75% 65% at 50% 48%, #000, transparent 88%);
+}
+/* Glass orbs: solid-edged shapes that the frosted cards blur where they overlap */
+.cine-orb {
+  position: absolute;
+  border-radius: 999px;
+  opacity: var(--cg-orb);
+  animation: cine-float 4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-play-state: paused;
+  will-change: transform;
+  background: radial-gradient(circle at 30% 26%, rgba(var(--cg-a), 0.95), rgba(var(--cg-b), 0.8) 58%, rgba(var(--cg-b), 0.4));
+}
+.cine-orb-a {
+  width: clamp(150px, 17vw, 270px);
+  aspect-ratio: 1;
+  left: 6%;
+  top: 14%;
+}
+.cine-orb-b {
+  width: clamp(120px, 13vw, 200px);
+  aspect-ratio: 1;
+  right: 7%;
+  bottom: 12%;
+  animation-direction: reverse;
+  background: radial-gradient(circle at 34% 30%, rgba(var(--cg-c), 0.9), rgba(var(--cg-a), 0.6));
+}
+/* Behind the planets the orbs stay a quiet accent */
+.cine-v2 .cine-orb { opacity: calc(var(--cg-orb) * 0.6); }
+.cine-v2 .cine-orb-a { left: auto; right: 5%; top: 10%; }
+.cine-v2 .cine-orb-b { right: auto; left: 7%; bottom: 10%; }
+.cine-v3 .cine-orb-a { left: 40%; top: -8%; }
+.cine-v4 .cine-orb-a { left: auto; right: 8%; top: auto; bottom: 8%; }
+.cine-v4 .cine-orb-b { right: auto; left: 5%; bottom: auto; top: 12%; }
+.cine-beam {
+  position: absolute;
+  top: -30%;
+  bottom: -30%;
+  left: -45%;
+  width: 34%;
+  opacity: 0;
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, var(--cg-beam), transparent);
+}
+.cine-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(125% 95% at 50% 42%, transparent 55%, var(--cg-vig));
+}
+.snap-block[data-active='true'] .cine-aurora,
+.snap-block[data-active='true'] .cine-orb {
+  animation-play-state: running;
+}
+.snap-block[data-active='true'] .cine-beam {
+  animation: cine-beam 2.4s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cine-drift {
+  from { transform: translate3d(-3%, -2%, 0) scale(1); }
+  to { transform: translate3d(3%, 2.5%, 0) scale(1.09); }
+}
+@keyframes cine-float {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(2.5%, -9%, 0) scale(1.07); }
+}
+@keyframes cine-beam {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(18deg); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(470%, 0, 0) rotate(18deg); }
+}
+
+/* Chapter mark, bottom left: 01 - Overview */
+.snap-block::after {
+  content: counter(snap, decimal-leading-zero) '  \2014  ' attr(data-label);
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--app-text);
+  opacity: 0;
+  pointer-events: none;
+}
+.snap-block[data-active='true']::after {
+  opacity: 0.45;
+  transition: opacity 0.9s ease 0.7s;
+}
+
+/* Glass cards */
+.glass-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid var(--cg-edge);
+  background: linear-gradient(135deg, var(--cg-fill-1), var(--cg-fill-2));
+  box-shadow: var(--cg-shadow), inset 0 1px 0 var(--cg-hi);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+/* The frosted blur fades in only once the backdrop has settled and the page is not moving */
+html:not(.snap-moving) .snap-block[data-active='true'] .glass-card {
+  animation: cine-glass-on 0.5s 4.2s both;
+}
+@keyframes cine-glass-on {
+  to {
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: blur(16px) saturate(1.5);
+  }
+}
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 0%), var(--cg-spot), transparent 70%);
+}
+.glass-card:hover::before {
+  opacity: 1;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--cg-a), 0.55);
+}
+button.glass-card:focus-visible {
+  outline: 2px solid rgba(var(--cg-a), 0.8);
+  outline-offset: 2px;
+}
+
+/* Headlines: gradient text with a light sweep when the block arrives */
+.cine-title {
+  background-image: linear-gradient(100deg, var(--cg-title-1) 18%, var(--cg-title-2) 50%, var(--cg-title-1) 82%);
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.snap-block[data-active='true'] .cine-title {
+  animation: cine-sheen 2.6s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cine-sheen {
+  from { background-position: 100% 0; }
+  to { background-position: 18% 0; }
+}
+
+@media (max-width: 767px) {
+  .snap-block::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cine-aurora, .cine-orb, .cine-beam { animation: none !important; }
+  .snap-block[data-active='true'] .cine-title { animation: none; background-position: 18% 0; }
+}
+
+@media (max-width: 767px) {
+  .cine-orb { opacity: calc(var(--cg-orb) * 0.55); }
+  .cine-orb-a { width: 110px; }
+  .cine-orb-b { width: 90px; }
+}

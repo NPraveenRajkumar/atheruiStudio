@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "./theme-light.css";
+@import "./surface-themes.css";
+@import "./cinematic.css";
+@import "./demo-dark.css";
 
 @layer base {
   :root {
@@ -143,4 +146,90 @@
 
 .animate-pulse-subtle {
   animation: pulse-subtle 4s ease-in-out infinite;
+}
+
+/*
+ * The library's dropdown family reads --dd-* variables (falling back to dark-ink colours made for light surfaces)
+ * and does not define them for its dark theme, so labels turn dark-on-dark. Map them to the library's own tokens.
+ */
+[data-theme="dark"] {
+  --dd-text: var(--text-primary);
+  --dd-muted: var(--text-secondary);
+  --dd-bg: var(--bg-secondary);
+  --dd-panel: var(--bg-secondary);
+  --dd-panel-solid: var(--bg-secondary);
+  --dd-border: var(--border-default);
+  --dd-border-strong: var(--border-strong);
+  --dd-hover: var(--bg-hover);
+  --color-on-surface: var(--text-primary);
+  --color-on-surface-muted: var(--text-muted);
+}
+
+/* The library stylesheet also sets body colours; the app's own theme must win */
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+}
+
+/* Variant cards already sit in a bordered stage, so the demo block's own box would be a second container */
+.demo-scope div.demo-block {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+/*
+ * Home page: one full-screen block per scroll, like a product launch page. SnapPage adds .snap-home to <html>
+ * while the home view is mounted; each block is a snap point that the browser must stop at (snap-stop: always),
+ * so a long wheel flick or key press advances exactly one block.
+ */
+html.snap-home {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--snap-pad, 3.5rem);
+}
+.snap-block {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: calc(100dvh - var(--header-h, 3.5rem));
+}
+.snap-foot {
+  scroll-snap-align: end;
+  scroll-snap-stop: always;
+}
+/* Small or short screens read better as a normal page */
+@media (max-width: 767px), (max-height: 600px) {
+  html.snap-home {
+    scroll-snap-type: none;
+  }
+}
+
+/* Content enters when its block is active; it leaves quickly so it can play again on the way back */
+.snap-block .snap-item {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0) scale(0.98);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.snap-block[data-active='true'] .snap-item {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 110ms),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 110ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .snap-block .snap-item,
+  .snap-block[data-active='true'] .snap-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Dark theme: Tailwind's slate-500 is 4.4:1 on black, just under the 4.5:1 minimum for the small labels that use it.
+   html.light has its own value (theme-light.css) and is not affected. */
+:root {
+  --color-slate-500: oklch(61% 0.046 257.417);
 }

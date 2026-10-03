@@ -1,16 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ChevronDown, ChevronRight, Copy, Check, RotateCcw, Monitor, Tablet, Smartphone, Sliders, Code2, Eye } from 'lucide-react';
+import { ChevronDown, ChevronRight, Copy, Check, RotateCcw, Monitor, Tablet, Smartphone, Sliders, Code2, Eye, Grid3x3 } from 'lucide-react';
 import { ALL_COMPONENTS } from '../../data/components';
 import { ComponentProp, Framework } from '../../types';
 import { ComponentPicker, ComponentPickerDrawer } from '../common/ComponentPicker';
 import { useTheme } from '../../context/ThemeContext';
 import { DataSourcePanel } from '../common/DataSourcePanel';
+import { DataSourceDialog } from '../common/DataSourceDialog';
 import { dataPropsOf, isDataProp, sampleFor } from '../../data/sample';
 import { PREVIEW } from '../../data/previewTemplates';
 import { mountPreview, Mounted } from '../../utils/mountPreview';
+import { gridStyle, usePreviewGrid } from '../../utils/previewGrid';
 
 interface PlaygroundViewProps {
   initialComponentId?: string;
+  /** Reports the component the user picked (for the address bar). */
+  onSelect?: (id: string) => void;
 }
 
 type Control =
@@ -59,14 +63,19 @@ const pascal = (t: string) => t.split('-').map((s) => s[0].toUpperCase() + s.sli
 const kebab = (s: string) => s.replace(/([A-Z])/g, '-$1').toLowerCase();
 const same = (a: unknown, b: unknown) => a === b || (a === undefined && b === '') || (a === '' && b === undefined);
 
-export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponentId = 'button' }) => {
-  const [selectedCompId, setSelectedCompId] = useState(initialComponentId);
+export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponentId = 'button', onSelect }) => {
+  const [selectedCompId, setSelectedCompIdState] = useState(initialComponentId);
+  const setSelectedCompId = (id: string) => {
+    setSelectedCompIdState(id);
+    onSelect?.(id);
+  };
   const [framework, setFramework] = useState<Framework>('HTML');
   const [copied, setCopied] = useState(false);
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const { theme } = useTheme();
   // The canvas starts in the app theme but can be switched on its own to check both looks
   const [canvas, setCanvas] = useState<'black' | 'light'>(theme === 'dark' ? 'black' : 'light');
+  const [showGrid, setShowGrid] = usePreviewGrid();
   useEffect(() => setCanvas(theme === 'dark' ? 'black' : 'light'), [theme]);
   const [slotText, setSlotText] = useState('Content');
   const [log, setLog] = useState('Ready for interaction');
@@ -142,6 +151,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
   }, [comp, dataProps]);
   const [data, setData] = useState<Record<string, unknown>>(sampleData);
   useEffect(() => setData(sampleData), [sampleData]);
+  const [dataDialogOpen, setDataDialogOpen] = useState(false);
   const hasDefaultSlot = comp.slots.some((s) => s.name === 'default' || s.name === '');
 
   const initialValues = useMemo(() => {
@@ -165,7 +175,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
 
   const [values, setValues] = useState<Values>(initialValues);
   useEffect(() => setValues(initialValues), [initialValues]);
-  useEffect(() => setSelectedCompId(initialComponentId), [initialComponentId]);
+  useEffect(() => setSelectedCompIdState(initialComponentId), [initialComponentId]);
 
   // Live render the real custom element (inside its parent / with its children when a template exists)
   const stageRef = useRef<HTMLDivElement>(null);
@@ -307,12 +317,12 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
     'w-full bg-black border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500';
 
   return (
-    <div className="w-full h-[calc(100vh-4rem)] flex flex-col bg-black text-slate-100">
+    <div className="w-full h-[calc(100dvh-var(--header-h,3.5rem))] flex flex-col bg-black text-slate-100">
       <div className="h-14 border-b border-neutral-900 bg-black px-6 flex items-center justify-between gap-4 select-none shrink-0">
         <div className="flex items-center gap-3">
           <ComponentPickerDrawer selectedId={comp.id} onSelect={setSelectedCompId} />
           <Sliders className="w-4 h-4 text-sky-400" />
-          <h1 className="text-sm font-bold text-white tracking-tight">Interactive Live Playground</h1>
+          <h1 className="text-sm font-bold text-white tracking-tight">Design Studio</h1>
           <span className="text-neutral-700 hidden sm:inline">|</span>
           <span className="text-xs font-mono text-sky-300">&lt;{comp.tag}&gt;</span>
         </div>
@@ -329,6 +339,18 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
               </button>
             ))}
           </div>
+          <button
+            onClick={() => setShowGrid(!showGrid)}
+            role="switch"
+            aria-checked={showGrid}
+            title="Show grid lines on the canvas"
+            className={`flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-lg border cursor-pointer ${
+              showGrid ? 'border-sky-500/40 bg-sky-500/15 text-sky-300' : 'border-neutral-800 text-neutral-400 hover:text-white'
+            }`}
+          >
+            <Grid3x3 className="w-3 h-3" />
+            <span className="hidden sm:inline">Grid</span>
+          </button>
           <div className="flex items-center bg-black p-1 rounded-lg border border-neutral-800 text-xs">
             {(['black', 'light'] as const).map((c) => (
               <button
@@ -366,7 +388,11 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
             <span className="font-mono text-neutral-600">&lt;{comp.tag}&gt;</span>
           </div>
           <div className="flex-1 overflow-auto p-6 flex items-start justify-center">
-            <div data-theme={canvas === 'black' ? 'dark' : 'light'} className={`${viewportClass} min-h-[300px] rounded-2xl border border-neutral-800 p-8 flex items-center justify-center overflow-auto ${canvasClass}`}>
+            <div
+              data-theme={canvas === 'black' ? 'dark' : 'light'}
+              className={`${viewportClass} min-h-[300px] rounded-2xl border border-neutral-800 p-8 flex items-center justify-center overflow-auto ${canvasClass}`}
+              style={showGrid ? gridStyle(canvas === 'black') : undefined}
+            >
               <div ref={stageRef} className="max-w-full w-full flex justify-center" />
             </div>
           </div>
@@ -438,12 +464,25 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
             </span>
           </div>
 
-          <DataSourcePanel comp={comp} data={data} onChange={(name, v) => setData((d) => ({ ...d, [name]: v }))} />
+          <DataSourcePanel
+            comp={comp}
+            data={data}
+            onChange={(name, v) => setData((d) => ({ ...d, [name]: v }))}
+            onExpand={() => setDataDialogOpen(true)}
+          />
+          <DataSourceDialog
+            open={dataDialogOpen}
+            onClose={() => setDataDialogOpen(false)}
+            comp={comp}
+            data={data}
+            onChange={(name, v) => setData((d) => ({ ...d, [name]: v }))}
+            onReset={() => setData(sampleData)}
+          />
 
           {hasDefaultSlot && (
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-neutral-300">Slot content</label>
-              <input value={slotText} onChange={(e) => setSlotText(e.target.value)} className={inputCls} />
+              <label htmlFor="pg-slot-content" className="text-xs font-medium text-neutral-300">Slot content</label>
+              <input id="pg-slot-content" value={slotText} onChange={(e) => setSlotText(e.target.value)} className={inputCls} />
             </div>
           )}
 
@@ -484,9 +523,10 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
                       </label>
                     ) : (
                       <>
-                        <label className="text-xs font-medium text-neutral-300 font-mono">{prop.name}</label>
+                        <label htmlFor={`pg-${prop.name}`} className="text-xs font-medium text-neutral-300 font-mono">{prop.name}</label>
                         {control.kind === 'select' ? (
                           <select
+                            id={`pg-${prop.name}`}
                             value={String(values[prop.name] ?? '')}
                             onChange={(e) => setVal(prop.name, e.target.value === '' ? undefined : e.target.value)}
                             className={inputCls}
@@ -500,6 +540,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
                           </select>
                         ) : (
                           <input
+                            id={`pg-${prop.name}`}
                             type={control.kind === 'number' ? 'number' : 'text'}
                             value={String(values[prop.name] ?? '')}
                             onChange={(e) =>

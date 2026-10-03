@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Play, 
   Pause, 
@@ -18,12 +18,73 @@ import {
   Zap,
   MousePointer
 } from 'lucide-react';
-import { ALL_COMPONENTS } from '../../data/components';
-import { ComponentItem } from '../../types';
+import { COMPONENTS_LITE, TOTALS, type ComponentLite } from '../../data/lite';
 import { AtherButton, AtherBadge, AtherChart } from '../ui/AtherUIElements';
+import { SnapBlock, SnapItem } from './SnapPage';
+import BUNDLE from '../../data/bundleStats.json';
+
+// The solar system: elliptical rings of planets. Inner rings move faster and the middle ring runs the other way.
+// Phones get two compact rings that fit the screen width.
+const RING_SETS = {
+  wide: [
+    { rx: 300, ry: 150, speed: 1, count: 5 },
+    { rx: 440, ry: 205, speed: -0.7, count: 7 },
+    { rx: 580, ry: 255, speed: 0.5, count: 9 },
+  ],
+  small: [
+    { rx: 92, ry: 96, speed: 1, count: 4 },
+    { rx: 138, ry: 158, speed: -0.7, count: 7 },
+  ],
+} as const;
+type Ring = { readonly rx: number; readonly ry: number; readonly speed: number; readonly count: number };
+
+/** Components people reach for first; the rest of the library fills any gaps. */
+const PICKS = [
+  'button', 'input', 'dropdown', 'checkbox', 'switch', 'tabs', 'dialog-box', 'card', 'badge', 'avatar', 'tooltip', 'popover',
+  'snackbar', 'advanced-data-table', 'tree', 'timeline', 'carousel', 'command-palette', 'accordion', 'pagination', 'smart-stepper',
+];
+
+interface OrbitSlot {
+  comp: ComponentLite;
+  rx: number;
+  ry: number;
+  speed: number;
+  phase: number;
+}
+
+function buildSlots(rings: readonly Ring[]): OrbitSlot[] {
+  const picked = PICKS.flatMap((id) => {
+    const c = COMPONENTS_LITE.find((x) => x.id === id);
+    return c ? [c] : [];
+  });
+  const total = rings.reduce((n, r) => n + r.count, 0);
+  const pool = [...picked, ...COMPONENTS_LITE.filter((c) => !picked.includes(c))].slice(0, total);
+  const slots: OrbitSlot[] = [];
+  let k = 0;
+  rings.forEach((ring, ri) => {
+    for (let j = 0; j < ring.count && k < pool.length; j++) {
+      slots.push({ comp: pool[k++], rx: ring.rx, ry: ring.ry, speed: ring.speed, phase: (360 / ring.count) * j + ri * 23 });
+    }
+  });
+  return slots;
+}
+
+/** Position of one planet on its elliptical orbit, with a depth illusion (closer = bigger, brighter, in front). */
+function planetStyle(slot: OrbitSlot, angle: number, hovered: boolean) {
+  const rad = ((angle * slot.speed + slot.phase) * Math.PI) / 180;
+  const x = Math.cos(rad) * slot.rx;
+  const y = Math.sin(rad) * slot.ry;
+  const zDepth = Math.sin(rad); // -1 (back) to +1 (front)
+  const scale = 0.85 + (zDepth + 1) * 0.15; // 0.85 to 1.15
+  return {
+    transform: `translate(calc(-50% + ${x.toFixed(1)}px), calc(-50% + ${y.toFixed(1)}px)) scale(${scale.toFixed(3)})`,
+    zIndex: String(hovered ? 40 : zDepth > 0 ? 25 : 5),
+    opacity: String(hovered ? 1 : 0.75 + (zDepth + 1) * 0.125),
+  };
+}
 
 interface HeroSolarSystemProps {
-  onSelectComponent: (comp: ComponentItem) => void;
+  onSelectComponent: (comp: ComponentLite) => void;
   onExploreCatalog: () => void;
   onOpenPlayground: (componentId?: string) => void;
 }
@@ -33,97 +94,115 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
   onExploreCatalog,
   onOpenPlayground
 }) => {
-  const [isRotating, setIsRotating] = useState(true);
+  // People who ask the OS for less motion get a still orbit (they can still press Resume)
+  const [isRotating, setIsRotating] = useState(
+    () => !(typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)
+  );
   const [rotationSpeed, setRotationSpeed] = useState(1);
-  const [hoveredComponent, setHoveredComponent] = useState<ComponentItem | null>(null);
-  const [currentAngle, setCurrentAngle] = useState(0);
+  const [hoveredComponent, setHoveredComponent] = useState<ComponentLite | null>(null);
   const [activeMetricTab, setActiveMetricTab] = useState<'latency' | 'memory' | 'threads'>('latency');
   const [dashboardRowChecked, setDashboardRowChecked] = useState<Record<string, boolean>>({
     'node-1': true,
     'node-2': true,
     'node-3': false
   });
-  const [liveCounter, setLiveCounter] = useState(14820);
 
-  // Rotation animation loop
-  const requestRef = useRef<number | null>(null);
-  const previousTimeRef = useRef<number | null>(null);
-
+  // Orbit animation. The angle lives in a ref and each frame writes the planets' transforms directly, so the
+  // hero is not re-rendered 60 times a second (that re-render was what made scrolling the home page choppy).
+  // The loop only runs while the hero is on screen and the tab is visible.
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [small, setSmall] = useState(() => typeof window !== 'undefined' && window.matchMedia?.('(max-width: 640px)').matches);
   useEffect(() => {
-    const animate = (time: number) => {
-      if (previousTimeRef.current !== null && isRotating) {
-        const delta = time - previousTimeRef.current;
-        setCurrentAngle((prev) => (prev + (delta * 0.015 * rotationSpeed)) % 360);
-      }
-      previousTimeRef.current = time;
-      requestRef.current = requestAnimationFrame(animate);
-    };
-
-    requestRef.current = requestAnimationFrame(animate);
-    return () => {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-    };
-  }, [isRotating, rotationSpeed]);
-
-  // Periodic heartbeat for live dashboard
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLiveCounter((prev) => prev + Math.floor(Math.random() * 5) - 2);
-    }, 2400);
-    return () => clearInterval(interval);
+    const mq = window.matchMedia('(max-width: 640px)');
+    const on = () => setSmall(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
   }, []);
+  const rings: readonly Ring[] = small ? RING_SETS.small : RING_SETS.wide;
+  const slots = useMemo(() => buildSlots(rings), [rings]);
+  const slotsRef = useRef(slots);
+  slotsRef.current = slots;
+  const angleRef = useRef(0);
+  const focusPauseRef = useRef(false);
+  const planetRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const hoveredIdRef = useRef<string | null>(null);
+  hoveredIdRef.current = hoveredComponent?.id ?? null;
 
-  // Solar system orbiting components
-  const orbitingComponents = ALL_COMPONENTS.slice(0, 10);
+  useEffect(() => {
+    if (!isRotating) return;
+    let raf = 0;
+    let last: number | null = null;
+    let onScreen = true;
+    const frame = (time: number) => {
+      if (last !== null) {
+        if (!focusPauseRef.current) angleRef.current = (angleRef.current + (time - last) * 0.015 * rotationSpeed) % 360;
+        slotsRef.current.forEach((slot, idx) => {
+          const el = planetRefs.current[idx];
+          if (el) Object.assign(el.style, planetStyle(slot, angleRef.current, hoveredIdRef.current === slot.comp.id));
+        });
+      }
+      last = time;
+      raf = requestAnimationFrame(frame);
+    };
+    const start = () => {
+      if (!raf && onScreen && !document.hidden) {
+        last = null;
+        raf = requestAnimationFrame(frame);
+      }
+    };
+    const stop = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      if (onScreen) start();
+      else stop();
+    });
+    if (heroRef.current) io.observe(heroRef.current);
+    const onVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener('visibilitychange', onVisibility);
+    start();
+    return () => {
+      stop();
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRotating, rotationSpeed, small]);
 
   return (
-    <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-16 px-4">
-      {/* Deep Space Background Atmosphere */}
-      <div className="absolute inset-0 bg-black z-0" />
-      
-      {/* Aurora Radial Glows */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-sky-500/15 via-purple-600/10 to-transparent blur-[140px] pointer-events-none z-0" />
-      <div className="absolute -bottom-40 right-10 w-[600px] h-[600px] bg-gradient-to-t from-cyan-500/10 via-sky-600/5 to-transparent blur-[120px] pointer-events-none z-0" />
-
-      {/* Floating Starfield Particles */}
-      <div className="absolute inset-0 grid-subtle opacity-30 pointer-events-none z-0" />
-
-      {/* Concentric Orbit Rings in Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
-        {[240, 320, 400, 480, 560].map((radius, idx) => (
-          <div
-            key={radius}
-            className="absolute rounded-full border border-sky-500/[0.08] -translate-x-1/2 -translate-y-1/2 transition-all duration-700"
-            style={{
-              width: `${radius * 2}px`,
-              height: `${radius * 2}px`,
-              boxShadow: idx === 1 || idx === 3 ? '0 0 25px rgba(56, 189, 248, 0.03)' : 'none'
-            }}
-          />
-        ))}
-      </div>
-
+    <div ref={heroRef} className="relative w-full bg-black">
+      {/* ============ BLOCK 1: headline and calls to action ============ */}
+      <SnapBlock id="intro" label="Overview" variant={1} className="items-center px-4 py-10">
       {/* Top Banner / Value Proposition Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-8 px-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-medium mb-4 backdrop-blur-md">
+        <SnapItem i={0}>
+        <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 text-center px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-medium mb-4">
           <Sparkles className="w-3.5 h-3.5 text-sky-400" />
           <span>Universal StencilJS Web Components for Enterprise</span>
           <span className="text-slate-500">|</span>
-          <span className="text-slate-300">v3.4.2 Released</span>
+          <span className="text-slate-300">atomicuilibrary v{BUNDLE.version}</span>
         </div>
+        </SnapItem>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-4">
+        <SnapItem i={1}>
+        <h1 className="text-[1.85rem] leading-[1.15] sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight sm:leading-[1.1] mb-4 break-words">
           The Solar System of <br className="hidden sm:inline" />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-300 to-purple-400">
             Autonomous UI Components
           </span>
         </h1>
+        </SnapItem>
 
+        <SnapItem i={2}>
         <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-6">
-          Framework-agnostic design system compiled with StencilJS. Sub-millisecond hydration, zero style leakage, and complete freedom across React, Angular, Vue, and Next.js.
+          Framework-agnostic design system compiled with StencilJS. Components that load on demand, keep their styles inside Shadow DOM, and work the same in React, Angular, Vue and Next.js.
         </p>
+        </SnapItem>
 
         {/* Primary Call to Actions */}
+        <SnapItem i={3}>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <AtherButton
             variant="neon"
@@ -132,7 +211,7 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
             startIcon={<Zap className="w-4 h-4" />}
             onClick={() => onOpenPlayground('button')}
           >
-            Launch Live Playground
+            Launch Design Studio
           </AtherButton>
 
           <AtherButton
@@ -141,18 +220,54 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
             startIcon={<Layers className="w-4 h-4" />}
             onClick={onExploreCatalog}
           >
-            Explore {ALL_COMPONENTS.length} Components
+            Explore {TOTALS.components} Components
           </AtherButton>
         </div>
+        </SnapItem>
+      </div>
+      {/* Scroll cue */}
+      <div className="absolute bottom-7 left-0 right-0 flex justify-center pointer-events-none">
+        <SnapItem i={5}>
+          <div className="flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.35em] text-slate-400">
+            <span>Scroll</span>
+            <span className="block w-px h-9 bg-gradient-to-b from-sky-400 to-transparent animate-pulse" />
+          </div>
+        </SnapItem>
+      </div>
+      </SnapBlock>
+
+      {/* ============ BLOCK 2: the solar system ============ */}
+      <SnapBlock id="orbit" label="Solar system" variant={2} className="items-center px-4 py-6">
+      {/* Orbit paths: one ellipse per ring */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[54%] pointer-events-none z-0">
+        {rings.map((ring, idx) => (
+          <div
+            key={ring.rx}
+            className="absolute rounded-full border border-sky-500/20 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: `${ring.rx * 2}px`,
+              height: `${ring.ry * 2}px`,
+              boxShadow: idx === 1 ? '0 0 30px rgba(56, 189, 248, 0.08)' : 'none',
+            }}
+          />
+        ))}
       </div>
 
+      <SnapItem i={0} className="w-full flex justify-center">
       {/* ========================================================
           SOLAR SYSTEM STAGE: CENTER BROWSER + ORBITING PLANETS
           ======================================================== */}
-      <div className="relative w-full max-w-[1240px] h-[640px] flex items-center justify-center z-10 my-4">
+      <div className="relative w-full max-w-[1240px] h-[440px] sm:h-[560px] flex items-center justify-center z-10 my-2">
         
+        {small ? (
+          <div className="glass-card relative z-10 w-32 h-32 !rounded-full flex flex-col items-center justify-center text-center">
+            <span className="text-3xl font-extrabold font-mono text-white">{TOTALS.components}</span>
+            <span className="text-[10px] uppercase tracking-widest text-slate-400">components</span>
+          </div>
+        ) : (
+          <>
         {/* CENTER FLOATING BROWSER WINDOW (The "Sun" Application) */}
-        <div className="relative w-full max-w-[700px] h-[440px] bg-slate-900/90 backdrop-blur-2xl border border-sky-500/30 rounded-2xl shadow-[0_20px_70px_rgba(0,0,0,0.8),0_0_50px_rgba(56,189,248,0.12)] overflow-hidden flex flex-col z-10 transition-transform duration-500 hover:scale-[1.01]">
+        <div className="glass-card relative w-full max-w-[700px] h-[440px] overflow-hidden flex flex-col z-10" style={{ transform: 'scale(0.66)' }}>
           
           {/* Browser Chrome Header */}
           <div className="h-10 bg-slate-950/80 border-b border-white/10 px-4 flex items-center justify-between select-none">
@@ -166,12 +281,12 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
             {/* Browser URL Bar */}
             <div className="flex items-center gap-2 px-3 py-1 bg-slate-900/90 rounded-lg border border-slate-700/60 text-[11px] text-slate-300 font-mono w-72 justify-center">
               <Globe className="w-3 h-3 text-sky-400" />
-              <span>ather://app.core/telemetry-v3</span>
+              <span>sample-app/dashboard</span>
             </div>
 
             {/* Quick Actions */}
             <div className="flex items-center gap-2 text-slate-400">
-              <span className="text-[10px] text-emerald-400 font-mono">60 FPS</span>
+              <span className="text-[10px] text-slate-400 font-mono">Sample data</span>
               <Maximize2 className="w-3.5 h-3.5 hover:text-white cursor-pointer" />
             </div>
           </div>
@@ -192,9 +307,9 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
 
               <div className="flex items-center gap-2">
                 <AtherBadge variant="glow" pulse color="sky">
-                  Live Stream
+                  Sample app
                 </AtherBadge>
-                <button className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white">
+                <button aria-label="Notifications (sample)" className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white">
                   <Bell className="w-3 h-3" />
                 </button>
               </div>
@@ -204,33 +319,29 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
             <div className="grid grid-cols-3 gap-3">
               <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-sky-500/40 transition-colors">
                 <div className="text-[10px] text-slate-400 flex items-center justify-between">
-                  <span>Hydration Time</span>
+                  <span>Components</span>
                   <Zap className="w-3 h-3 text-sky-400" />
                 </div>
-                <div className="text-base font-bold text-white font-mono mt-1">0.38 ms</div>
-                <div className="text-[9px] text-emerald-400 flex items-center gap-1 mt-0.5">
-                  <TrendingUp className="w-2.5 h-2.5" /> -62% vs Monolithic
-                </div>
+                <div className="text-base font-bold text-white font-mono mt-1">{TOTALS.components}</div>
+                <div className="text-[9px] text-emerald-400">in the catalog</div>
               </div>
 
               <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-purple-500/40 transition-colors">
                 <div className="text-[10px] text-slate-400 flex items-center justify-between">
-                  <span>Web Components</span>
+                  <span>Lazy chunks</span>
                   <Cpu className="w-3 h-3 text-purple-400" />
                 </div>
-                <div className="text-base font-bold text-white font-mono mt-1 tabular-nums">
-                  {liveCounter.toLocaleString()}
-                </div>
-                <div className="text-[9px] text-purple-400">W3C Shadow DOM</div>
+                <div className="text-base font-bold text-white font-mono mt-1 tabular-nums">{BUNDLE.lazyChunks}</div>
+                <div className="text-[9px] text-purple-400">load on demand</div>
               </div>
 
               <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 transition-colors">
                 <div className="text-[10px] text-slate-400 flex items-center justify-between">
-                  <span>Accessibility Score</span>
+                  <span>Core entry</span>
                   <ShieldCheck className="w-3 h-3 text-cyan-400" />
                 </div>
-                <div className="text-base font-bold text-white font-mono mt-1">100 / 100</div>
-                <div className="text-[9px] text-cyan-400">WCAG 2.2 AAA</div>
+                <div className="text-base font-bold text-white font-mono mt-1">{BUNDLE.entryJsKb} KB</div>
+                <div className="text-[9px] text-cyan-400">gzipped</div>
               </div>
             </div>
 
@@ -239,8 +350,8 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
               {/* Telemetry Chart Component */}
               <div className="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[11px] font-semibold text-slate-200">Execution Velocity</span>
-                  <span className="text-[9px] font-mono text-sky-400">Stencil V4 Compiler</span>
+                  <span className="text-[11px] font-semibold text-slate-200">Sample chart</span>
+                  <span className="text-[9px] font-mono text-sky-400">AtherChart</span>
                 </div>
                 <AtherChart 
                   data={[42, 58, 65, 80, 74, 92, 108, 115, 128, 142]} 
@@ -252,15 +363,15 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
               {/* Interactive Telemetry Table Component */}
               <div className="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[11px] font-semibold text-slate-200">Edge Framework Nodes</span>
-                  <span className="text-[9px] text-emerald-400 font-medium">3 Online</span>
+                  <span className="text-[11px] font-semibold text-slate-200">Framework setup</span>
+                  <span className="text-[9px] text-emerald-400 font-medium">3 guides</span>
                 </div>
 
                 <div className="space-y-1.5 text-[11px]">
                   {[
-                    { id: 'node-1', name: 'React 19 Wrapper', state: 'Active', latency: '0.2ms' },
-                    { id: 'node-2', name: 'Next.js App Router', state: 'Streaming', latency: '0.4ms' },
-                    { id: 'node-3', name: 'Angular 19 Directive', state: 'Ready', latency: '0.3ms' }
+                    { id: 'node-1', name: 'React', state: 'Active', latency: 'ref + events' },
+                    { id: 'node-2', name: 'Next.js', state: 'Streaming', latency: 'client only' },
+                    { id: 'node-3', name: 'Angular', state: 'Ready', latency: 'CUSTOM_ELEMENTS_SCHEMA' }
                   ].map((row) => (
                     <div 
                       key={row.id}
@@ -277,7 +388,7 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
                 </div>
 
                 <div className="pt-2 flex items-center justify-between border-t border-white/5">
-                  <span className="text-[9px] text-slate-400">Auto-hydration active</span>
+                  <span className="text-[9px] text-slate-400">Lazy-loaded on demand</span>
                   <AtherButton size="sm" variant="outline" onClick={() => onOpenPlayground('table')} className="text-[10px] py-1 px-2">
                     Inspect Grid
                   </AtherButton>
@@ -288,44 +399,28 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
           </div>
         </div>
 
+          </>
+        )}
+
         {/* ORBITING COMPONENT PLANETS (Real Math-Based 2D/3D Projection) */}
-        {orbitingComponents.map((comp, idx) => {
-          // Calculate angle for this component
-          const speedMultiplier = (comp.orbitSpeed || 40) / 40;
-          const angleDeg = (currentAngle * speedMultiplier + (comp.angleOffset || idx * 36)) % 360;
-          const angleRad = (angleDeg * Math.PI) / 180;
-          
-          // Elliptical orbit projection
-          const radiusX = (comp.orbitRadius || 240) + 140;
-          const radiusY = (comp.orbitRadius || 240) * 0.42 + 60;
-          
-          const x = Math.cos(angleRad) * radiusX;
-          const y = Math.sin(angleRad) * radiusY;
-
-          // Depth illusion based on Y coordinate (closer = bigger & higher z-index)
-          const zDepth = Math.sin(angleRad); // -1 (back) to +1 (front)
-          const scale = 0.85 + (zDepth + 1) * 0.15; // 0.85 to 1.15
-          const zIndex = zDepth > 0 ? 25 : 5;
-          const opacity = 0.75 + (zDepth + 1) * 0.125;
-
+        {slots.map((slot, idx) => {
+          const comp = slot.comp;
           const isHovered = hoveredComponent?.id === comp.id;
 
           return (
             <div
               key={comp.id}
-              className="absolute top-1/2 left-1/2 transition-transform duration-75 select-none"
-              style={{
-                transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`,
-                zIndex: isHovered ? 40 : zIndex,
-                opacity: isHovered ? 1 : opacity
+              ref={(el) => {
+                planetRefs.current[idx] = el;
               }}
+              className="absolute top-1/2 left-1/2 select-none will-change-transform"
+              style={planetStyle(slot, angleRef.current, isHovered)}
             >
               {/* Planetary UI Orb / Trigger */}
               <div
                 onMouseEnter={() => setHoveredComponent(comp)}
                 onMouseLeave={() => setHoveredComponent(null)}
-                onClick={() => onSelectComponent(comp)}
-                className={`relative group cursor-pointer transition-all duration-300 flex items-center justify-center ${
+                className={`relative group transition-all duration-300 flex items-center justify-center ${
                   isHovered ? 'scale-125' : 'hover:scale-110'
                 }`}
               >
@@ -336,13 +431,28 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
                 />
 
                 {/* Orb Container */}
-                <div className="relative px-3.5 py-2 rounded-xl bg-slate-900/90 border border-white/20 backdrop-blur-xl flex items-center gap-2 shadow-2xl text-xs font-semibold text-white">
+                {/* Near-opaque instead of backdrop-blur: a blur under a moving chip is repainted every frame */}
+                <button
+                  type="button"
+                  onClick={() => onSelectComponent(comp)}
+                  onFocus={() => {
+                    focusPauseRef.current = true; // a moving target cannot be keyboard-operated, so the orbit holds still
+                    setHoveredComponent(comp);
+                  }}
+                  onBlur={() => {
+                    focusPauseRef.current = false;
+                    setHoveredComponent(null);
+                  }}
+                  aria-label={`Open ${comp.name} documentation`}
+                  className="relative px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-xl bg-slate-900/95 border border-white/20 flex items-center gap-2 shadow-2xl text-[10px] sm:text-xs font-semibold text-white cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 focus-visible:outline-offset-2"
+                >
                   <span
+                    aria-hidden
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: comp.color, boxShadow: `0 0 10px ${comp.color}` }}
                   />
                   <span>{comp.name}</span>
-                </div>
+                </button>
 
                 {/* Floating Detailed Hover Card */}
                 {isHovered && (
@@ -368,7 +478,7 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
                       <div>Props: <strong className="text-white">{comp.totalProps}</strong></div>
                       <div>Events: <strong className="text-white">{comp.totalEvents}</strong></div>
                       <div>Variants: <strong className="text-white">{comp.variantsCount}</strong></div>
-                      <div>WCAG: <strong className="text-emerald-400">100% AAA</strong></div>
+                      <div>Status: <strong className="text-emerald-400">{comp.status}</strong></div>
                     </div>
 
                     <div className="flex items-center justify-between text-xs text-sky-400 font-medium">
@@ -383,8 +493,11 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
         })}
       </div>
 
+      </SnapItem>
+
       {/* Solar System Bottom Controls */}
-      <div className="relative z-20 mt-4 flex items-center gap-3 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-xl backdrop-blur-md text-xs text-slate-300">
+      <SnapItem i={1} className="relative z-20 flex justify-center mt-2">
+      <div className="relative z-20 flex flex-wrap justify-center items-center gap-x-3 gap-y-2 bg-slate-900/90 border border-slate-800 px-4 py-2 rounded-xl text-xs text-slate-300">
         <button
           onClick={() => setIsRotating(!isRotating)}
           className="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer"
@@ -410,13 +523,15 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
           ))}
         </div>
 
-        <span className="text-slate-600">|</span>
+        <span className="hidden sm:inline text-slate-600">|</span>
 
-        <div className="flex items-center gap-1.5 text-slate-400">
+        <div className="hidden sm:flex items-center gap-1.5 text-slate-400">
           <MousePointer className="w-3 h-3 text-sky-400" />
           <span>Hover any orb to inspect, click for API specs</span>
         </div>
       </div>
+      </SnapItem>
+      </SnapBlock>
     </div>
   );
 };
