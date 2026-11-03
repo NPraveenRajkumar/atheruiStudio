@@ -1,11 +1,11 @@
 {
   "library": "atomicuilibrary",
-  "version": "0.8.0",
+  "version": "0.11.3",
   "measured": "gzip level 9, from dist/exploration-project-tailwind",
-  "entryJsKb": 22.1,
-  "entryCssKb": 7.7,
-  "lazyChunks": 77,
-  "medianChunkKb": 4.8,
-  "largestChunkKb": 78.8,
-  "allChunksKb": 532.3
+  "entryJsKb": 24.5,
+  "entryCssKb": 11.9,
+  "lazyChunks": 93,
+  "medianChunkKb": 4.4,
+  "largestChunkKb": 80.9,
+  "allChunksKb": 608.2
 }
