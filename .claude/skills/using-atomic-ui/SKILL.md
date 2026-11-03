@@ -1,6 +1,8 @@
----
-name: using-atomic-ui
+=/(s---
+n
+\ame: using-atomic-ui
 description: How to install, configure and use the AtomicUI web-component library (npm package `atomicuilibrary`, `ui-*` custom elements such as ui-button, ui-input, ui-dialog-box, ui-dropdown, ui-tabs, ui-accordion, ui-advanced-data-table) in another app. Use this skill whenever the user is working in a project that depends on or wants to adopt atomicuilibrary / AtomicUI / app-ui / "our atomic library", mentions any `ui-` tag, asks to build a page, form, dialog, dashboard or layout from the shared component library, or sees a license-error overlay, unstyled/blank `ui-` elements, or theme problems. Also use it when deciding which AtomicUI component fits a UI need, even if the user never names the library.
+
 ---
 
 # Using the AtomicUI library in a consumer app
@@ -22,7 +24,7 @@ Component details (props, events, methods, slots) live in `references/`, not her
 1. **Install:** `npm install atomicuilibrary`. The registry's latest can lag the source repo (npm had 0.7.2 while the repo was at 0.8.0 when this skill was written). If a component or prop from the docs is missing at runtime, check the installed version (`npm ls atomicuilibrary`) before assuming the bug is in your code.
 2. **Register the elements once**, at app start:
    ```ts
-   import { defineCustomElements } from 'atomicuilibrary/loader';
+   import { defineCustomElements } from "atomicuilibrary/loader";
    defineCustomElements();
    ```
    Plain-HTML alternative: `<script type="module" src=".../dist/exploration-project-tailwind/exploration-project-tailwind.esm.js"></script>`.
@@ -36,7 +38,10 @@ The library has a signed-key license check. When it runs and the key is missing 
 The check (and the `ThemeSwitcher` runtime) is a side effect of the module `dist/exploration-project-tailwind/index.esm.js`. In the build inspected when this skill was written (0.8.0 source), the package root and `defineCustomElements()` loader entry do **not** import that module, and `import { setLicense } from 'atomicuilibrary'` resolves to an entry that exports only `setNonce`. So whether the gate is active depends on how the consumer loads the library. Don't assume either way: if the overlay appears, supply a key; if it never appears, don't go looking for it. Provide the key like this:
 
 ```html
-<script>window.APP_UI_LICENSE = "APPUI.eyJ...";</script>  <!-- before the library script -->
+<script>
+  window.APP_UI_LICENSE = "APPUI.eyJ...";
+</script>
+<!-- before the library script -->
 ```
 
 `window.AppUILicense.setLicense(key)` and `getLicenseResult()` exist only after `index.esm.js` has executed. The named import `setLicense` is exported from `index.esm.js`, not from the package root; if the project needs it, import that file by relative `node_modules` path (the `exports` map blocks the subpath specifier), and prefer the `window.APP_UI_LICENSE` route.
@@ -47,7 +52,7 @@ The check (and the `ThemeSwitcher` runtime) is a side effect of the module `dist
 
 ## Conventions that trip people up
 
-- **Complex data.** Arrays and objects are accepted as a JS property (`el.items = [...]`; Angular `[items]="data"`) or as a JSON string attribute. Some props are *typed as `string`* and expect JSON text (the accordion's `items` in the older docs is `JSON.stringify([...])`). In the component file, a `string` type whose description mentions an array means JSON string; `string[]` or an interface means a real value. When unsure, check the component file rather than guessing.
+- **Complex data.** Arrays and objects are accepted as a JS property (`el.items = [...]`; Angular `[items]="data"`) or as a JSON string attribute. Some props are _typed as `string`_ and expect JSON text (the accordion's `items` in the older docs is `JSON.stringify([...])`). In the component file, a `string` type whose description mentions an array means JSON string; `string[]` or an interface means a real value. When unsure, check the component file rather than guessing.
 - **Attribute vs property names.** In HTML use the kebab-case attribute (`dialog-title`, `animation-duration`). In JS, TS and Angular property binding use the camelCase prop name. The component files list both when they differ.
 - **Events are CustomEvents with camelCase names** (`buttonClick`, `inputChange`, `accordionChange`), not native `click`/`change`. Read the payload from `event.detail`. Angular: `(buttonClick)="onSave($event)"`. React 18: attach with a `ref` and `addEventListener`, because React 18 does not wire custom events from JSX props (React 19 does).
 - **Methods** (for example `snackbar.show(...)`) exist once the element is defined and return Promises. If you call one during initial render in a framework, wait for `customElements.whenDefined('ui-xyz')` first.

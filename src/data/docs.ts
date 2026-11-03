@@ -202,7 +202,7 @@ const BASE_ARTICLES: DocArticle[] = [
       { p: 'For those, inside a native `<form>`:' },
       { list: [
         'Give each field a `name`; its value appears in `new FormData(form)`.',
-        '`ui-input` reports validity, so `form.checkValidity()` and `reportValidity()` include it.',
+        'Values are submitted with the form, but **`required` on `ui-input` does not block `form.checkValidity()`**. Validate in your own code and show the result with `validationState="error"` and `errorText`.',
         'A `ui-button` with `type="submit"` submits the form.',
       ] },
       { code: '<form id="signin">\n  <ui-input name="email" type="email" label="Email" required></ui-input>\n  <ui-input name="password" type="password" label="Password" required></ui-input>\n  <ui-button type="submit" label="Sign in" color="primary"></ui-button>\n</form>\n\n<script>\n  document.getElementById(\'signin\').addEventListener(\'submit\', (e) => {\n    e.preventDefault();\n    const data = new FormData(e.target);\n    console.log(data.get(\'email\'));\n  });\n</script>', title: 'Native form' },
@@ -231,7 +231,7 @@ const BASE_ARTICLES: DocArticle[] = [
       ] },
       { h: 'Your responsibility' },
       { list: [
-        'Give every control an accessible name: a `label` prop, visible text, or `aria-label` on icon-only buttons.',
+        'Give every control an accessible name: a `label` prop (on ui-input it is not yet linked to the field, so also set `aria-label`), visible text, or `aria-label` on icon-only buttons.',
         'Keep colour contrast when you override tokens; check custom brand colours against both light and dark themes.',
         'Use semantic page structure (headings, landmarks) around the components.',
         'Test with a keyboard and a screen reader. Automated checkers (axe, Lighthouse) catch only part of the issues, and coverage differs per component.',

@@ -4199,7 +4199,7 @@ export const ALL_COMPONENTS: ComponentItem[] = [
         name: "showArrow",
         attr: "show-arrow",
         type: "boolean",
-        default: "",
+        default: "true",
         description: "Controls visibility of the arrow icon. If false, no arrow is shown. Defaults to true for dropdown appearance; false when appearance is 'button'."
       },
       {

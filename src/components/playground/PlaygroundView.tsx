@@ -52,7 +52,7 @@ const GROUPS: [string, RegExp][] = [
   ['Content', /^(label|cardTitle|title|text|value|defaultValue|placeholder|description|subtitle|helperText|errorText|infoText|hintTooltip|ghostText|name|href|target|rel)$/],
   ['Appearance', /^(variant|color|size|shape|density|elevation|rounded|pill|circle|glass|gradient|glow|bordered|border|borderRadius|animation|pattern|theme|ripple|noRipple|reveal|tilt|magnetic|hoverable|backdropSheen)/i],
   ['State', /^(disabled|loading|selected|checked|open|visible|active|readonly|required|invalid|collapsed|closed|flipped|indeterminate|progress|loadingPosition)$/],
-  ['Icon & Media', /^(icon|avatar|img|cover|ribbon|clearIcon|passwordIcon|passwordVisibleIcon)/i],
+  ['Icon & Media', /^(icon|avatar|img|cover|ribbon|clearIcon|passwordIcon|passwordVisibleIcon|arrow|showArrow)/i],
   ['Badge & Counter', /^(badge|counter)/i],
   ['Layout', /^(width|height|minWidth|maxWidth|fullWidth|grow|align|justify|layout|position|aspectRatio|displayMode|inline|cols|rows|minRows|maxRows|autoResize)/i],
   ['Accessibility & i18n', /^(aria|rtl|tabIndex|customTabIndex|autofocus|enterkeyhint|inputmode)/i],

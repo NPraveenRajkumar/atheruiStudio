@@ -11,6 +11,8 @@ Shadow DOM: no
 | Attribute / prop | Type | Default | Description |
 |---|---|---|---|
 | `appearance` | `"button" \| "dropdown"` | `'dropdown'` | Appearance: default dropdown or button-like (no arrow) |
+| arrow-icon (`arrowIcon`) | `string` | `'chevron-down'` | Icon used for the arrow indicator that distinguishes a dropdown trigger from a plain input |
+| arrow-icon-library (`arrowIconLibrary`) | `string` | `'lucide'` | Icon library for the arrow icon (e.g. 'lucide', 'ionicons') |
 | `cascading` | `boolean` | `false` | Enable cascading/hierarchical selection |
 | case-sensitive (`caseSensitive`) | `boolean` | `false` | If true, search filtering is case-sensitive |
 | chip-view (`chipView`) | `boolean` | `false` | Use chips for multi-select display |

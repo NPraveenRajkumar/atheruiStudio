@@ -250,3 +250,10 @@ button.glass-card:focus-visible {
   .cine-orb-a { width: 110px; }
   .cine-orb-b { width: 90px; }
 }
+
+/* Gradient text is painted only inside its line box, which cuts descenders (g, p, y, j). A little padding below the
+   text gives the gradient room without moving the layout much. */
+.bg-clip-text,
+.cine-title {
+  padding-bottom: 0.16em;
+}

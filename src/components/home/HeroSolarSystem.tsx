@@ -26,17 +26,19 @@ import BUNDLE from '../../data/bundleStats.json';
 // The solar system: elliptical rings of planets. Inner rings move faster and the middle ring runs the other way.
 // Phones get two compact rings that fit the screen width.
 const RING_SETS = {
+  // radius as a share of the outer radius, how fast it turns, and how many planets ride it
   wide: [
-    { rx: 300, ry: 150, speed: 1, count: 5 },
-    { rx: 440, ry: 205, speed: -0.7, count: 7 },
-    { rx: 580, ry: 255, speed: 0.5, count: 9 },
+    { f: 0.65, speed: 1, count: 5 },
+    { f: 0.83, speed: -0.7, count: 7 },
+    { f: 1, speed: 0.5, count: 9 },
   ],
   small: [
-    { rx: 92, ry: 96, speed: 1, count: 4 },
-    { rx: 138, ry: 158, speed: -0.7, count: 7 },
+    { f: 0.7, speed: 1, count: 4 },
+    { f: 1, speed: -0.7, count: 7 },
   ],
 } as const;
-type Ring = { readonly rx: number; readonly ry: number; readonly speed: number; readonly count: number };
+type RingSpec = { readonly f: number; readonly speed: number; readonly count: number };
+type Ring = { readonly r: number; readonly speed: number; readonly count: number };
 
 /** Components people reach for first; the rest of the library fills any gaps. */
 const PICKS = [
@@ -63,7 +65,7 @@ function buildSlots(rings: readonly Ring[]): OrbitSlot[] {
   let k = 0;
   rings.forEach((ring, ri) => {
     for (let j = 0; j < ring.count && k < pool.length; j++) {
-      slots.push({ comp: pool[k++], rx: ring.rx, ry: ring.ry, speed: ring.speed, phase: (360 / ring.count) * j + ri * 23 });
+      slots.push({ comp: pool[k++], rx: ring.r, ry: ring.r, speed: ring.speed, phase: (360 / ring.count) * j + ri * 23 });
     }
   });
   return slots;
@@ -118,8 +120,25 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
   }, []);
-  const rings: readonly Ring[] = small ? RING_SETS.small : RING_SETS.wide;
+  // The orbit radius comes from the stage's own size, so the circles fit any window
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [stageBox, setStageBox] = useState({ w: 1000, h: 560 });
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      setStageBox((b) => (Math.abs(b.w - width) < 2 && Math.abs(b.h - height) < 2 ? b : { w: width, h: height }));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const outer = Math.max(110, Math.min(stageBox.h / 2 - 26, stageBox.w / 2 - (small ? 48 : 70)));
+  const specs: readonly RingSpec[] = small ? RING_SETS.small : RING_SETS.wide;
+  const rings: Ring[] = useMemo(() => specs.map((sp) => ({ r: Math.round(sp.f * outer), speed: sp.speed, count: sp.count })), [specs, Math.round(outer)]); // eslint-disable-line react-hooks/exhaustive-deps
   const slots = useMemo(() => buildSlots(rings), [rings]);
+  // The sample window has to fit inside the inner ring: its half-diagonal is about 413px at full size
+  const sunScale = Math.max(0.28, (rings[0].r - 34) / 413);
   const slotsRef = useRef(slots);
   slotsRef.current = slots;
   const angleRef = useRef(0);
@@ -238,26 +257,25 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
 
       {/* ============ BLOCK 2: the solar system ============ */}
       <SnapBlock id="orbit" label="Solar system" variant={2} className="items-center px-4 py-6">
-      {/* Orbit paths: one ellipse per ring */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[54%] pointer-events-none z-0">
-        {rings.map((ring, idx) => (
-          <div
-            key={ring.rx}
-            className="absolute rounded-full border border-sky-500/20 -translate-x-1/2 -translate-y-1/2"
-            style={{
-              width: `${ring.rx * 2}px`,
-              height: `${ring.ry * 2}px`,
-              boxShadow: idx === 1 ? '0 0 30px rgba(56, 189, 248, 0.08)' : 'none',
-            }}
-          />
-        ))}
-      </div>
-
       <SnapItem i={0} className="w-full flex justify-center">
       {/* ========================================================
           SOLAR SYSTEM STAGE: CENTER BROWSER + ORBITING PLANETS
           ======================================================== */}
-      <div className="relative w-full max-w-[1240px] h-[440px] sm:h-[560px] flex items-center justify-center z-10 my-2">
+      <div
+        ref={stageRef}
+        className="relative w-full max-w-[1240px] h-[440px] sm:h-[min(700px,calc(100dvh-var(--header-h,3.5rem)-9rem))] flex items-center justify-center z-10 my-2"
+      >
+        {/* Orbit paths: one circle per ring */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0" aria-hidden>
+          {rings.map((ring, idx) => (
+            <div
+              key={idx}
+              className="absolute rounded-full border border-sky-500/20"
+              style={{ width: ring.r * 2, height: ring.r * 2, boxShadow: idx === 1 ? '0 0 30px rgba(56, 189, 248, 0.08)' : 'none' }}
+            />
+          ))}
+        </div>
+
         
         {small ? (
           <div className="glass-card relative z-10 w-32 h-32 !rounded-full flex flex-col items-center justify-center text-center">
@@ -267,7 +285,7 @@ export const HeroSolarSystem: React.FC<HeroSolarSystemProps> = ({
         ) : (
           <>
         {/* CENTER FLOATING BROWSER WINDOW (The "Sun" Application) */}
-        <div className="glass-card relative w-full max-w-[700px] h-[440px] overflow-hidden flex flex-col z-10" style={{ transform: 'scale(0.66)' }}>
+        <div className="glass-card relative w-full max-w-[700px] h-[440px] overflow-hidden flex flex-col z-10" style={{ transform: `scale(${sunScale})` }}>
           
           {/* Browser Chrome Header */}
           <div className="h-10 bg-slate-950/80 border-b border-white/10 px-4 flex items-center justify-between select-none">

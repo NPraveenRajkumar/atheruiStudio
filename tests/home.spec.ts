@@ -79,6 +79,13 @@ test.describe('home page', () => {
     await expect(page).toHaveURL(/#docs\/.+/);
   });
 
+  test('the icon libraries block shows a row of icons for each library', async ({ page }) => {
+    await openHome(page);
+    expect(await page.locator('#snap-icons ui-icon').count()).toBeGreaterThanOrEqual(48);
+    const libs = await page.locator('#snap-icons ui-icon').evaluateAll((els) => new Set(els.map((e) => e.getAttribute('library'))).size);
+    expect(libs).toBeGreaterThanOrEqual(8);
+  });
+
   test('makes no claims we cannot back up', async ({ page }) => {
     await openHome(page);
     const text = await page.evaluate(() => document.body.innerText);

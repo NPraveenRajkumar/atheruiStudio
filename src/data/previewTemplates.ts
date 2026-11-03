@@ -75,6 +75,7 @@ export const PREVIEW: Record<string, PreviewSpec> = {
   'ui-loader': { ignore: ['trapFocus'] },
 
   // Components that need a value to show anything
+  'ui-dropdown': { props: { showArrow: true } },
   'ui-badge': { props: { value: 5, inline: true } },
   'ui-pagination': { props: { totalItems: 100, itemsPerPage: 10, currentPage: 1 } },
 

@@ -26,7 +26,7 @@ export const StatsAndWhy: React.FC<{
   const totalProps = TOTALS.props;
   const stats = [
     { metric: `${TOTALS.components}`, label: 'Components', sub: `Across ${CATEGORIES_LITE.length} categories`, icon: Layers, color: '#38bdf8' },
-    { metric: '8', label: 'Form-associated controls', sub: 'Join native <form> submit and validation', icon: Check, color: '#10b981' },
+    { metric: '8', label: 'Form-associated controls', sub: 'Values submit with native <form>', icon: Check, color: '#10b981' },
     { metric: `${BUNDLE.entryJsKb} KB`, label: 'Core entry, gzipped', sub: `${BUNDLE.lazyChunks} component chunks load on demand`, icon: Zap, color: '#a855f7' },
     { metric: totalProps.toLocaleString('en-US'), label: 'Documented props', sub: 'Plus events and slots, each with a reference', icon: BookOpen, color: '#06b6d4' },
   ];

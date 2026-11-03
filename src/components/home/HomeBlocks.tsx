@@ -117,6 +117,20 @@ const ICON_LIBRARY_NAMES: Record<string, string> = {
   emoji: 'Emoji',
 };
 
+/** Six everyday icons per library. Names follow each library's own convention, so they differ from set to set. */
+const ICON_SAMPLES: Record<string, string[]> = {
+  lucide: ['star', 'heart', 'bell', 'user', 'mail', 'camera'],
+  fontawesome: ['star', 'heart', 'bell', 'user', 'envelope', 'camera'],
+  google: ['star', 'favorite', 'notifications', 'person', 'mail', 'photo_camera'],
+  remixicon: ['star-line', 'heart-line', 'notification-line', 'user-line', 'mail-line', 'camera-line'],
+  ionicons: ['star-outline', 'heart-outline', 'notifications-outline', 'person-outline', 'mail-outline', 'camera-outline'],
+  bootstrap: ['star', 'heart', 'bell', 'person', 'envelope', 'camera'],
+  iconoir: ['star', 'heart', 'bell', 'user', 'mail', 'camera'],
+  icons8: ['star', 'heart', 'bell', 'user', 'envelope', 'camera'],
+  emoji: ['⭐', '❤️', '🔔', '👤', '✉️', '📷'],
+};
+const UiIcon = 'ui-icon' as unknown as React.ElementType;
+
 export const IconsBlock: React.FC = () => {
   // The libraries come from the ui-icon component's own `library` property
   const options = ICON_LIBRARIES.length ? ICON_LIBRARIES : Object.keys(ICON_LIBRARY_NAMES);
@@ -135,6 +149,13 @@ export const IconsBlock: React.FC = () => {
               <div className="glass-card p-4 h-full">
                 <div className="text-sm font-bold text-white mb-1">{ICON_LIBRARY_NAMES[lib] ?? lib}</div>
                 <code className="text-[11px] font-mono text-sky-300">library="{lib}"</code>
+                {ICON_SAMPLES[lib] && (
+                  <div className="flex items-center justify-between gap-1.5 mt-3.5 pt-3 border-t" style={{ borderColor: 'var(--cg-edge)', color: 'var(--app-text)' }} aria-hidden>
+                    {ICON_SAMPLES[lib].map((name) => (
+                      <UiIcon key={name} name={name} library={lib} size="18px" />
+                    ))}
+                  </div>
+                )}
               </div>
             </SnapItem>
           ))}
@@ -155,7 +176,7 @@ export const IconsBlock: React.FC = () => {
 const ARCH_CARDS = [
   { icon: Zap, tone: 'sky', title: 'Loads on demand', text: `A ${BUNDLE.entryJsKb} KB core registers the tags. Each component is its own chunk (${BUNDLE.lazyChunks} of them, ${BUNDLE.medianChunkKb} KB median) and is fetched only when its tag appears on the page.` },
   { icon: Layers, tone: 'purple', title: 'Encapsulated styles', text: 'Most components render inside a Shadow DOM, so your global CSS and frameworks cannot reach their internals. You customise them through props, CSS variables and parts.' },
-  { icon: ShieldCheck, tone: 'emerald', title: 'Accessibility built in', text: 'Focus trapping and Escape-to-close in dialogs, drawers and popovers, reduced-motion support in 15 components, and native form participation for 8 controls. Test your own flows too.' },
+  { icon: ShieldCheck, tone: 'emerald', title: 'Accessibility built in', text: 'Focus trapping and Escape-to-close in dialogs, drawers and popovers, reduced-motion support in 15 components, and form value submission for 8 controls. Test your own flows too.' },
 ] as const;
 const TONES = {
   sky: { box: 'bg-sky-500/10 border-sky-400/20 text-sky-400', hover: 'hover:border-sky-500/40' },

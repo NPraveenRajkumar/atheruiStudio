@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --font-display: 'Syne', sans-serif;
+    --font-display: 'Plus Jakarta Sans', sans-serif;
     --font-body: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
@@ -43,6 +43,7 @@
   h1, h2, h3, .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
+    word-spacing: 0.06em;
   }
 
   code, pre, .font-mono {
