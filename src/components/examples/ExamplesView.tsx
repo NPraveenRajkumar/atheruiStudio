@@ -5,7 +5,7 @@ import { LiveElement } from '../ui/LiveElement';
 import { ComponentPicker, ComponentPickerDrawer } from '../common/ComponentPicker';
 import { ComponentItem } from '../../types';
 import { DataSourceDialog } from '../common/DataSourceDialog';
-import { dataPropsOf, sampleFor } from '../../data/sample';
+import { dataPropsOf, forElement, sampleFor } from '../../data/sample';
 import demoFixes from '../../data/demoFixes.json';
 import demoModules from '../../data/demoModules.json';
 import { VARIANT_RULES, flagContext } from '../../data/variantContext';
@@ -138,7 +138,10 @@ const contextFor = (comp: ComponentItem, name: string, option?: unknown): Record
   if (/^icon/.test(name)) {
     add('icon', name === 'iconLibrary' && typeof option === 'string' ? ICON_BY_LIBRARY[option] ?? 'star' : 'star');
     if (name !== 'iconLibrary' && has('iconLibrary')) ctx.iconLibrary = 'lucide';
+    if (has('library')) ctx.library = 'lucide';
   }
+  // Components that name the icon set `library` need an icon, or every value looks the same
+  if (name === 'library') add('icon', typeof option === 'string' ? ICON_BY_LIBRARY[option] ?? 'star' : 'star');
   if (/^loading/.test(name)) add('loading', true);
   if (name === 'align' || name === 'justify') {
     add('width', '240px');
@@ -387,10 +390,12 @@ export const ExamplesView: React.FC<{ initialId?: string; onSelect?: (id: string
     // in the "Rendered from data source" card.
     const REQUIRED_DATA = /^(items|options|data|columns|nodes|events|regions|panels|actions|steps|commands|values|avatars|snippets|tabs|sourceItems|targetItems|milestones|swatches|messages|bottomItems|topItems|menuItems|filterOptions|marks|customSteps)$/;
     const requiredData = Object.fromEntries(Object.entries(data).filter(([k]) => REQUIRED_DATA.test(k)));
+    const serialise = (src: Record<string, unknown>) =>
+      Object.fromEntries(Object.entries(src).map(([k, v]) => [k, forElement(comp.props.find((p) => p.name === k), v)]));
     const live = (props: Record<string, unknown>, withAllData = false) => (
       <LiveElement
         tag={comp.tag}
-        props={{ ...base, ...(withAllData ? data : requiredData), ...props }}
+        props={{ ...base, ...serialise(withAllData ? data : requiredData), ...props }}
         text={hasSlot ? comp.name : undefined}
       />
     );
@@ -414,7 +419,7 @@ export const ExamplesView: React.FC<{ initialId?: string; onSelect?: (id: string
                 return (
                   <div key={o} className={`flex flex-col items-center gap-3 ${ctx.fullWidth ? 'w-64' : itemWidth}`}>
                     {live({ ...ctx, [p.name]: o })}
-                    <span className="text-[10px] font-mono text-neutral-500">{o}</span>
+                    <span className="text-xs font-mono text-sky-300/90">{o}</span>
                   </div>
                 );
               })}
@@ -480,7 +485,7 @@ export const ExamplesView: React.FC<{ initialId?: string; onSelect?: (id: string
             {x.items.map((i) => (
               <div key={i.label} className="flex flex-col items-center gap-3">
                 {live(i.props)}
-                <span className="text-[10px] font-mono text-neutral-500">{i.label}</span>
+                <span className="text-xs font-mono text-sky-300/90">{i.label}</span>
               </div>
             ))}
           </div>

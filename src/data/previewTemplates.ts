@@ -20,7 +20,11 @@ export interface PreviewSpec {
     controlled?: number;
     /** Props for the neutral siblings (for example distinct values, so a group does not treat them as one option). */
     siblings?: (index: number) => Record<string, unknown>;
+    /** Text placed inside each repeated child, for components whose visible text is slotted content. */
+    text?: (index: number) => string;
   };
+  /** The component draws its `label` as slotted text (the prop itself only sets aria-label), so keep the text in step with it. */
+  textFromLabel?: boolean;
   /** Adds an "Open" button to the stage that sets this boolean prop on the component (for overlays). */
   opener?: { prop: string; label: string };
   /** HTML rendered next to the component (e.g. a right-click target). */
@@ -54,8 +58,10 @@ export const PREVIEW: Record<string, PreviewSpec> = {
       count: 3,
       controlled: 1,
       siblings: (i) => ({ label: i === 0 ? 'Previous' : 'Next', value: `sibling-${i}` }),
+      text: (i) => (i === 0 ? 'Previous' : i === 1 ? 'Option' : 'Next'),
     },
     props: { label: 'Option', value: 'option' },
+    textFromLabel: true,
   },
   'ui-avatar-group': {
     children: '<ui-avatar name="Ada Lovelace"></ui-avatar><ui-avatar name="Alan Turing"></ui-avatar><ui-avatar name="Grace Hopper"></ui-avatar>',

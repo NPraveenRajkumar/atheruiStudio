@@ -6,10 +6,11 @@ import { ComponentPicker, ComponentPickerDrawer } from '../common/ComponentPicke
 import { useTheme } from '../../context/ThemeContext';
 import { DataSourcePanel } from '../common/DataSourcePanel';
 import { DataSourceDialog } from '../common/DataSourceDialog';
-import { dataPropsOf, isDataProp, sampleFor } from '../../data/sample';
+import { dataPropsOf, forElement, isDataProp, sampleFor } from '../../data/sample';
 import { PREVIEW } from '../../data/previewTemplates';
 import { mountPreview, Mounted } from '../../utils/mountPreview';
 import { gridStyle, usePreviewGrid } from '../../utils/previewGrid';
+import { buildCode, controlFor, defaultValue, Control, PropValue } from '../../utils/playgroundCode';
 
 interface PlaygroundViewProps {
   initialComponentId?: string;
@@ -17,34 +18,7 @@ interface PlaygroundViewProps {
   onSelect?: (id: string) => void;
 }
 
-type Control =
-  | { kind: 'boolean' }
-  | { kind: 'number' }
-  | { kind: 'select'; options: string[] }
-  | { kind: 'text' };
-
 type Values = Record<string, string | number | boolean | undefined>;
-
-const unquote = (s: string) => s.replace(/^['"]|['"]$/g, '');
-
-/** Decide which control (if any) edits a prop, based on its real type. Complex types return null. */
-function controlFor(p: ComponentProp): Control | null {
-  if (p.readonly) return null;
-  if (p.options?.length) return { kind: 'select', options: p.options };
-  const t = p.type.trim();
-  if (t === 'boolean') return { kind: 'boolean' };
-  if (t === 'number') return { kind: 'number' };
-  if (t === 'string' || /^(number \| string|string \| number)$/.test(t)) return { kind: 'text' };
-  return null;
-}
-
-function defaultValue(p: ComponentProp, c: Control): string | number | boolean | undefined {
-  const d = p.default.trim();
-  if (c.kind === 'boolean') return d === 'true';
-  if (c.kind === 'number') return d === '' || isNaN(Number(d)) ? undefined : Number(d);
-  if (c.kind === 'select') return d ? unquote(d) : undefined;
-  return d ? unquote(d) : '';
-}
 
 const PRIORITY = ['label', 'cardTitle', 'title', 'text', 'value', 'variant', 'color', 'size', 'shape', 'type', 'disabled', 'loading', 'selected', 'checked', 'open', 'placeholder'];
 const LABEL_PROPS = ['label', 'cardTitle', 'title', 'text'];
@@ -59,8 +33,6 @@ const GROUPS: [string, RegExp][] = [
 ];
 const groupOf = (name: string) => (GROUPS.find(([, re]) => re.test(name)) ?? ['Behavior'])[0];
 const GROUP_ORDER = [...GROUPS.map(([g]) => g), 'Behavior'];
-const pascal = (t: string) => t.split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join('');
-const kebab = (s: string) => s.replace(/([A-Z])/g, '-$1').toLowerCase();
 const same = (a: unknown, b: unknown) => a === b || (a === undefined && b === '') || (a === '' && b === undefined);
 
 export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponentId = 'button', onSelect }) => {
@@ -86,7 +58,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
     () =>
       comp.props
         .map((p) => ({ prop: p, control: controlFor(p) }))
-        .filter((x): x is { prop: ComponentProp; control: Control } => x.control !== null)
+        .filter((x): x is { prop: ComponentProp; control: Control } => x.control !== null && !isDataProp(x.prop))
         .sort((a, b) => {
           const ra = PRIORITY.indexOf(a.prop.name);
           const rb = PRIORITY.indexOf(b.prop.name);
@@ -225,17 +197,25 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
   }, [comp]);
 
   useEffect(() => {
-    targetsRef.current.forEach((el: any) => {
+    const controlled = spec.parent?.controlled;
+    targetsRef.current.forEach((el: any, i) => {
+      // In a group only one child is edited; the others stay neutral siblings (their text was set when mounted)
+      if (controlled !== undefined && i !== controlled) {
+        Object.entries({ ...(spec.props ?? {}), ...(spec.parent?.siblings?.(i) ?? {}) }).forEach(([k, v]) => (el[k] = v));
+        return;
+      }
       controls.forEach(({ prop }) => {
         el[prop.name] = values[prop.name] === '' ? undefined : values[prop.name];
       });
+      if (spec.textFromLabel) el.textContent = String(values.label ?? '');
     });
   }, [values, controls, comp, ready]);
 
   useEffect(() => {
-    targetsRef.current.forEach((el: any) => {
+    targetsRef.current.forEach((el: any, i) => {
+      if (spec.parent?.controlled !== undefined && i !== spec.parent.controlled) return;
       dataProps.forEach((p) => {
-        el[p.name] = data[p.name];
+        el[p.name] = forElement(p, data[p.name]);
       });
     });
   }, [data, dataProps, comp, ready]);
@@ -250,58 +230,18 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
     return v !== undefined && v !== '' && !same(v, defaultValue(prop, control));
   });
 
-  const code = useMemo(() => {
-    const tag = comp.tag;
-    const inner = hasDefaultSlot ? `\n  ${slotText}\n` : '';
-    const attr = (name: string, p: ComponentProp, v: unknown) => (typeof v === 'boolean' ? (v ? name : null) : `${name}="${v}"`);
-    const wrap = (open: string, name: string) => `<${open}>${inner}</${name}>`;
-    const items = changed.map(({ prop }) => ({ prop, v: values[prop.name] }));
-    const a = (fn: (prop: ComponentProp, v: unknown) => string | null) => {
-      const parts = items.map(({ prop, v }) => fn(prop, v)).filter(Boolean) as string[];
-      return parts.length ? ' ' + parts.join(' ') : '';
-    };
-    const htmlAttrs = a((p, v) => attr(p.attr || kebab(p.name), p, v));
-    const dataSet = dataProps.filter((p) => data[p.name] !== undefined);
-    const json = (name: string, indent = '') =>
-      JSON.stringify(data[name], null, 2)
-        .split('\n')
-        .map((l, i) => (i === 0 ? l : indent + l))
-        .join('\n');
-    const bind = (fmt: (n: string) => string) => (dataSet.length ? ' ' + dataSet.map((p) => fmt(p.name)).join(' ') : '');
-    switch (framework) {
-      case 'HTML': {
-        const script = dataSet.length
-          ? `\n\n<script>\n  const el = document.querySelector('${tag}');\n${dataSet.map((p) => `  el.${p.name} = ${json(p.name, '  ')};`).join('\n')}\n</script>`
-          : '';
-        return wrap(tag + htmlAttrs, tag) + script;
-      }
-      case 'Stencil': {
-        const s = a((p, v) => (typeof v === 'string' ? `${p.name}="${v}"` : `${p.name}={${v}}`)) + bind((n) => `${n}={this.${n}}`);
-        const fields = dataSet.map((p) => `  ${p.name} = ${json(p.name, '  ')};`).join('\n\n');
-        return (fields ? `// in your component class\n${fields}\n\n` : '') + wrap(tag + s, tag);
-      }
-      case 'React': {
-        const s =
-          a((p, v) => (typeof v === 'string' ? `${p.name}="${v}"` : typeof v === 'boolean' && v ? p.name : `${p.name}={${v}}`)) +
-          bind((n) => `${n}={${n}}`);
-        const consts = dataSet.map((p) => `const ${p.name} = ${json(p.name)};`).join('\n\n');
-        return `${consts ? consts + '\n\n' : ''}export default function Example() {\n  return ${wrap(tag + s, tag)};\n}`;
-      }
-      case 'Angular': {
-        const s =
-          a((p, v) => (typeof v === 'string' ? `${p.attr || kebab(p.name)}="${v}"` : `[${p.name}]="${v}"`)) + bind((n) => `[${n}]="${n}"`);
-        const fields = dataSet.map((p) => `  ${p.name} = ${json(p.name, '  ')};`).join('\n\n');
-        return (fields ? `// component.ts\n${fields}\n\n// component.html\n` : '') + wrap(tag + s, tag);
-      }
-      default: {
-        const s =
-          a((p, v) => (typeof v === 'string' ? `${p.attr || kebab(p.name)}="${v}"` : `:${p.attr || kebab(p.name)}="${v}"`)) +
-          bind((n) => `:${n}="${n}"`);
-        const consts = dataSet.map((p) => `const ${p.name} = ${json(p.name)};`).join('\n\n');
-        return `${consts ? `<script setup>\n${consts}\n</script>\n\n` : ''}<template>\n  ${wrap(pascal(tag) + s, pascal(tag))}\n</template>`;
-      }
-    }
-  }, [comp, changed, values, framework, slotText, hasDefaultSlot, data, dataProps]);
+  const code = useMemo(
+    () =>
+      buildCode({
+        tag: comp.tag,
+        framework,
+        props: changed.map(({ prop }) => ({ prop, value: values[prop.name] as PropValue })),
+        slotText: hasDefaultSlot ? slotText : undefined,
+        dataProps,
+        data,
+      }),
+    [comp, changed, values, framework, slotText, hasDefaultSlot, data, dataProps]
+  );
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -393,7 +333,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
               className={`${viewportClass} min-h-[300px] rounded-2xl border border-neutral-800 p-8 flex items-center justify-center overflow-auto ${canvasClass}`}
               style={showGrid ? gridStyle(canvas === 'black') : undefined}
             >
-              <div ref={stageRef} className="max-w-full w-full flex justify-center" />
+              <div ref={stageRef} data-testid="pg-stage" className="max-w-full w-full flex justify-center" />
             </div>
           </div>
           <div className="h-10 px-4 border-t border-neutral-900 bg-black flex items-center gap-2 text-xs shrink-0">
@@ -417,7 +357,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
               <span>{copied ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
-          <div className="px-3 py-2 border-b border-neutral-900 flex items-center gap-1 overflow-x-auto shrink-0">
+          <div data-testid="pg-frameworks" className="px-3 py-2 border-b border-neutral-900 flex items-center gap-1 overflow-x-auto shrink-0">
             {(['HTML', 'React', 'Stencil', 'Angular', 'Vue'] as Framework[]).map((fw) => (
               <button
                 key={fw}
@@ -431,7 +371,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
             ))}
           </div>
           <div className="flex-1 p-4 overflow-auto font-mono text-xs text-sky-200 leading-relaxed bg-black">
-            <pre className="whitespace-pre-wrap font-mono">{code}</pre>
+            <pre data-testid="pg-code" className="whitespace-pre-wrap font-mono">{code}</pre>
           </div>
           {comp.events.length > 0 && (
             <div className="p-3 border-t border-neutral-900 text-[11px] text-neutral-400 max-h-32 overflow-auto shrink-0">
@@ -516,6 +456,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
                         <span className="font-mono">{prop.name}</span>
                         <input
                           type="checkbox"
+                          data-prop={prop.name}
                           checked={!!values[prop.name]}
                           onChange={(e) => setVal(prop.name, e.target.checked)}
                           className="w-4 h-4 accent-sky-500"
@@ -527,6 +468,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
                         {control.kind === 'select' ? (
                           <select
                             id={`pg-${prop.name}`}
+                            data-prop={prop.name}
                             value={String(values[prop.name] ?? '')}
                             onChange={(e) => setVal(prop.name, e.target.value === '' ? undefined : e.target.value)}
                             className={inputCls}
@@ -541,6 +483,7 @@ export const PlaygroundView: React.FC<PlaygroundViewProps> = ({ initialComponent
                         ) : (
                           <input
                             id={`pg-${prop.name}`}
+                            data-prop={prop.name}
                             type={control.kind === 'number' ? 'number' : 'text'}
                             value={String(values[prop.name] ?? '')}
                             onChange={(e) =>

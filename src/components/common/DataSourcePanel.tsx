@@ -88,6 +88,7 @@ const Field: React.FC<{
       </div>
       <textarea
         value={text}
+        data-field={name}
         onChange={(e) => commit(e.target.value)}
         spellCheck={false}
         rows={Math.min(12, Math.max(4, text.split('\n').length))}

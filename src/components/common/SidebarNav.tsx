@@ -166,17 +166,17 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
                   title={isCollapsed ? item.label : undefined}
-                  className={`w-full flex items-center rounded-xl transition-all duration-150 cursor-pointer group relative ${
+                  className={`w-full flex items-center rounded-xl border transition-[color,background-color,border-color,box-shadow] duration-150 cursor-pointer group relative ${
                     isCollapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2 text-xs font-medium'
                   } ${
-                    isActive 
-                      ? 'bg-sky-500/15 text-sky-300 font-semibold border border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.12)]' 
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/60'
+                    isActive
+                      ? 'bg-sky-500/15 text-sky-300 font-semibold border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.12)]'
+                      : 'border-transparent text-slate-400 hover:text-slate-100 hover:bg-slate-900/60'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <Icon className={`w-4 h-4 shrink-0 transition-transform ${
-                      isActive ? 'text-sky-400 scale-105' : 'text-slate-400 group-hover:text-slate-200'
+                    <Icon className={`w-4 h-4 shrink-0 transition-[color] ${
+                      isActive ? 'text-sky-400' : 'text-slate-400 group-hover:text-slate-200'
                     }`} />
                     {!isCollapsed && (
                       <span className="truncate">{item.label}</span>
@@ -191,9 +191,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                     </span>
                   )}
 
-                  {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-sky-400 rounded-r-full shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
-                  )}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-sky-400 rounded-r-full shadow-[0_0_8px_rgba(56,189,248,0.8)] transition-opacity duration-150 ${
+                      isActive ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
                 </button>
               );
             })}

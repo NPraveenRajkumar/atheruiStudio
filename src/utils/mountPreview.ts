@@ -26,6 +26,8 @@ export async function mountPreview(tag: string, stage: HTMLElement): Promise<Mou
     Object.entries(spec.parent.props ?? {}).forEach(([k, v]) => (parent[k] = v));
     for (let i = 0; i < (spec.parent.count ?? 1); i++) {
       const child = document.createElement(tag);
+      const text = spec.parent.text?.(i);
+      if (text !== undefined) child.textContent = text;
       parent.appendChild(child);
       targets.push(child);
     }

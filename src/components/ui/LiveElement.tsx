@@ -57,7 +57,8 @@ export const LiveElement: React.FC<LiveElementProps> = ({ tag, props, text }) =>
         return;
       }
       Object.entries(merged).forEach(([k, v]) => (el[k] = v));
-      if (text !== undefined && !spec.children) el.textContent = text;
+      if (spec.textFromLabel) el.textContent = String(merged.label ?? text ?? '');
+      else if (text !== undefined && !spec.children) el.textContent = text;
     });
   }, [props, text, ready, tag]);
 
