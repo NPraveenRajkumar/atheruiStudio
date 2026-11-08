@@ -41,31 +41,31 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <h3>Grouped Channel Inputs</h3>
-        <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">
+        <p style="font-size:13px;color:var(--text-muted, #6b7280);margin-bottom:16px;">
           Numeric input fields grouped in a single row, with per-channel validation. This pattern is ideal for RGB, RGBA, HSL, HSLA, or similar multi-part values.<br>
           Each field validates its own range and highlights errors inline.
         </p>
         <div style="display:flex;flex-direction:column;gap:32px;max-width:520px;">
           <div>
-            <div style="font-size:12px;color: var(--label-subtitle-color);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">RGB Example</div>
+            <div style="font-size:12px;color:var(--label-subtitle-color);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">RGB Example</div>
             <div style="display:flex;align-items:center;gap:10px;">
               <ui-input id="rgb-r" type="number" min="0" max="255" value="16" label="R" size="md" style="width:70px;"></ui-input>
               <ui-input id="rgb-g" type="number" min="0" max="255" value="185" label="G" size="md" style="width:70px;"></ui-input>
               <ui-input id="rgb-b" type="number" min="0" max="255" value="129" label="B" size="md" style="width:70px;"></ui-input>
-              <span id="rgb-preview" style="display:inline-block;width:36px;height:36px;border-radius:8px;border:1.5px solid #e5e7eb;margin-left:16px;"></span>
+              <span id="rgb-preview" style="display:inline-block;width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border-default);margin-left:16px;"></span>
             </div>
-            <div id="rgb-error" style="color:var(--accent-red,#ef4444);font-size:12px;margin-top:6px;display:none;"></div>
+            <div id="rgb-error" style="color:var(--accent-red,var(--color-danger));font-size:12px;margin-top:6px;display:none;"></div>
           </div>
           <div>
-            <div style="font-size:12px;color: var(--label-subtitle-color);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">RGBA Example</div>
+            <div style="font-size:12px;color:var(--label-subtitle-color);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">RGBA Example</div>
             <div style="display:flex;align-items:center;gap:10px;">
               <ui-input id="rgba-r" type="number" min="0" max="255" value="139" label="R" size="md" style="width:70px;"></ui-input>
               <ui-input id="rgba-g" type="number" min="0" max="255" value="92" label="G" size="md" style="width:70px;"></ui-input>
               <ui-input id="rgba-b" type="number" min="0" max="255" value="246" label="B" size="md" style="width:70px;"></ui-input>
               <ui-input id="rgba-a" type="number" min="0" max="1" step="0.01" value="0.7" label="A" size="md" style="width:70px;"></ui-input>
-              <span id="rgba-preview" style="display:inline-block;width:36px;height:36px;border-radius:8px;border:1.5px solid #e5e7eb;margin-left:16px;"></span>
+              <span id="rgba-preview" style="display:inline-block;width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border-default);margin-left:16px;"></span>
             </div>
-            <div id="rgba-error" style="color:var(--accent-red,#ef4444);font-size:12px;margin-top:6px;display:none;"></div>
+            <div id="rgba-error" style="color:var(--accent-red,var(--color-danger));font-size:12px;margin-top:6px;display:none;"></div>
           </div>
         </div>
       </div>
@@ -142,9 +142,9 @@ export function initInputDemo() {
         <h3>📐 Custom Width Control</h3>
         <p style="margin-bottom: 24px; opacity: 0.8;">The <code>width</code> prop allows you to precisely control the input footprint using standard CSS units (px, %, etc.).</p>
         
-        <div style="display: flex; flex-direction: column; gap: 32px; padding: 20px; background: rgba(0,0,0,0.02); border-radius: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 32px; padding: 20px; background:rgba(0,0,0,0.02); border-radius: 16px;">
           <div>
-            <div style="margin-bottom: 12px; font-weight: 600; color: #475569;">Precision Pixel Widths</div>
+            <div style="margin-bottom: 12px; font-weight: 600; color:var(--text-secondary);">Precision Pixel Widths</div>
             <div style="display: flex; flex-direction: column; gap: 16px;">
               <ui-input width="100px" label="100px Width" placeholder="Fixed"></ui-input>
               <ui-input width="300px" label="300px Width" placeholder="Medium fixed footprint"></ui-input>
@@ -152,8 +152,8 @@ export function initInputDemo() {
             </div>
           </div>
 
-          <div style="border-top:1px solid var(--border-default,#e2e8f0); paddingTop: 24px;">
-            <div style="margin-bottom: 12px; font-weight: 600; color: #475569;">Responsive Percentage Widths</div>
+          <div style="border-top:1px solid var(--border-default,var(--border-subtle)); paddingTop: 24px;">
+            <div style="margin-bottom: 12px; font-weight: 600; color:var(--text-secondary);">Responsive Percentage Widths</div>
             <div style="display: flex; flex-direction: column; gap: 16px;">
               <ui-input width="25%" label="25% Width" placeholder="Small"></ui-input>
               <ui-input width="50%" label="50% Width" placeholder="Half container"></ui-input>
@@ -174,7 +174,7 @@ export function initInputDemo() {
         <h3>🚀 All Supported Input Types</h3>
         <p style="margin-bottom: 24px; opacity: 0.8;">A comprehensive list of all HTML5 input types supported by the <code>ui-input</code> component with premium styling and automatic icons.</p>
         
-        <h4 style="margin-top: 32px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Standard Text Inputs</h4>
+        <h4 style="margin-top: 32px; border-bottom:1px solid #eee; padding-bottom: 8px;">Standard Text Inputs</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px;">
           <ui-input type="text" label="Text" placeholder="Basic text input" size="md"></ui-input>
           <ui-input type="password" label="Password" placeholder="Enter password" show-password-toggle="true" size="md"></ui-input>
@@ -184,14 +184,14 @@ export function initInputDemo() {
           <ui-input type="search" label="Search" placeholder="Press Enter to search..." show-clear="true" size="md"></ui-input>
         </div>
 
-        <h4 style="margin-top: 48px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Numbers & Range</h4>
+        <h4 style="margin-top: 48px; border-bottom:1px solid #eee; padding-bottom: 8px;">Numbers & Range</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px;">
           <ui-input type="number" label="Number" placeholder="Enter value" size="md"></ui-input>
           <ui-input type="number" label="Number with Steppers" show-steppers="true" value="10" size="md"></ui-input>
           <ui-input type="range" label="Range" min="0" max="100" value="45" size="md"></ui-input>
         </div>
 
-        <h4 style="margin-top: 48px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Date & Time Selection</h4>
+        <h4 style="margin-top: 48px; border-bottom:1px solid #eee; padding-bottom: 8px;">Date & Time Selection</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px;">
           <ui-input type="date" label="Date" size="md"></ui-input>
           <ui-input type="time" label="Time" size="md"></ui-input>
@@ -200,18 +200,18 @@ export function initInputDemo() {
           <ui-input type="week" label="Week" size="md"></ui-input>
         </div>
 
-        <h4 style="margin-top: 48px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Specialized Inputs & Advanced Controllers</h4>
+        <h4 style="margin-top: 48px; border-bottom:1px solid #eee; padding-bottom: 8px;">Specialized Inputs & Advanced Controllers</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px;">
-          <ui-input type="color" label="Standard Color Picker (Native)" value="#10b981" size="md"></ui-input>
+          <ui-input type="color" label="Standard Color Picker (Native)" value="var(--color-success, #10b981)" size="md"></ui-input>
           <ui-input type="file" label="File Upload" placeholder="Choose files..." size="md"></ui-input>
-          <div style="background:var(--bg-primary,white); padding: 20px; border-radius: 16px; border:1px solid var(--border-default,#e2e8f0); grid-row: span 2;">
+          <div style="background:var(--bg-primary,white); padding: 20px; border-radius: 16px; border:1px solid var(--border-default,var(--border-subtle)); grid-row: span 2;">
             <ui-color-controller label="Professional Color Studio" value="#8b5cf6" size="md"></ui-color-controller>
-            <p style="font-size: 11px; color:var(--text-secondary,#64748b); margin-top: 16px; line-height: 1.4;">Advanced side-by-side editing for HSL, RGB, and HEX formats with real-time synchronization.</p>
+            <p style="font-size: 11px; color:var(--text-secondary,var(--text-muted)); margin-top: 16px; line-height: 1.4;">Advanced side-by-side editing for HSL, RGB, and HEX formats with real-time synchronization.</p>
           </div>
           <ui-input type="file" label="Multiple Files" multiple="true" placeholder="Choose multiple..." size="md"></ui-input>
         </div>
 
-        <h4 style="margin-top: 48px; border-bottom: 1px solid #eee; padding-bottom: 8px;">Attributes & Validation Constraints</h4>
+        <h4 style="margin-top: 48px; border-bottom:1px solid #eee; padding-bottom: 8px;">Attributes & Validation Constraints</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px;">
           <ui-input label="MaxLength (10)" max-length="10" placeholder="Max 10 chars" show-counter="true" max-length-indicator="10" size="md"></ui-input>
           <ui-input label="MinLength (5)" min-length="5" placeholder="Min 5 chars" min-length-indicator="5" size="md"></ui-input>
@@ -229,26 +229,26 @@ export function initInputDemo() {
     if (!container) return;
 
     container.innerHTML = `
-      <div class="demo-block premium-playground" style="background: var(--bg-secondary, #f1f7ff); border: 1px solid var(--border-default, #d0e1ff); border-radius: 20px; padding: 24px;">
-        <h3 style="color: var(--label-color); display: flex; align-items: center; gap: 8px; margin-top: 0; font-size: 1.1rem; opacity: 0.8;">
+      <div class="demo-block premium-playground" style="background:var(--bg-secondary, #f1f7ff); border:1px solid var(--border-default, #d0e1ff); border-radius: 20px; padding: 24px;">
+        <h3 style="color:var(--label-color); display: flex; align-items: center; gap: 8px; margin-top: 0; font-size: 1.1rem; opacity: 0.8;">
           <ui-icon library="lucide" name="layout-template"></ui-icon>
           Live Preview Context
         </h3>
-        <div class="playground-workspace" style="display: flex; height: 85vh; min-height: 700px; background:var(--bg-primary,white); border-radius: 24px; border:1px solid var(--border-default,#e2e8f0); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.12); margin-top: 32px; position: relative;">
+        <div class="playground-workspace" style="display: flex; height: 85vh; min-height: 700px; background:var(--bg-primary,white); border-radius: 24px; border:1px solid var(--border-default,var(--border-subtle)); overflow: hidden; box-shadow:0 30px 60px rgba(0,0,0,0.12); margin-top: 32px; position: relative;">
           <!-- Custom Scrollbar Style -->
           <style>
             .playground-sidebar-scroll::-webkit-scrollbar { width: 5px; }
-            .playground-sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
-            .playground-sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
-            .playground-sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
-            .setting-card { background:var(--bg-primary,white); border-radius: 16px; padding: 20px; border: 1px solid rgba(208,225,255,0.3); transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-            .setting-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.05); border-color: rgba(139,92,246,0.3); }
+            .playground-sidebar-scroll::-webkit-scrollbar-track { background:transparent; }
+            .playground-sidebar-scroll::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.1); border-radius: 10px; }
+            .playground-sidebar-scroll::-webkit-scrollbar-thumb:hover { background:rgba(0,0,0,0.2); }
+            .setting-card { background:var(--bg-primary,white); border-radius: 16px; padding: 20px; border:1px solid rgba(208,225,255,0.3); transition: transform 0.2s, box-shadow 0.2s; box-shadow:0 2px 10px rgba(0,0,0,0.02); }
+            .setting-card:hover { transform: translateY(-2px); box-shadow:0 8px 25px var(--shadow-color-subtle, rgba(0,0,0,0.05)); border-color:rgba(139,92,246,0.3); }
           </style>
 
           <!-- Sidebar: Navigation & Settings Groups -->
-          <div class="playground-sidebar" style="width: 50%; min-width: 480px; display: flex; flex-direction: column; border-right: 1px solid rgba(0,0,0,0.05);">
-            <div style="padding: 28px; border-bottom: 1px solid rgba(0,0,0,0.05); flex-shrink: 0;">
-              <h3 style="margin: 0; font-size: 1.2rem; background: linear-gradient(to right, #1e293b, #64748b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.02em;">
+          <div class="playground-sidebar" style="width: 50%; min-width: 480px; display: flex; flex-direction: column; border-right:1px solid var(--shadow-color-subtle, rgba(0,0,0,0.05));">
+            <div style="padding: 28px; border-bottom:1px solid var(--shadow-color-subtle, rgba(0,0,0,0.05)); flex-shrink: 0;">
+              <h3 style="margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.02em;">
                 <ui-icon name="tool" library="lucide" color="primary"></ui-icon>
                 Component Workbench
               </h3>
@@ -258,8 +258,8 @@ export function initInputDemo() {
               <!-- Group Card: Identity -->
               <div class="setting-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                  <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--bg-tertiary,#f1f5f9); display: flex; align-items: center; justify-content: center;"><ui-icon name="database" size="16px" color="primary"></ui-icon></div>
-                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; font-weight: 700;">Data & Identity</h4>
+                  <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--bg-tertiary,var(--bg-secondary)); display: flex; align-items: center; justify-content: center;"><ui-icon name="database" size="16px" color="primary"></ui-icon></div>
+                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--text-secondary); font-weight: 700;">Data & Identity</h4>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                   <ui-dropdown id="inpType" label="Core Type" value="text" options='[
@@ -278,8 +278,8 @@ export function initInputDemo() {
               <!-- Group Card: Validation & Logic -->
               <div class="setting-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                  <div style="width: 32px; height: 32px; border-radius: 8px; background: #fff1f2; display: flex; align-items: center; justify-content: center;"><ui-icon name="shield-check" size="16px" color="danger"></ui-icon></div>
-                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #be123c; font-weight: 700;">Validation & Logic</h4>
+                  <div style="width: 32px; height: 32px; border-radius: 8px; background:#fff1f2; display: flex; align-items: center; justify-content: center;"><ui-icon name="shield-check" size="16px" color="danger"></ui-icon></div>
+                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;  font-weight: 700;">Validation & Logic</h4>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                   <ui-dropdown id="inpValidation" label="Validation State" value="none" options='[
@@ -297,7 +297,7 @@ export function initInputDemo() {
               </div>
 
               <!-- Group Card: Atmosphere -->
-              <div class="setting-card" style="border-left: 4px solid #8b5cf6;">
+              <div class="setting-card" style="border-left:4px solid #8b5cf6;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                   <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--accent-purple-soft,#f5f3ff); display: flex; align-items: center; justify-content: center;"><ui-icon name="sparkles" size="16px" color="primary"></ui-icon></div>
                   <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--accent-purple,#7c3aed); font-weight: 700;">Zenith Atmosphere</h4>
@@ -313,8 +313,8 @@ export function initInputDemo() {
               <!-- Group Card: Aesthetics -->
               <div class="setting-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                  <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--bg-tertiary,#f1f5f9); display: flex; align-items: center; justify-content: center;"><ui-icon name="palette" size="16px" color="primary"></ui-icon></div>
-                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; font-weight: 700;">Visual Synthesis</h4>
+                  <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--bg-tertiary,var(--bg-secondary)); display: flex; align-items: center; justify-content: center;"><ui-icon name="palette" size="16px" color="primary"></ui-icon></div>
+                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--text-secondary); font-weight: 700;">Visual Synthesis</h4>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                   <ui-dropdown id="inpVariant" label="Render Engine" value="outlined" options='[
@@ -361,14 +361,15 @@ export function initInputDemo() {
                   <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--accent-pink-soft,#fdf2f8); display: flex; align-items: center; justify-content: center;"><ui-icon name="zap" size="16px" color="danger"></ui-icon></div>
                   <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--accent-pink,#be185d); font-weight: 700;">Operational Logic</h4>
                 </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                   <ui-checkbox id="inpFloating" label="Floating Title" size="md"></ui-checkbox>
-                   <ui-checkbox id="inpAlwaysFloated" label="Always Floated" size="md"></ui-checkbox>
+                  <ui-checkbox id="inpAlwaysFloated" label="Always Floated" size="md"></ui-checkbox>
                   <ui-checkbox id="inpVoice" label="Voice Node" size="md"></ui-checkbox>
                   <ui-checkbox id="inpClear" label="Quick Flush" size="md"></ui-checkbox>
                   <ui-checkbox id="inpReveal" label="Safe Reveal" size="md"></ui-checkbox>
                   <ui-checkbox id="inpStrength" label="Security Meter" size="md"></ui-checkbox>
                   <ui-checkbox id="inpCopy" label="Clone Master (Copy)" size="md"></ui-checkbox>
-                   <ui-checkbox id="inpShake" label="Seismic Error (Shake)" size="md"></ui-checkbox>
+                  <ui-checkbox id="inpShake" label="Seismic Error (Shake)" size="md"></ui-checkbox>
                   <ui-checkbox id="inpRtl" label="Middle East Layout (RTL)" size="md"></ui-checkbox>
                   <ui-checkbox id="inpIconOnly" label="Icon Only (Hide Label & Text)" size="md"></ui-checkbox>
                 </div>
@@ -377,8 +378,8 @@ export function initInputDemo() {
                <!-- Group Card: Multi-line Hub -->
               <div class="setting-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                  <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--accent-green-soft,#f0fdf4); display: flex; align-items: center; justify-content: center;"><ui-icon name="align-left" size="16px" color="success"></ui-icon></div>
-                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-green,#166534); font-weight: 700;">Multi-line Hub</h4>
+                  <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--accent-green-soft,var(--bg-secondary)); display: flex; align-items: center; justify-content: center;"><ui-icon name="align-left" size="16px" color="success"></ui-icon></div>
+                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--accent-green,#166534); font-weight: 700;">Multi-line Hub</h4>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                   <ui-checkbox id="inpMultiline" label="Enable Multi-line" size="md"></ui-checkbox>
@@ -393,9 +394,10 @@ export function initInputDemo() {
               <!-- Group Card: Adornments -->
               <div class="setting-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                  <div style="width: 32px; height: 32px; border-radius: 8px; background: #f0f9ff; display: flex; align-items: center; justify-content: center;"><ui-icon name="plus-circle" size="16px" color="info"></ui-icon></div>
-                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #0369a1; font-weight: 700;">Adornments</h4>
+                  <div style="width: 32px; height: 32px; border-radius: 8px;  display: flex; align-items: center; justify-content: center;"><ui-icon name="plus-circle" size="16px" ></ui-icon></div>
+                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:#0369a1; font-weight: 700;">Adornments</h4>
                 </div>
+                <div style="display: flex; flex-direction: column; gap: 16px;">
                   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <ui-input id="inpPrefixIcon" label="Hero Icon" value="user" size="md" variant="outlined"></ui-input>
                     <ui-input id="inpSuffixIcon" label="Action Icon" value="" size="md" variant="outlined"></ui-input>
@@ -423,7 +425,7 @@ export function initInputDemo() {
               <div class="setting-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                   <div style="width: 32px; height: 32px; border-radius: 8px; background:var(--accent-orange-soft,#fff7ed); display: flex; align-items: center; justify-content: center;"><ui-icon name="lock" size="16px" color="warning"></ui-icon></div>
-                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #9a3412; font-weight: 700;">Limiter & Constraints</h4>
+                  <h4 style="margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color:#9a3412; font-weight: 700;">Limiter & Constraints</h4>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
@@ -437,71 +439,48 @@ export function initInputDemo() {
           </div>
 
           <!-- Main: Canvas & Action Hub -->
-          <div class="playground-main" style="flex-grow: 1; display: flex; flex-direction: column; background: var(--bg-tertiary, rgba(255,255,255,0.4));">
-            <!-- Canvas Toolbar -->
-            <div style="padding: 20px 32px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; background: var(--bg-primary, rgba(255,255,255,0.9));">
+          <div class="playground-main" style="flex-grow: 1; min-width: 0; overflow: hidden; display: flex; flex-direction: column; background:var(--bg-primary);">
+            <div style="padding: 20px 32px; border-bottom:1px solid var(--border-default); display: flex; justify-content: space-between; align-items: center; background:var(--bg-secondary);">
               <div style="display: flex; gap: 12px; align-items: center;">
-                <div style="display: flex; padding: 4px; background:var(--bg-tertiary,#f1f5f9); border-radius: 8px; gap: 4px; align-items: center;">
-                  <ui-button id="btnCanvasBgWhite" title="Light Cloud" style="--ui-button-bg: #fff; width: 28px; height: 28px; min-width: 28px; padding: 0; border-radius: 6px; border: 1px solid rgba(0,0,0,0.05);"></ui-button>
-                  <ui-button id="btnCanvasBgDark" title="Deep Slate" style="--ui-button-bg: #0f172a; width: 28px; height: 28px; min-width: 28px; padding: 0; border-radius: 6px; border: none;"></ui-button>
-                  <ui-button id="btnCanvasBgGrid" title="Blueprint Grid" icon="grid" variant="outlined" color="secondary" style="width: 28px; height: 28px; min-width: 28px; padding: 0; border-radius: 6px; --ui-button-icon-size: 14px;"></ui-button>
-                </div>
-                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--text-secondary,#64748b); font-weight: 700; margin-left: 12px;">Visual Laboratory</span>
-              </div>
-              <div style="display: flex; gap: 8px;">
-                <div style="padding: 6px 12px; background: #e0f2fe; color: #0369a1; border-radius: 100px; font-size: 10px; font-weight: 700;">VERSION 2.0.4 - ZENITH</div>
+                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color:var(--text-muted); font-weight: 700;">Synthesis Visualizer</span>
               </div>
             </div>
 
             <!-- The Master Canvas -->
-            <div id="playgroundCanvas" style="flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); background: #fff; overflow: hidden;">
+            <div id="playgroundCanvas" style="flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
                <div id="inpInteractivePreviewContent" style="width: 100%; max-width: 480px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.1)); transform: scale(1.1); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);"></div>
             </div>
 
-            <!-- Action Hub: Markup & Instrumentation -->
-            <div style="height: 320px; border-top: 1px solid rgba(0,0,0,0.05); display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-primary, #fff);">
-               <div style="padding: 24px; border-right: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column;">
-                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                   <h5 style="margin: 0; font-size: 11px; color:var(--text-secondary,#64748b); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">⚡ Implementation Blueprint</h5>
-                   <ui-button id="btnCopyMarkup" label="Grab Markup" size="xxs" variant="outlined" color="primary" icon="copy"></ui-button>
-                 </div>
-                 <div style="flex-grow: 1; background: var(--bg-secondary, #f8fafc); border-radius: 16px; padding: 20px; border: 1px solid var(--border-default); position: relative; overflow: auto;">
-                    <ui-code-preview id="markupDisplay" language="html" code="&lt;ui-input&gt;&lt;/ui-input&gt;"></ui-code-preview>
-                 </div>
-               </div>
-               <div style="padding: 24px; display: flex; flex-direction: column;">
-                 <h5 style="margin: 0 0 16px 0; font-size: 11px; color:var(--text-secondary,#64748b); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">📜 Atmospheric Telemetry</h5>
-                 <div id="playgroundLog" style="flex-grow: 1; background:var(--bg-secondary,#f8fafc); border:1px solid var(--border-default,#eef2f6); border-radius: 16px; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #475569; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
-                   <div style="text-align: center; color: #cbd5e1; margin-top: 30px;">Instrumenting component events...</div>
-                 </div>
-               </div>
-            </div>
-
-            <!-- Validation Strategy -->
-            <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); grid-column: 1 / -1;">
-               <h4 style="margin-top:0; color:var(--accent-yellow,#f59e0b);">🛡️ Validation Strategy</h4>
-               <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Control when validation occurs: real-time or deferred after interaction.</p>
-               <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px;">
-                  <ui-input 
-                    label="Real-time Validation (onInput)" 
-                    type="email"
-                    required="true"
-                    validation-trigger="onInput"
-                    placeholder="Validates as you type..."
-                    helper-text="Triggered on Input"
-                  ></ui-input>
-                  <ui-input 
-                    label="Deferred Validation (onBlur)" 
-                    type="email"
-                    required="true"
-                    validation-trigger="onBlur"
-                    placeholder="Validates when you leave..."
-                    helper-text="Triggered on Blur"
-                  ></ui-input>
-               </div>
+            <!-- Code Artifact -->
+            <div style="padding: 32px; background:var(--bg-secondary); border-top:1px solid var(--border-default);">
+               <ui-code-preview id="markupDisplay" language="html" code="&lt;ui-input&gt;&lt;/ui-input&gt;"></ui-code-preview>
             </div>
           </div>
         </div>
+
+      <!-- Validation Strategy -->
+      <div class="demo-block" style="margin-top: 32px;">
+         <h4 style="margin-top:0; color:var(--accent-yellow,var(--color-warning));">🛡️ Validation Strategy</h4>
+         <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Control when validation occurs: real-time or deferred after interaction.</p>
+         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px;">
+            <ui-input 
+              label="Real-time Validation (onInput)" 
+              type="email"
+              required="true"
+              validation-trigger="onInput"
+              placeholder="Validates as you type..."
+              helper-text="Triggered on Input"
+            ></ui-input>
+            <ui-input 
+              label="Deferred Validation (onBlur)" 
+              type="email"
+              required="true"
+              validation-trigger="onBlur"
+              placeholder="Validates when you leave..."
+              helper-text="Triggered on Blur"
+            ></ui-input>
+         </div>
+      </div>
       </div>
     `;
 
@@ -509,7 +488,7 @@ export function initInputDemo() {
       const canvas = document.getElementById('playgroundCanvas');
       if (!canvas) return;
       if (bg === 'white') canvas.style.background = '#fff';
-      else if (bg === 'grid') canvas.style.background = 'radial-gradient(#e5e7eb 1px, transparent 1px) 0 0 / 20px 20px, #fff';
+      else if (bg === 'grid') canvas.style.background = 'radial-gradient(var(--border-default, #e5e7eb) 1px, transparent 1px) 0 0 / 20px 20px, #fff';
       else canvas.style.background = bg;
     };
 
@@ -777,7 +756,7 @@ export function initInputDemo() {
     entry.style.borderRadius = '4px';
     entry.style.background = '#fff';
     entry.style.border = '1px solid #eef2f6';
-    entry.innerHTML = `<span style="color: #10b981; font-weight: 700;">${type.toUpperCase()}</span>: <span style="color:var(--text-primary,#1e293b);">${JSON.stringify(detail) || 'N/A'}</span> <span style="float: right; opacity: 0.5;">${new Date().toLocaleTimeString()}</span>`;
+    entry.innerHTML = `<span style="color:var(--color-success); font-weight: 700;">${type.toUpperCase()}</span>: <span style="color:var(--text-primary,var(--bg-secondary));">${JSON.stringify(detail) || 'N/A'}</span> <span style="float: right; opacity: 0.5;">${new Date().toLocaleTimeString()}</span>`;
     log.appendChild(entry);
     if (log.children.length > 20) log.removeChild(log.firstChild);
   };
@@ -786,7 +765,7 @@ export function initInputDemo() {
     const canvas = document.getElementById('playgroundCanvas');
     if (!canvas) return;
     if (bg === 'white') canvas.style.background = '#fff';
-    else if (bg === 'grid') canvas.style.background = 'radial-gradient(#e5e7eb 1px, transparent 1px) 0 0 / 20px 20px, #fff';
+    else if (bg === 'grid') canvas.style.background = 'radial-gradient(var(--border-default, #e5e7eb) 1px, transparent 1px) 0 0 / 20px 20px, #fff';
     else canvas.style.background = bg;
   };
 
@@ -882,7 +861,7 @@ export function initInputDemo() {
               placeholder="type something..."
               prefix-icon="mail"
             ></ui-input>
-            <p style="font-size: 12px; color:var(--text-secondary,#64748b); margin-top: 12px;">State updates as you type (minimum 5 chars + @).</p>
+            <p style="font-size: 12px; color:var(--text-secondary,var(--text-muted)); margin-top: 12px;">State updates as you type (minimum 5 chars + @).</p>
           </div>
 
           <div class="demo-card-inner" style="padding: 24px; border:1px solid var(--border-default,#eef2f6); border-radius: 12px; background:var(--bg-primary,white);">
@@ -961,13 +940,13 @@ export function initInputDemo() {
           <div class="demo-card-inner" style="padding: 20px; border:1px solid var(--border-default,#eef2f6); border-radius: 12px; background:var(--bg-primary,white);">
             <h4>Default Outlined</h4>
             <ui-input type="range" label="Volume Control" min="0" max="100" value="65"></ui-input>
-            <pre style="background:var(--bg-secondary,#f8fafc); padding: 12px; border-radius: 8px; font-size: 11px; margin-top: 16px;"><code>&lt;ui-input type="range" label="..."/&gt;</code></pre>
+            <pre style="background:var(--bg-secondary,var(--bg-secondary)); padding: 12px; border-radius: 8px; font-size: 11px; margin-top: 16px;"><code>&lt;ui-input type="range" label="..."/&gt;</code></pre>
           </div>
 
           <div class="demo-card-inner" style="padding: 20px; border:1px solid var(--border-default,#eef2f6); border-radius: 12px; background:var(--bg-primary,white);">
             <h4>Soft Variant (Green Theme)</h4>
             <ui-input type="range" label="Brightness" variant="outline" min="0" max="100" value="40" prefix-icon="sun"></ui-input>
-            <pre style="background:var(--bg-secondary,#f8fafc); padding: 12px; border-radius: 8px; font-size: 11px; margin-top: 16px;"><code>&lt;ui-input type="range" variant="outline"/&gt;</code></pre>
+            <pre style="background:var(--bg-secondary,var(--bg-secondary)); padding: 12px; border-radius: 8px; font-size: 11px; margin-top: 16px;"><code>&lt;ui-input type="range" variant="outline"/&gt;</code></pre>
           </div>
 
           <div class="demo-card-inner" style="padding: 20px; border:1px solid var(--border-default,#eef2f6); border-radius: 12px; background:var(--bg-primary,white);">
@@ -998,13 +977,13 @@ export function initInputDemo() {
           <div class="demo-card-inner" style="padding: 24px; border:1px solid var(--border-default,#eef2f6); border-radius: 12px; background:var(--bg-primary,white);">
             <h4>Theme Color</h4>
             <ui-input type="color" label="Primary Color" value="#3DCD58"></ui-input>
-            <p style="font-size: 12px; color:var(--text-secondary,#64748b); margin-top: 12px;">Click the swatch to open picker or type directly. Invalid hex codes trigger an error state automatically.</p>
+            <p style="font-size: 12px; color:var(--text-secondary,var(--text-muted)); margin-top: 12px;">Click the swatch to open picker or type directly. Invalid hex codes trigger an error state automatically.</p>
           </div>
 
           <div class="demo-card-inner" style="padding: 24px; border:1px solid var(--border-default,#eef2f6); border-radius: 12px; background:var(--bg-primary,white);">
             <h4>Variants & Sizes</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
-              <ui-input type="color" label="Background" variant="outline" value="#f1f5f9"></ui-input>
+              <ui-input type="color" label="Background" variant="outline" value="var(--bg-secondary, #f1f5f9)"></ui-input>
               <ui-input type="color" label="Accent" size="md" variant="underlined" value="#8b5cf6"></ui-input>
             </div>
           </div>
@@ -1047,51 +1026,51 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block animate-in" style="animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
         <div style="margin-bottom: 32px; text-align: center;">
-          <h2 style="font-size: 2rem; margin-bottom: 8px; background: linear-gradient(135deg, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎭 Input Masking</h2>
+          <h2 style="font-size: 2rem; margin-bottom: 8px; background:linear-gradient(135deg, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color:transparent;">🎭 Input Masking</h2>
           <p style="opacity: 0.7; font-size: 1.1rem;">Powerful automatic formatting for specialized data types with predictive placeholders.</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
           <!-- Phone Mask -->
-          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border: 1px solid #fee2e2; box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
+          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border:1px solid var(--color-danger-100, rgba(239, 68, 68, 0.2)); box-shadow:0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 44px; height: 44px; background: #fff1f2; border-radius: 14px; color: #f43f5e; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(244, 63, 94, 0.1);">
+              <div style="width: 44px; height: 44px; background:#fff1f2; border-radius: 14px; color:#f43f5e; display: flex; align-items: center; justify-content: center; box-shadow:inset 0 2px 4px rgba(244, 63, 94, 0.1);">
                 <ui-icon library="lucide" name="phone" style="font-size: 20px;"></ui-icon>
               </div>
-              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,#1e293b);">Contact Information</h4>
+              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,var(--bg-secondary));">Contact Information</h4>
             </div>
             <ui-input label="Cellular Phone" mask="phone" prefix-icon="phone" helper-text="Auto-formatting as you type" full-width="true"></ui-input>
           </div>
 
           <!-- Credit Card Mask -->
-          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border: 1px solid #fee2e2; box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
+          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border:1px solid var(--color-danger-100, rgba(239, 68, 68, 0.2)); box-shadow:0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 44px; height: 44px; background: #fff1f2; border-radius: 14px; color: #f43f5e; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(244, 63, 94, 0.1);">
+              <div style="width: 44px; height: 44px; background:#fff1f2; border-radius: 14px; color:#f43f5e; display: flex; align-items: center; justify-content: center; box-shadow:inset 0 2px 4px rgba(244, 63, 94, 0.1);">
                 <ui-icon library="lucide" name="credit-card" style="font-size: 20px;"></ui-icon>
               </div>
-              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,#1e293b);">Secure Payment</h4>
+              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,var(--bg-secondary));">Secure Payment</h4>
             </div>
             <ui-input label="Card Number" mask="credit-card" prefix-icon="credit-card" placeholder="XXXX XXXX XXXX XXXX" full-width="true"></ui-input>
           </div>
 
           <!-- Currency Mask -->
-          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border: 1px solid #fee2e2; box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
+          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border:1px solid var(--color-danger-100, rgba(239, 68, 68, 0.2)); box-shadow:0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 44px; height: 44px; background: #fff1f2; border-radius: 14px; color: #f43f5e; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(244, 63, 94, 0.1);">
+              <div style="width: 44px; height: 44px; background:#fff1f2; border-radius: 14px; color:#f43f5e; display: flex; align-items: center; justify-content: center; box-shadow:inset 0 2px 4px rgba(244, 63, 94, 0.1);">
                 <ui-icon library="lucide" name="banknote" style="font-size: 20px;"></ui-icon>
               </div>
-              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,#1e293b);">Transactional</h4>
+              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,var(--bg-secondary));">Transactional</h4>
             </div>
             <ui-input label="Funding Amount" mask="currency" prefix-icon="dollar-sign" full-width="true"></ui-input>
           </div>
 
           <!-- Date & Security -->
-          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border: 1px solid #fee2e2; box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column; grid-column: span 2;">
+          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border:1px solid var(--color-danger-100, rgba(239, 68, 68, 0.2)); box-shadow:0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column; grid-column: span 2;">
             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-              <div style="width: 44px; height: 44px; background: #fff1f2; border-radius: 14px; color: #f43f5e; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(244, 63, 94, 0.1);">
+              <div style="width: 44px; height: 44px; background:#fff1f2; border-radius: 14px; color:#f43f5e; display: flex; align-items: center; justify-content: center; box-shadow:inset 0 2px 4px rgba(244, 63, 94, 0.1);">
                 <ui-icon library="lucide" name="shield-check" style="font-size: 20px;"></ui-icon>
               </div>
-              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,#1e293b);">Security & Date Modules</h4>
+              <h4 style="margin: 0; font-size: 1.25rem; font-weight: 700; color:var(--text-primary,var(--bg-secondary));">Security & Date Modules</h4>
             </div>
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;">
                <ui-input label="Birth Date" mask="date" prefix-icon="calendar" full-width="true"></ui-input>
@@ -1100,10 +1079,10 @@ export function initInputDemo() {
           </div>
 
           <!-- SSN & Status -->
-          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border: 1px solid #fee2e2; box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
+          <div style="background:var(--bg-primary,white); padding: 32px; border-radius: 24px; border:1px solid var(--color-danger-100, rgba(239, 68, 68, 0.2)); box-shadow:0 10px 25px -5px rgba(244, 63, 94, 0.05); display: flex; flex-direction: column;">
             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-               <ui-icon library="lucide" name="fingerprint" style="color: #f43f5e;"></ui-icon>
-               <h4 style="margin: 0; font-size: 1.1rem; color:var(--text-primary,#1e293b);">Compliance</h4>
+               <ui-icon library="lucide" name="fingerprint" style="color:#f43f5e;"></ui-icon>
+               <h4 style="margin: 0; font-size: 1.1rem; color:var(--text-primary,var(--bg-secondary));">Compliance</h4>
             </div>
             <ui-input label="Social Security" mask="ssn" type="password" show-password-toggle="true" full-width="true"></ui-input>
             <div style="margin-top: 16px;">
@@ -1112,23 +1091,23 @@ export function initInputDemo() {
           </div>
         </div>
 
-        <div style="margin-top: 64px; padding: 48px; background: var(--bg-secondary, #fff1f2); border-radius: 32px; border: 1px solid var(--border-default, #fee2e2); box-shadow: 0 20px 50px -20px rgba(0,0,0,0.05);">
-          <h4 style="margin-top: 0; margin-bottom: 32px; color: #e11d48; display: flex; align-items: center; gap: 12px; font-size: 1.5rem;">
-            <ui-icon library="lucide" name="zap" style="color:var(--accent-yellow,#f59e0b);"></ui-icon>
+        <div style="margin-top: 64px; padding: 48px; background:var(--bg-secondary, #fff1f2); border-radius: 32px; border:1px solid var(--border-default, var(--color-danger-100, rgba(239, 68, 68, 0.2))); box-shadow:0 20px 50px -20px var(--shadow-color-subtle, rgba(0,0,0,0.05));">
+          <h4 style="margin-top: 0; margin-bottom: 32px; color:#e11d48; display: flex; align-items: center; gap: 12px; font-size: 1.5rem;">
+            <ui-icon library="lucide" name="zap" style="color:var(--accent-yellow,var(--color-warning));"></ui-icon>
             Advanced Architectural Logic
           </h4>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;">
             <div>
-              <strong style="color:var(--text-primary,#1e293b); display: block; margin-bottom: 12px; font-size: 1.1rem;">Dynamic Hinting</strong>
-              <span style="font-size: 15px; color:var(--text-secondary,#64748b); line-height: 1.6;">The component automatically injects context-aware placeholders (e.g. XXX-XXX-XXXX) if no custom label is provided.</span>
+              <strong style="color:var(--text-primary,var(--bg-secondary)); display: block; margin-bottom: 12px; font-size: 1.1rem;">Dynamic Hinting</strong>
+              <span style="font-size: 15px; color:var(--text-secondary,var(--text-muted)); line-height: 1.6;">The component automatically injects context-aware placeholders (e.g. XXX-XXX-XXXX) if no custom label is provided.</span>
             </div>
             <div>
-              <strong style="color:var(--text-primary,#1e293b); display: block; margin-bottom: 12px; font-size: 1.1rem;">Self-Healing Separators</strong>
-              <span style="font-size: 15px; color:var(--text-secondary,#64748b); line-height: 1.6;">Intelligent separator injection ("-", "/", "$") happens in real-time without disrupting the user's cursor position.</span>
+              <strong style="color:var(--text-primary,var(--bg-secondary)); display: block; margin-bottom: 12px; font-size: 1.1rem;">Self-Healing Separators</strong>
+              <span style="font-size: 15px; color:var(--text-secondary,var(--text-muted)); line-height: 1.6;">Intelligent separator injection ("-", "/", "$") happens in real-time without disrupting the user's cursor position.</span>
             </div>
             <div>
-              <strong style="color:var(--text-primary,#1e293b); display: block; margin-bottom: 12px; font-size: 1.1rem;">Financial Precision</strong>
-              <span style="font-size: 15px; color:var(--text-secondary,#64748b); line-height: 1.6;">Currency masking utilizes the browser's native <code>Intl</code> API for bulletproof localization and grouping.</span>
+              <strong style="color:var(--text-primary,var(--bg-secondary)); display: block; margin-bottom: 12px; font-size: 1.1rem;">Financial Precision</strong>
+              <span style="font-size: 15px; color:var(--text-secondary,var(--text-muted)); line-height: 1.6;">Currency masking utilizes the browser's native <code>Intl</code> API for bulletproof localization and grouping.</span>
             </div>
           </div>
         </div>
@@ -1171,13 +1150,13 @@ export function initInputDemo() {
   function showMasterTierFeatures() {
     const container = document.getElementById('inputDemoContainer');
     container.innerHTML = `
-      <div class="demo-block master-tier-block" style="background: var(--bg-secondary, #f1f5f9); padding: 32px; border-radius: 24px;">
-        <h2 style="font-size: 2.2rem; margin-bottom: 8px; background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🌟 Master Tier Showcase</h2>
+      <div class="demo-block master-tier-block" style="background:var(--bg-secondary, var(--bg-secondary)); padding: 32px; border-radius: 24px;">
+        <h2 style="font-size: 2.2rem; margin-bottom: 8px; background:linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color:transparent;">🌟 Master Tier Showcase</h2>
         <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 40px;">Experience the next generation of cinematic input controls with advanced functional modules.</p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px;">
            <!-- OTP & Security -->
-           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow:0 10px 15px -3px var(--shadow-color-subtle, rgba(0,0,0,0.05));">
               <h4 style="margin-top:0; color:var(--accent-purple,#8b5cf6);">🔐 Security Modules</h4>
               <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Segmented verification fields with elite focus transitions.</p>
               <ui-input type="otp" otp-length="6" label="Verification Code" helper-text="Check your email for the 6-digit code"></ui-input>
@@ -1187,8 +1166,8 @@ export function initInputDemo() {
            </div>
 
            <!-- Voice & Status -->
-           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
-              <h4 style="margin-top:0; color: #10b981;">🎙️ Smart Context</h4>
+           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow:0 10px 15px -3px var(--shadow-color-subtle, rgba(0,0,0,0.05));">
+              <h4 style="margin-top:0; color:var(--color-success);">🎙️ Smart Context</h4>
               <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Integrated AI dictation and real-time connectivity status.</p>
               <ui-input 
                 id="voiceMessengerInput"
@@ -1196,7 +1175,7 @@ export function initInputDemo() {
                 voice-enabled="true" 
                 placeholder="Click the mic to speak..."
               ></ui-input>
-              <p style="font-size: 11px; color:var(--text-secondary,#64748b); margin-top: 8px; margin-bottom: 0;">
+              <p style="font-size: 11px; color:var(--text-secondary,var(--text-muted)); margin-top: 8px; margin-bottom: 0;">
                 🎙️ Click the mic → icon switches to <b>mic-off</b> while listening. Click again to stop.
               </p>
               <div style="margin-top: 24px;">
@@ -1209,7 +1188,7 @@ export function initInputDemo() {
            </div>
 
            <!-- Atmospheric Shaders -->
-           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow:0 10px 15px -3px var(--shadow-color-subtle, rgba(0,0,0,0.05));">
               <h4 style="margin-top:0; color:var(--accent-pink,#ec4899);">🌈 Atmospheric Shaders</h4>
               <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Advanced CSS shaders for elite design systems.</p>
               <ui-input 
@@ -1229,8 +1208,8 @@ export function initInputDemo() {
            </div>
 
            <!-- Feedback & Velocity -->
-           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
-              <h4 style="margin-top:0; color:var(--accent-yellow,#f59e0b);">⚡ Velocity Feedback</h4>
+           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow:0 10px 15px -3px var(--shadow-color-subtle, rgba(0,0,0,0.05));">
+              <h4 style="margin-top:0; color:var(--accent-yellow,var(--color-warning));">⚡ Velocity Feedback</h4>
               <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Low-friction progress indicators and unsaved change detection.</p>
               <ui-input 
                 label="Content Velocity" 
@@ -1251,8 +1230,8 @@ export function initInputDemo() {
            </div>
 
            <!-- AI Integration (Elite) -->
-           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); grid-column: 1 / -1;">
-              <h4 style="margin-top:0; color: #10b981;">🧠 AI Integration (Ghost Text)</h4>
+           <div class="master-card" style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; box-shadow:0 10px 15px -3px var(--shadow-color-subtle, rgba(0,0,0,0.05)); grid-column: 1 / -1;">
+              <h4 style="margin-top:0; color:var(--color-success);">🧠 AI Integration (Ghost Text)</h4>
               <p style="font-size: 14px; opacity: 0.7; margin-bottom: 24px;">Experience 'God-tier' predictive typing with cinematic ghost text overlays.</p>
               <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px;">
                  <ui-input 
@@ -1285,41 +1264,28 @@ export function initInputDemo() {
         <p style="margin-bottom: 24px; opacity: 0.8;">Seamlessly connect multiple inputs for range selection or multi-part data entry.</p>
         
         <div style="display: flex; flex-direction: column; gap: 40px;">
-          <div class="demo-card-inner" style="padding: 24px; background:var(--bg-secondary,#f8fafc); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); max-width: 600px;">
+          <div class="demo-card-inner" style="padding: 24px; background:var(--bg-secondary,var(--bg-secondary)); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); max-width: 600px;">
             <h4 style="margin-top:0;">Price Filter (Connected)</h4>
-            <ui-input-pair 
-              type="currency" 
-              label-left="Minimum" 
-              label-right="Maximum" 
-              placeholder-left="0.00" 
-              placeholder-right="No limit"
-              gap="0"
-              size="md"
-            ></ui-input-pair>
+            <div style="display: flex; gap: 8px;">
+              <ui-input type="number" label="Minimum" placeholder="0.00" size="md" style="flex:1"></ui-input>
+              <ui-input type="number" label="Maximum" placeholder="No limit" size="md" style="flex:1"></ui-input>
+            </div>
           </div>
 
-          <div class="demo-card-inner" style="padding: 24px; background:var(--bg-primary,white); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); max-width: 600px;">
+          <div class="demo-card-inner" style="padding: 24px; background:var(--bg-primary,white); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); max-width: 600px;">
             <h4 style="margin-top:0;">Profile Info (With Gap)</h4>
-            <ui-input-pair 
-              label-left="First Name" 
-              label-right="Last Name" 
-              placeholder-left="John" 
-              placeholder-right="Doe"
-              gap="12px"
-              size="md"
-            ></ui-input-pair>
+            <div style="display: flex; gap: 12px;">
+              <ui-input label="First Name" placeholder="John" size="md" style="flex:1"></ui-input>
+              <ui-input label="Last Name" placeholder="Doe" size="md" style="flex:1"></ui-input>
+            </div>
           </div>
           
-          <div class="demo-card-inner" style="padding: 24px; background:var(--bg-primary,white); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); max-width: 600px;">
+          <div class="demo-card-inner" style="padding: 24px; background:var(--bg-primary,white); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); max-width: 600px;">
              <h4 style="margin-top:0;">Shared Type (Number Range)</h4>
-             <ui-input-pair 
-               type="number" 
-               label-left="From" 
-               label-right="To" 
-               gap="0" 
-               variant="outline"
-               size="md"
-             ></ui-input-pair>
+             <div style="display: flex; gap: 8px;">
+              <ui-input type="number" label="From" variant="outline" size="md" style="flex:1"></ui-input>
+              <ui-input type="number" label="To" variant="outline" size="md" style="flex:1"></ui-input>
+            </div>
           </div>
         </div>
       </div>
@@ -1331,14 +1297,14 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; background: linear-gradient(135deg, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">🎨 Chromatic Block Decorators</h2>
+          <h2 style="font-size: 2.2rem; background:linear-gradient(135deg, var(--color-success), var(--color-success)); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">🎨 Chromatic Block Decorators</h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Professional 'Boxed' decorators with semantic coloring for high-impact context.</p>
         </div>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px;">
           <!-- Security Case -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <h4 style="margin-top: 0; color: #10b981; margin-bottom: 20px;">🔒 Security & Verification</h4>
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
+            <h4 style="margin-top: 0; color:var(--color-success); margin-bottom: 20px;">🔒 Security & Verification</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input label="SECURE DOMAIN" prefix-text="https://" prefix-color="success" placeholder="example.com"></ui-input>
               <ui-input label="ACCESS TOKEN" prefix-icon="shield-check" prefix-color="primary" placeholder="Enter secure token..."></ui-input>
@@ -1346,8 +1312,8 @@ export function initInputDemo() {
           </div>
 
           <!-- Action Case -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <h4 style="margin-top: 0; color: #10b981; margin-bottom: 20px;">🚀 Contextual Actions</h4>
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
+            <h4 style="margin-top: 0; color:var(--color-success); margin-bottom: 20px;">🚀 Contextual Actions</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input label="GLOBAL SEARCH" suffix-icon="search" suffix-color="primary" suffix-clickable="true" placeholder="Search entire cloud..."></ui-input>
               <ui-input label="SYSTEM CLEAR" suffix-text="RESET" suffix-color="danger" suffix-clickable="true" placeholder="Warning: Irreversible action"></ui-input>
@@ -1355,8 +1321,8 @@ export function initInputDemo() {
           </div>
 
           <!-- Utility Case -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <h4 style="margin-top: 0; color:var(--text-secondary,#64748b); margin-bottom: 20px;">🛠️ Engineering Utility</h4>
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
+            <h4 style="margin-top: 0; color:var(--text-secondary,var(--text-muted)); margin-bottom: 20px;">🛠️ Engineering Utility</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input label="SUBDOMAIN" suffix-text=".dream.io" suffix-color="secondary" placeholder="myspace"></ui-input>
               <ui-input label="CURRENCY" prefix-text="USD" prefix-color="info" type="number" placeholder="0.00"></ui-input>
@@ -1364,8 +1330,8 @@ export function initInputDemo() {
           </div>
 
           <!-- Status Case -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <h4 style="margin-top: 0; color:var(--accent-yellow,#f59e0b); margin-bottom: 20px;">⚠️ Notification Cues</h4>
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
+            <h4 style="margin-top: 0; color:var(--accent-yellow,var(--color-warning)); margin-bottom: 20px;">⚠️ Notification Cues</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input label="CRITICAL FIELD" suffix-icon="alert-triangle" suffix-color="danger" placeholder="Required for compliance"></ui-input>
               <ui-input label="HINTED FIELD" prefix-icon="info" prefix-color="warning" placeholder="Check tooltip first"></ui-input>
@@ -1392,7 +1358,7 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">🌈 Semantic Color Palette</h2>
+          <h2 style="font-size: 2.2rem; background:linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">🌈 Semantic Color Palette</h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Professional color contexts for semantic data entry.</p>
         </div>
         
@@ -1400,10 +1366,10 @@ export function initInputDemo() {
           ${colors
             .map(
               color => `
-            <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
               <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-                 <div style="width: 10px; height: 10px; background: var(--ui-input-focus); border-radius: 50%; opacity: 0.8; box-shadow: 0 0 10px var(--ui-input-focus);"></div>
-                 <h4 style="margin: 0; color:var(--text-primary,#1e293b);">${color.label}</h4>
+                 <div style="width: 10px; height: 10px; background:var(--ui-input-focus); border-radius: 50%; opacity: 0.8; box-shadow:0 0 10px var(--ui-input-focus);"></div>
+                 <h4 style="margin: 0; color:var(--text-primary,var(--bg-secondary));">${color.label}</h4>
               </div>
               
               <div style="display: flex; flex-direction: column; gap: 20px;">
@@ -1438,30 +1404,30 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; background: linear-gradient(135deg, #475569, #1e293b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">📐 Geometric & Chromatic Spectrum</h2>
+          <h2 style="font-size: 2.2rem; background:linear-gradient(135deg, var(--text-primary, #475569), var(--bg-secondary)); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">📐 Geometric & Chromatic Spectrum</h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Experience the precise geometric management across all theme variants.</p>
         </div>
 
         <div style="margin-bottom: 48px;">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; border-left: 4px solid #f59e0b; padding-left: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; border-left:4px solid var(--color-warning); padding-left: 16px;">
              <ui-icon library="lucide" name="sliders" style="opacity: 0.6; height: 18px;"></ui-icon>
-             <h4 style="margin: 0; color:var(--text-primary,#1e293b); font-size: 1.1rem;">Custom Granular Widths</h4>
+             <h4 style="margin: 0; color:var(--text-primary,var(--bg-secondary)); font-size: 1.1rem;">Custom Granular Widths</h4>
           </div>
-          <div style="display: flex; gap: 24px; background: rgba(248, 250, 252, 0.5); padding: 24px; border-radius: 16px; border:1px solid var(--border-default,#e2e8f0); flex-wrap: wrap;">
+          <div style="display: flex; gap: 24px; background:rgba(248, 250, 252, 0.5); padding: 24px; border-radius: 16px; border:1px solid var(--border-default,var(--border-subtle)); flex-wrap: wrap;">
             <div>
-               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,#64748b); display: block; margin-bottom: 8px;">Tiny (Width: 60px)</span>
+               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,var(--text-muted)); display: block; margin-bottom: 8px;">Tiny (Width: 60px)</span>
                <ui-input type="number" size="md" width="60px" placeholder="Age"></ui-input>
             </div>
             <div>
-               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,#64748b); display: block; margin-bottom: 8px;">Small (Width: 100px)</span>
+               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,var(--text-muted)); display: block; margin-bottom: 8px;">Small (Width: 100px)</span>
                <ui-input size="md" width="100px" placeholder="CVV"></ui-input>
             </div>
             <div>
-               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,#64748b); display: block; margin-bottom: 8px;">Medium (Width: 250px)</span>
+               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,var(--text-muted)); display: block; margin-bottom: 8px;">Medium (Width: 250px)</span>
                <ui-input width="250px" placeholder="First Name" size="md"></ui-input>
             </div>
             <div style="flex-grow: 1;">
-               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,#64748b); display: block; margin-bottom: 8px;">Full Width (flex-grow: 1)</span>
+               <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,var(--text-muted)); display: block; margin-bottom: 8px;">Full Width (flex-grow: 1)</span>
                <ui-input full-width="true" placeholder="Street Address" size="md"></ui-input>
             </div>
           </div>
@@ -1472,17 +1438,17 @@ export function initInputDemo() {
             .map(
               size => `
             <div>
-              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; border-left: 4px solid #10b981; padding-left: 16px;">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; border-left:4px solid var(--color-success); padding-left: 16px;">
                  <ui-icon library="lucide" name="${size.icon}" style="opacity: 0.6; height: 18px;"></ui-icon>
-                 <h4 style="margin: 0; color:var(--text-primary,#1e293b); font-size: 1.1rem;">${size.label}</h4>
+                 <h4 style="margin: 0; color:var(--text-primary,var(--bg-secondary)); font-size: 1.1rem;">${size.label}</h4>
               </div>
               
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; background: rgba(248, 250, 252, 0.5); padding: 24px; border-radius: 16px; border:1px solid var(--border-default,#e2e8f0);">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; background:rgba(248, 250, 252, 0.5); padding: 24px; border-radius: 16px; border:1px solid var(--border-default,var(--border-subtle));">
                 ${colors
                   .map(
                     color => `
                   <div>
-                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,#64748b); display: block; margin-bottom: 8px;">${color}</span>
+                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color:var(--text-secondary,var(--text-muted)); display: block; margin-bottom: 8px;">${color}</span>
                     <ui-input size="${size.id}" color="${color}" placeholder="${color} state" prefix-icon="feather"></ui-input>
                   </div>
                 `,
@@ -1495,7 +1461,7 @@ export function initInputDemo() {
             .join('')}
         </div>
 
-        <div style="margin-top: 48px; background:var(--accent-yellow-soft,#fffbeb); border: 1px solid #fde68a; border-radius: 16px; padding: 24px;">
+        <div style="margin-top: 48px; background:var(--accent-yellow-soft,#fffbeb); border:1px solid #fde68a; border-radius: 16px; padding: 24px;">
            <h4 style="color:var(--accent-yellow,#92400e); display: flex; align-items: center; gap: 8px; margin-top: 0;">
              <ui-icon library="lucide" name="info" style="height: 16px;"></ui-icon>
              Managed Height Logic
@@ -1513,11 +1479,11 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block animate-in">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; color:var(--text-primary,#1e293b); font-weight: 800; margin-bottom: 8px;">Basic Input Types</h2>
+          <h2 style="font-size: 2.2rem; color:var(--text-primary,var(--bg-secondary)); font-weight: 800; margin-bottom: 8px;">Basic Input Types</h2>
           <p style="font-size: 1.1rem; opacity: 0.7; margin-bottom: 0;">Standard input types with various configurations</p>
         </div>
         
-        <div style="background:var(--accent-green-soft,#f0fdf4); border-radius: 16px; padding: 32px; border: 1px solid #dcfce7; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <div style="background:var(--accent-green-soft,var(--bg-secondary)); border-radius: 16px; padding: 32px; border:1px solid #dcfce7; box-shadow:0 4px 20px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 48px;">
             <ui-input label="USERNAME" placeholder="Enter your username" full-width="true" size="md"></ui-input>
             <ui-input label="EMAIL ADDRESS" placeholder="user@example.com" type="email" full-width="true" size="md"></ui-input>
@@ -1537,12 +1503,12 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; background: linear-gradient(135deg, #f43f5e, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">🎨 Custom & Brand Colors</h2>
+          <h2 style="font-size: 2.2rem; background:linear-gradient(135deg, #f43f5e, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">🎨 Custom & Brand Colors</h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Theme your inputs with any custom Hex color. The component automatically calculates complementary shades for focus rings and soft variants.</p>
         </div>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px;">
-          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
             <h4 style="margin-top: 0; color:var(--accent-pink,#ec4899); margin-bottom: 20px;">Pink Branding (#EC4899)</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input color="#ec4899" label="Brand Identity" prefix-icon="heart" variant="outlined"></ui-input>
@@ -1550,7 +1516,7 @@ export function initInputDemo() {
             </div>
           </div>
 
-          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
             <h4 style="margin-top: 0; color:var(--accent-purple,#8b5cf6); margin-bottom: 20px;">Purple Branding (#8B5CF6)</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input color="#8b5cf6" label="Creative Studio" prefix-icon="image" variant="outlined"></ui-input>
@@ -1558,8 +1524,8 @@ export function initInputDemo() {
             </div>
           </div>
 
-          <div style="background: #0f172a; padding: 28px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-            <h4 style="margin-top: 0; color: #38bdf8; margin-bottom: 20px;">Dark Mode Custom (#38BDF8)</h4>
+          <div style="background:var(--bg-primary); padding: 28px; border-radius: 20px; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+            <h4 style="margin-top: 0; color:#38bdf8; margin-bottom: 20px;">Dark Mode Custom (#38BDF8)</h4>
             <div style="display: flex; flex-direction: column; gap: 24px;">
               <ui-input color="#38bdf8" class="dark" label="Cyberpunk Shell" prefix-icon="terminal" variant="outlined"></ui-input>
               <ui-input color="#38bdf8" class="dark" label="System Logs" prefix-icon="cpu" variant="outline" value="Boot processing..."></ui-input>
@@ -1577,14 +1543,14 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">📝 TextArea & Multiline</h2>
+          <h2 style="font-size: 2.2rem; background:linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">📝 TextArea & Multiline</h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Enterprise-grade textareas with auto-resize and boundary management.</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px;">
           <!-- Standard TextArea -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <h4 style="margin-top: 0; color:var(--text-primary,#1e293b); margin-bottom: 20px;">Manual Resize (Both Axis)</h4>
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
+            <h4 style="margin-top: 0; color:var(--text-primary,var(--bg-secondary)); margin-bottom: 20px;">Manual Resize (Both Axis)</h4>
             <ui-input 
               multiline="true" 
             resize="both"
@@ -1597,7 +1563,7 @@ export function initInputDemo() {
           </div>
 
           <!-- Auto-Resize TextArea -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
             <h4 style="margin-top: 0; color:var(--accent-purple,#8b5cf6); margin-bottom: 20px;">Dynamic Auto-Resize</h4>
             <ui-input 
               multiline="true" 
@@ -1612,8 +1578,8 @@ export function initInputDemo() {
           </div>
 
           <!-- Branded Multiline -->
-          <div style="background:var(--bg-secondary,#f8fafc); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0);">
-            <h4 style="margin-top: 0; color: #0d9488; margin-bottom: 20px;">Branded & Constrained</h4>
+          <div style="background:var(--bg-secondary,var(--bg-secondary)); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle));">
+            <h4 style="margin-top: 0; color:#0d9488; margin-bottom: 20px;">Branded & Constrained</h4>
             <ui-input 
               multiline="true" 
               rows="3" 
@@ -1638,23 +1604,23 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.22rem; background: linear-gradient(135deg, #7c3aed, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">🌌 Zenith Tier Master Features</h2>
+          <h2 style="font-size: 2.22rem; background:linear-gradient(135deg, #7c3aed, #db2777); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">🌌 Zenith Tier Master Features</h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Complex layout mastery with visual separation, density control, and rich suggestions.</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px;">
           <!-- Density Showcase -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <h4 style="margin-top: 0; color:var(--text-primary,#1e293b); margin-bottom: 20px;">📦 Visual Density & Dividers</h4>
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
+            <h4 style="margin-top: 0; color:var(--text-primary,var(--bg-secondary)); margin-bottom: 20px;">📦 Visual Density & Dividers</h4>
             <div style="display: flex; flex-direction: column; gap: 20px;">
                <ui-input density="standard" label="Standard (Default)" prefix-icon="zap" show-dividers="true"></ui-input>
-               <ui-input density="cozy" label="Cozy (Relaxed)" prefix-icon="box" show-dividers="true" color="#10b981"></ui-input>
-               <ui-input density="compact" label="Compact (Dense)" prefix-icon="cpu" show-dividers="true" color="#10b981"></ui-input>
+               <ui-input density="cozy" label="Cozy (Relaxed)" prefix-icon="box" show-dividers="true" color="var(--color-success, #10b981)"></ui-input>
+               <ui-input density="compact" label="Compact (Dense)" prefix-icon="cpu" show-dividers="true" color="var(--color-success, #10b981)"></ui-input>
             </div>
           </div>
 
           <!-- Rich Suggestions -->
-          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <div style="background:var(--bg-primary,white); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 12px var(--shadow-color-subtle, rgba(0,0,0,0.03));">
             <h4 style="margin-top: 0; color:var(--accent-purple,#7c3aed); margin-bottom: 20px;">🔍 Rich Autocomplete</h4>
             <ui-input 
               label="Search Users" 
@@ -1662,18 +1628,18 @@ export function initInputDemo() {
               id="zenithAutocomplete"
               prefix-icon="user"
             ></ui-input>
-            <p style="font-size: 12px; color:var(--text-secondary,#64748b); margin-top: 12px;">Rich metadata suggestions with avatars/icons and subtitles.</p>
+            <p style="font-size: 12px; color:var(--text-secondary,var(--text-muted)); margin-top: 12px;">Rich metadata suggestions with avatars/icons and subtitles.</p>
           </div>
 
           <!-- Input Stitching/Grouping -->
-          <div style="background:var(--bg-secondary,#f8fafc); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0);">
+          <div style="background:var(--bg-secondary,var(--bg-secondary)); padding: 24px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle));">
             <h4 style="margin-top: 0; color:var(--accent-pink,#db2777); margin-bottom: 20px;">🧩 Group Stitching (Pseudo-Group)</h4>
             <div style="display: flex; align-items: flex-end;">
                <ui-input label="Protocol" value="https://" class="group-stuck-right" style="width: 100px; flex-shrink: 0;"></ui-input>
                <ui-input label="Domain Name" placeholder="example.com" class="group-stuck-middle" style="flex: 1;"></ui-input>
                <ui-input label="Extension" value=".io" class="group-stuck-left" style="width: 100px; flex-shrink: 0;"></ui-input>
             </div>
-            <p style="font-size: 11px; color:var(--text-secondary,#64748b); margin-top: 16px;">Combined multiple inputs into a single cohesive visual unit.</p>
+            <p style="font-size: 11px; color:var(--text-secondary,var(--text-muted)); margin-top: 16px;">Combined multiple inputs into a single cohesive visual unit.</p>
           </div>
         </div>
       </div>
@@ -1699,7 +1665,7 @@ export function initInputDemo() {
     container.innerHTML = `
       <div class="demo-block animate-in">
         <div style="text-align: center; margin-bottom: 40px;">
-          <h2 style="font-size: 2.2rem; background: linear-gradient(135deg, #f43f5e, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">
+          <h2 style="font-size: 2.2rem; background:linear-gradient(135deg, #f43f5e, #f97316); -webkit-background-clip: text; -webkit-text-fill-color:transparent; margin-bottom: 8px;">
             🖱️ Prefix &amp; Suffix Click Events
           </h2>
           <p style="opacity: 0.7; font-size: 1.1rem; margin-bottom: 0;">Interactive addon blocks that emit <code>prefixClick</code> / <code>suffixClick</code> events. Hover to see the pointer cursor, click to trigger actions.</p>
@@ -1708,12 +1674,12 @@ export function initInputDemo() {
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 32px;">
 
           <!-- Search Launch -->
-          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-            <h4 style="margin-top: 0; color:var(--accent-indigo,#6366f1); display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+            <h4 style="margin-top: 0; color:var(--accent-indigo,var(--color-primary)); display:flex; align-items:center; gap:8px;">
               <ui-icon library="lucide" name="search" style="height:18px;"></ui-icon>
               Clickable Suffix — Search Trigger
             </h4>
-            <p style="font-size: 13px; color:var(--text-secondary,#64748b); margin-bottom: 20px;">Click the search icon button on the right to launch search. Event log updates below.</p>
+            <p style="font-size: 13px; color:var(--text-secondary,var(--text-muted)); margin-bottom: 20px;">Click the search icon button on the right to launch search. Event log updates below.</p>
             <ui-input
               id="clickSuffixSearch"
               label="Global Search"
@@ -1723,18 +1689,18 @@ export function initInputDemo() {
               suffix-clickable="true"
               full-width="true"
             ></ui-input>
-            <div id="searchClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,#f8fafc); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); font-size: 13px; color: #475569; font-family: monospace;">
+            <div id="searchClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,var(--bg-secondary)); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); font-size: 13px; color:var(--text-secondary); font-family: monospace;">
               <span style="opacity:0.5;">awaiting suffixClick event…</span>
             </div>
           </div>
 
           <!-- Copy to Clipboard -->
-          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-            <h4 style="margin-top: 0; color: #10b981; display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+            <h4 style="margin-top: 0; color:var(--color-success); display:flex; align-items:center; gap:8px;">
               <ui-icon library="lucide" name="clipboard" style="height:18px;"></ui-icon>
               Clickable Suffix — Copy to Clipboard
             </h4>
-            <p style="font-size: 13px; color:var(--text-secondary,#64748b); margin-bottom: 20px;">Click the copy icon to copy the input value. The icon will turn green momentarily on success.</p>
+            <p style="font-size: 13px; color:var(--text-secondary,var(--text-muted)); margin-bottom: 20px;">Click the copy icon to copy the input value. The icon will turn green momentarily on success.</p>
             <ui-input
               id="clickSuffixCopy"
               label="API Key"
@@ -1744,18 +1710,18 @@ export function initInputDemo() {
               suffix-clickable="true"
               full-width="true"
             ></ui-input>
-            <div id="copyClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,#f8fafc); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); font-size: 13px; color: #475569; font-family: monospace;">
+            <div id="copyClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,var(--bg-secondary)); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); font-size: 13px; color:var(--text-secondary); font-family: monospace;">
               <span style="opacity:0.5;">awaiting suffixClick event…</span>
             </div>
           </div>
 
           <!-- QR Scan Launch -->
-          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-            <h4 style="margin-top: 0; color:var(--accent-yellow,#f59e0b); display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+            <h4 style="margin-top: 0; color:var(--accent-yellow,var(--color-warning)); display:flex; align-items:center; gap:8px;">
               <ui-icon library="lucide" name="qr-code" style="height:18px;"></ui-icon>
               Clickable Prefix — QR Scanner
             </h4>
-            <p style="font-size: 13px; color:var(--text-secondary,#64748b); margin-bottom: 20px;">Click the QR icon on the left to simulate opening a QR code scanner. Emits <code>prefixClick</code>.</p>
+            <p style="font-size: 13px; color:var(--text-secondary,var(--text-muted)); margin-bottom: 20px;">Click the QR icon on the left to simulate opening a QR code scanner. Emits <code>prefixClick</code>.</p>
             <ui-input
               id="clickPrefixQR"
               label="Voucher Code"
@@ -1765,18 +1731,18 @@ export function initInputDemo() {
               prefix-clickable="true"
               full-width="true"
             ></ui-input>
-            <div id="qrClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,#f8fafc); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); font-size: 13px; color: #475569; font-family: monospace;">
+            <div id="qrClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,var(--bg-secondary)); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); font-size: 13px; color:var(--text-secondary); font-family: monospace;">
               <span style="opacity:0.5;">awaiting prefixClick event…</span>
             </div>
           </div>
 
           <!-- Dual Addon -->
-          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,#e2e8f0); box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-            <h4 style="margin-top: 0; color:var(--accent-red,#ef4444); display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--bg-primary,white); padding: 28px; border-radius: 20px; border:1px solid var(--border-default,var(--border-subtle)); box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+            <h4 style="margin-top: 0; color:var(--accent-red,var(--color-danger)); display:flex; align-items:center; gap:8px;">
               <ui-icon library="lucide" name="zap" style="height:18px;"></ui-icon>
               Both Prefix &amp; Suffix Clickable
             </h4>
-            <p style="font-size: 13px; color:var(--text-secondary,#64748b); margin-bottom: 20px;">Both sides are independently clickable. Prefix opens country picker, suffix resets the field.</p>
+            <p style="font-size: 13px; color:var(--text-secondary,var(--text-muted)); margin-bottom: 20px;">Both sides are independently clickable. Prefix opens country picker, suffix resets the field.</p>
             <ui-input
               id="clickBothInput"
               label="Phone Number"
@@ -1789,7 +1755,7 @@ export function initInputDemo() {
               suffix-clickable="true"
               full-width="true"
             ></ui-input>
-            <div id="dualClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,#f8fafc); border-radius: 12px; border:1px solid var(--border-default,#e2e8f0); font-size: 13px; color: #475569; font-family: monospace;">
+            <div id="dualClickLog" style="margin-top: 16px; min-height: 40px; padding: 12px 16px; background:var(--bg-secondary,var(--bg-secondary)); border-radius: 12px; border:1px solid var(--border-default,var(--border-subtle)); font-size: 13px; color:var(--text-secondary); font-family: monospace;">
               <span style="opacity:0.5;">awaiting events…</span>
             </div>
           </div>
@@ -1797,27 +1763,27 @@ export function initInputDemo() {
         </div>
 
         <!-- Event Legend -->
-        <div style="margin-top: 40px; padding: 24px; background: var(--bg-secondary, #f1f5f9); border-radius: 16px; border:1px solid var(--border-default,#e2e8f0);">
-          <h4 style="margin: 0 0 16px; color:var(--text-primary,#1e293b); display:flex; align-items:center; gap:8px;">
+        <div style="margin-top: 40px; padding: 24px; background:var(--bg-secondary, var(--bg-secondary)); border-radius: 16px; border:1px solid var(--border-default,var(--border-subtle));">
+          <h4 style="margin: 0 0 16px; color:var(--text-primary,var(--bg-secondary)); display:flex; align-items:center; gap:8px;">
             <ui-icon library="lucide" name="code" style="height:16px;"></ui-icon>
             Event API Reference
           </h4>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-            <div style="background: #1e293b; border-radius: 12px; padding: 20px; color: #e2e8f0; font-family: monospace; font-size: 13px; line-height: 1.7;">
-              <div style="color:var(--text-secondary,#64748b); margin-bottom: 8px;">// HTML attribute usage</div>
+            <div style="background:var(--bg-secondary); border-radius: 12px; padding: 20px; color:var(--text-primary); font-family: monospace; font-size: 13px; line-height: 1.7;">
+              <div style="color:var(--text-secondary,var(--text-muted)); margin-bottom: 8px;">// HTML attribute usage</div>
               <div><span style="color:#f472b6;">prefix-clickable</span>=<span style="color:#86efac;">"true"</span></div>
               <div><span style="color:#f472b6;">suffix-clickable</span>=<span style="color:#86efac;">"true"</span></div>
               <br>
-              <div style="color:var(--text-secondary,#64748b); margin-bottom: 8px;">// Event listener</div>
+              <div style="color:var(--text-secondary,var(--text-muted)); margin-bottom: 8px;">// Event listener</div>
               <div>el.<span style="color:#60a5fa;">addEventListener</span>(<span style="color:#86efac;">"prefixClick"</span>, fn)</div>
               <div>el.<span style="color:#60a5fa;">addEventListener</span>(<span style="color:#86efac;">"suffixClick"</span>, fn)</div>
             </div>
-            <div style="background: #1e293b; border-radius: 12px; padding: 20px; color: #e2e8f0; font-family: monospace; font-size: 13px; line-height: 1.7;">
-              <div style="color:var(--text-secondary,#64748b); margin-bottom: 8px;">// Angular binding</div>
+            <div style="background:var(--bg-secondary); border-radius: 12px; padding: 20px; color:var(--text-primary); font-family: monospace; font-size: 13px; line-height: 1.7;">
+              <div style="color:var(--text-secondary,var(--text-muted)); margin-bottom: 8px;">// Angular binding</div>
               <div>(<span style="color:#f472b6;">prefixClick</span>)=<span style="color:#86efac;">"onPrefix($event)"</span></div>
               <div>(<span style="color:#f472b6;">suffixClick</span>)=<span style="color:#86efac;">"onSuffix($event)"</span></div>
               <br>
-              <div style="color:var(--text-secondary,#64748b); margin-bottom: 8px;">// Hover cursor</div>
+              <div style="color:var(--text-secondary,var(--text-muted)); margin-bottom: 8px;">// Hover cursor</div>
               <div>Applied via CSS: <span style="color:#f472b6;">cursor: pointer</span></div>
               <div>Class: <span style="color:#86efac;">.prefix-icon--clickable</span></div>
             </div>
@@ -1850,7 +1816,7 @@ export function initInputDemo() {
         const val = copyEl.value || '';
         try {
           await navigator.clipboard.writeText(val);
-          logEvent('copyClickLog', `suffixClick fired — copied to clipboard: <b>&quot;${val}&quot;</b>`, '#10b981');
+          logEvent('copyClickLog', `suffixClick fired — copied to clipboard: <b>&quot;${val}&quot;</b>`, 'var(--color-success, #10b981)');
           // Momentarily change icon
           copyEl.suffixIcon = 'check';
           setTimeout(() => {
@@ -1870,7 +1836,7 @@ export function initInputDemo() {
         // Simulate scanner returning a code after 1.5s
         setTimeout(() => {
           qrEl.value = 'VOUCHER-XK9-2026';
-          logEvent('qrClickLog', 'prefixClick — scanner returned: <b>VOUCHER-XK9-2026</b> ✅', '#10b981');
+          logEvent('qrClickLog', 'prefixClick — scanner returned: <b>VOUCHER-XK9-2026</b> ✅', 'var(--color-success, #10b981)');
         }, 1500);
       });
     }

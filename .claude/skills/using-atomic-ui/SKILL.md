@@ -1,8 +1,7 @@
-=/(s---
-n
-\ame: using-atomic-ui
-description: How to install, configure and use the AtomicUI web-component library (npm package `atomicuilibrary`, `ui-*` custom elements such as ui-button, ui-input, ui-dialog-box, ui-dropdown, ui-tabs, ui-accordion, ui-advanced-data-table) in another app. Use this skill whenever the user is working in a project that depends on or wants to adopt atomicuilibrary / AtomicUI / app-ui / "our atomic library", mentions any `ui-` tag, asks to build a page, form, dialog, dashboard or layout from the shared component library, or sees a license-error overlay, unstyled/blank `ui-` elements, or theme problems. Also use it when deciding which AtomicUI component fits a UI need, even if the user never names the library.
-
+---
+name: using-atomic-ui
+description: >-
+  How to install, configure and use the AtomicUI web-component library (npm package `atomicuilibrary`, `ui-*` custom elements such as ui-button, ui-input, ui-dialog-box, ui-dropdown, ui-tabs, ui-accordion, ui-advanced-data-table) in another app. Use this skill whenever the user is working in a project that depends on or wants to adopt atomicuilibrary / AtomicUI / app-ui / "our atomic library", mentions any `ui-` tag, asks to build a page, form, dialog, dashboard or layout from the shared component library, or sees a license-error overlay, unstyled/blank `ui-` elements, or theme problems. Also use it when deciding which AtomicUI component fits a UI need, even if the user never names the library.
 ---
 
 # Using the AtomicUI library in a consumer app
